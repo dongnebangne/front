@@ -1,0 +1,64 @@
+.right-bar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 300px;
+    height: 100%;
+    background-color: #ffffff;
+    /*background-color: rgb(154, 205, 50);*/
+    transition: transform 0.3s ease; /* 애니메이션 효과를 위한 transition */
+    transform: translateX(100%); /* 처음에는 오른쪽에서 숨겨짐 */
+    z-index: 1;
+}
+
+.right-bar.open {
+    transform: translateX(0); /* 열린 상태 */
+}
+
+.right-bar.closed {
+    transform: translateX(100%); /* 닫힌 상태 */
+}
+
+.RightBarTitle {
+    position: fixed;
+    top: 0;
+    background-color: rgba(45, 180, 0, 1);
+    color: #ffffff;
+    width: 100%;
+    height: fit-content;
+    text-align: left;
+}
+.RightBarTitle p {
+    margin-left: 10%;
+    font-weight: 700;
+}
+
+.content {
+    margin-top: 50px;
+    font-weight: 700;
+}
+
+.toggle-button {
+    position: absolute;
+    top: 50%;
+    left: -30px; /* 토글 버튼이 왼쪽 바깥으로 나가도록 설정 */
+    transform: translateY(-50%);
+    width: 30px;
+    height: 50px;
+    background-color: rgb(255, 255, 255);
+    cursor: pointer;
+    border-radius: 5px 0px 0px 5px;
+}
+
+.handle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    
+    transform: translate(-50%, -50%);
+    /*width: 20px;
+    height: 20px;*/
+    color: rgba(45, 180, 0, 1);
+    /*background-color: rgba(45, 180, 0, 1);*/
+    /*border-radius: 50%;*/
+}
