@@ -1,20 +1,58 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
 import './App.css';
 import MapPage from './MapPage';
-import RightBar from './RightBar';
+import SearchAddress from './SearchAddress';
 import MapBox from './MapBox';
+import CptedSuggest from './CptedSuggest';
+import CptedAI from './CptedAI';
 
 function App() {
+  const [isRightBarOpen, setIsRightBarOpen] = useState(true);
+  const [showCptedSuggest, setShowCptedSuggest] = useState(false);
+
+  const handleMapClick = () => {
+    setShowCptedSuggest(true);
+    setIsRightBarOpen(true);
+  };
+
+  const handleShowCptedAI = () => {
+    setShowCptedSuggest(true);
+    setIsRightBarOpen(true);
+  };
+
+  const toggleRightBar = () => {
+    setIsRightBarOpen(!isRightBarOpen);
+  };
+
   return (
-    <div className="App">
-      
-      
-      <MapPage />
-      <RightBar />
-      
-      <MapBox />
-      
-    </div>
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={
+            <>
+              <MapPage onMapClick={handleMapClick} />
+              <SearchAddress 
+                isOpen={isRightBarOpen} 
+                toggleRightBar={toggleRightBar} 
+                showCptedSuggest={showCptedSuggest} 
+              />
+              <MapBox />
+            </>
+          } />
+          <Route path="/cpted-ai" element={
+            <>
+              <SearchAddress 
+                isOpen={isRightBarOpen} 
+                toggleRightBar={toggleRightBar} 
+                showCptedSuggest={showCptedSuggest} 
+              />
+              <CptedAI />
+            </>
+          } />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

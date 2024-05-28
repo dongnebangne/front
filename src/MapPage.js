@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import './MapPage.css';
 
 
-const MapPage = () => {
+const MapPage = ({onMapClick}) => {
   const mapRef = useRef(null);
   
   
@@ -25,7 +25,10 @@ const MapPage = () => {
       'map',
       mapOptions
     );
-  }, []);
+
+    // 지도 클릭 이벤트 핸들러
+    naver.maps.Event.addListener(mapRef.current, 'click', onMapClick);
+  }, [onMapClick]);
   
     return <div id="map" style={{ width: '100%', height: '100vh', zIndex:0}}></div>;
   };
