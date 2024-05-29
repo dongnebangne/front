@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import "./CptedSuggest.css";
 
 const CptedSuggest = () => {
     const navigate = useNavigate();
@@ -19,7 +20,7 @@ const CptedSuggest = () => {
             </div>
             <h4>[CPTED 제안]</h4>
             <p>범죄를 줄이기 위해 가로등 설치를 제안합니다.</p>
-            <button onClick={handleButtonClick}>지역 개선하기</button>
+            <button className="cpted-button" onClick={handleButtonClick}>지역 개선하기</button>
         </div>
     
     );

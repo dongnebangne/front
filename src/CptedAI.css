@@ -24,8 +24,9 @@ h1 {
 }
 
 .upload-section {
-    margin-right: 20px;
+    margin-right: 45px;
     text-align: center;
+    flex-direction: row;
 }
 
 .upload-label {
@@ -49,11 +50,23 @@ h1 {
     display: none;
 }
 
+.suggestion-box {
+    padding: 20px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.suggestion-box p {
+    font-size: 15px;
+    color: #9B9A9A;
+    text-decoration: underline;
+}
+
 .arrow-button {
     background: none;
     border: none;
     cursor: pointer;
-    margin-right: 20px;
+    margin-right: 45px;
 }
 
 .arrow-icon {

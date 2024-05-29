@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './CptedAI.css'; // CSS 파일을 임포트합니다.
+import './CptedAI.css'; 
 
 const CptedAI = () => {
     const [selectedImage, setSelectedImage] = useState(null);
@@ -37,6 +37,9 @@ const CptedAI = () => {
                         className="upload-input"
                         onChange={handleImageUpload}
                     />
+                    <div className="suggestion-box">
+                        <p>CPTED 제안을 선택해주세요.</p>
+                    </div>
                 </div>
                 <button onClick={handleImageGeneration} className="arrow-button">
                     <img src="/arrow_icon.png" alt="Generate" className="arrow-icon" />

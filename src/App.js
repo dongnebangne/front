@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
 import './App.css';
 import MapPage from './MapPage';
@@ -14,11 +14,7 @@ function App() {
   const handleMapClick = () => {
     setShowCptedSuggest(true);
     setIsRightBarOpen(true);
-  };
-
-  const handleShowCptedAI = () => {
-    setShowCptedSuggest(true);
-    setIsRightBarOpen(true);
+    localStorage.setItem('showCptedSuggest', 'true');
   };
 
   const toggleRightBar = () => {
@@ -47,7 +43,8 @@ function App() {
                 toggleRightBar={toggleRightBar} 
                 showCptedSuggest={showCptedSuggest} 
               />
-              <CptedAI />
+              
+              <CptedAI/>
             </>
           } />
         </Routes>
