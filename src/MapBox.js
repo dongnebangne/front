@@ -4,6 +4,8 @@ import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider';
 import MapType from './MapType';
 import MapInfo from './MapInfo';
+import MapPage from './MapPage';
+import { getWMSLayer } from './AppService';
 
 const descriptions = {
     범죄주의구간: `
@@ -36,11 +38,14 @@ const MapBox = () => {
     const [infoModalVisible, setInfoModalVisible] = useState(false);
     const [modalTitle, setModalTitle] = useState('');
     const [modalOptions, setModalOptions] = useState([]);
+    const [selectedButton, setSelectedButton] = useState('');
     const [selectedOption, setSelectedOption] = useState('');
     const [infoTitle, setInfoTitle] = useState('');
     const [infoDescription, setInfoDescription] = useState('');
+    const [layers, setLayers] = useState([]);
 
     const handleButtonClick = (title, options) => {
+        setSelectedButton(title);
         if (options) {
             setModalTitle(title);
             setModalOptions(options);
@@ -51,19 +56,42 @@ const MapBox = () => {
         setInfoModalVisible(true);
     };
 
-    const handleOptionChange = (event) => {
+    const handleOptionChange = async (event) => {
         setSelectedOption(event.target.value);
+        const category = modalTitle;
+        const subcategory = event.target.value;
+
+        try {
+            const layers = await getWMSLayer(category, subcategory);
+            setLayers(layers);
+        } catch (error) {
+            console.error("API 요청 중 오류 발생:", error);
+        }
+
+        setModalVisible(false);
     };
 
     const handleCloseInfoModal = () => {
         setInfoModalVisible(false);
     };
 
-    const handleSimpleButtonClick = (title) => {
-        setModalVisible(false); // 다른 버튼을 클릭할 때 모달을 닫기
+    const handleSimpleButtonClick = async (title) => {
+        setSelectedButton(title);
         setInfoTitle(title);
         setInfoDescription(descriptions[title]);
         setInfoModalVisible(true);
+
+        // 자취촌범죄주의구간은 MapInfo만 표시하고 API 호출 안함
+        if (title === '자취촌범죄주의구간') {
+            return;
+        }
+
+        try {
+            const layers = await getWMSLayer(title);
+            setLayers(layers);
+        } catch (error) {
+            console.error("API 요청 중 오류 발생:", error);
+        }
     };
 
     return (
@@ -73,32 +101,44 @@ const MapBox = () => {
             <div className="button-container">
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 2 }}>
                     <Grid item xs={6}>
-                        <button className="map-button" onClick={() => handleButtonClick('범죄주의구간', ['전체', '강도', '성폭력', '절도', '폭력'])}>
+                        <button 
+                            className={`map-button ${selectedButton === '범죄주의구간' ? 'selected' : ''}`}
+                            onClick={() => handleButtonClick('범죄주의구간', ['전체', '강도', '성폭력', '절도', '폭력'])}>
                             범죄주의구간
                         </button>
                     </Grid>
                     <Grid item xs={6}>
-                        <button className="map-button" onClick={() => handleSimpleButtonClick('자취촌범죄주의구간')}>
+                        <button 
+                            className={`map-button ${selectedButton === '자취촌범죄주의구간' ? 'selected' : ''}`}
+                            onClick={() => handleSimpleButtonClick('자취촌범죄주의구간')}>
                             자취촌 범죄주의구간
                         </button>
                     </Grid>
                     <Grid item xs={6}>
-                        <button className="map-button" onClick={() => handleSimpleButtonClick('노인대상범죄주의구간')}>
+                        <button 
+                            className={`map-button ${selectedButton === '노인대상범죄주의구간' ? 'selected' : ''}`}
+                            onClick={() => handleSimpleButtonClick('노인대상범죄주의구간')}>
                             노인 대상 <br/>범죄주의구간
                         </button>
                     </Grid>
                     <Grid item xs={6}>
-                        <button className="map-button" onClick={() => handleSimpleButtonClick('어린이대상범죄주의구간')}>
+                        <button 
+                            className={`map-button ${selectedButton === '어린이대상범죄주의구간' ? 'selected' : ''}`}
+                            onClick={() => handleSimpleButtonClick('어린이대상범죄주의구간')}>
                             어린이 대상<br/> 범죄주의구간
                         </button>
                     </Grid>
                     <Grid item xs={6}>
-                        <button className="map-button" onClick={() => handleButtonClick('치안사고통계', ['전체', '마약', '살인', '도박', '강도', '성폭력', '절도', '약취/유인', '폭력', '방화'])}>
+                        <button 
+                            className={`map-button ${selectedButton === '치안사고통계' ? 'selected' : ''}`}
+                            onClick={() => handleButtonClick('치안사고통계', ['전체', '마약', '살인', '도박', '강도', '성폭력', '절도', '약취/유인', '폭력', '방화'])}>
                             치안사고통계
                         </button>
                     </Grid>
                     <Grid item xs={6}>
-                        <button className="map-button" onClick={() => handleButtonClick('여성밤길치안안전', ['전체', '성폭력', '폭력', '절도', '강도'])}>
+                        <button 
+                            className={`map-button ${selectedButton === '여성밤길치안안전' ? 'selected' : ''}`} 
+                            onClick={() => handleButtonClick('여성밤길치안안전', ['전체', '성폭력', '폭력', '절도', '강도'])}>
                             여성 밤길 <br/>치안안전
                         </button>
                     </Grid>
@@ -122,6 +162,7 @@ const MapBox = () => {
                     onClose={handleCloseInfoModal}
                 />
             )}
+            <MapPage layers={layers} />
         </div>
     );
 };
