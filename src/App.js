@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
 import './App.css';
 import MapPage from './MapPage';
@@ -10,15 +10,12 @@ import CptedAI from './CptedAI';
 function App() {
   const [isRightBarOpen, setIsRightBarOpen] = useState(true);
   const [showCptedSuggest, setShowCptedSuggest] = useState(false);
+  const [layers, setLayers] = useState([]);
 
   const handleMapClick = () => {
     setShowCptedSuggest(true);
     setIsRightBarOpen(true);
-  };
-
-  const handleShowCptedAI = () => {
-    setShowCptedSuggest(true);
-    setIsRightBarOpen(true);
+    localStorage.setItem('showCptedSuggest', 'true');
   };
 
   const toggleRightBar = () => {
@@ -28,16 +25,16 @@ function App() {
   return (
     <Router>
       <div className="App">
+        <MapPage onMapClick={handleMapClick} layers={layers} />
         <Routes>
           <Route path="/" element={
             <>
-              <MapPage onMapClick={handleMapClick} />
               <SearchAddress 
                 isOpen={isRightBarOpen} 
                 toggleRightBar={toggleRightBar} 
                 showCptedSuggest={showCptedSuggest} 
               />
-              <MapBox />
+              <MapBox setLayers={setLayers} />
             </>
           } />
           <Route path="/cpted-ai" element={

@@ -1,13 +1,20 @@
 .cpted-suggest {
     position: fixed;
-    bottom: 0; /* 화면의 아래쪽에 위치 */
+    bottom: 0; 
     right: 0;
     width: 300px;
-    height: 40%; 
+    height: 50%; 
     z-index: 2;
     overflow-y: auto;
 }
 
-.cpted-suggest button {
-    margin-bottom: 20px; /* 각 요소의 아래 간격을 넓힙니다 */
+.cpted-button {
+    width: 130px;
+    height: 45px; 
+    margin-bottom: 20px; 
+    background-color: #2DB400;
+    border-radius: 30px;
+    color: white; 
+    border: none;
+    font-size: 16px;
 }
