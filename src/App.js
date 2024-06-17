@@ -10,6 +10,7 @@ import CptedAI from './CptedAI';
 function App() {
   const [isRightBarOpen, setIsRightBarOpen] = useState(true);
   const [showCptedSuggest, setShowCptedSuggest] = useState(false);
+  const [layers, setLayers] = useState([]);
 
   const handleMapClick = () => {
     setShowCptedSuggest(true);
@@ -24,16 +25,16 @@ function App() {
   return (
     <Router>
       <div className="App">
+        <MapPage onMapClick={handleMapClick} layers={layers} />
         <Routes>
           <Route path="/" element={
             <>
-              <MapPage onMapClick={handleMapClick} />
               <SearchAddress 
                 isOpen={isRightBarOpen} 
                 toggleRightBar={toggleRightBar} 
                 showCptedSuggest={showCptedSuggest} 
               />
-              <MapBox />
+              <MapBox setLayers={setLayers} />
             </>
           } />
           <Route path="/cpted-ai" element={
@@ -43,8 +44,7 @@ function App() {
                 toggleRightBar={toggleRightBar} 
                 showCptedSuggest={showCptedSuggest} 
               />
-              
-              <CptedAI/>
+              <CptedAI />
             </>
           } />
         </Routes>
