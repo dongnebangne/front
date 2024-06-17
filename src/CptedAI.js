@@ -1,19 +1,33 @@
 import React, { useState } from 'react';
-import './CptedAI.css'; // CSS 파일을 임포트합니다.
+import './CptedAI.css';
 
 const CptedAI = () => {
-    const [selectedImage, setSelectedImage] = useState(null);
+    const [generatedImage, setGeneratedImage] = useState(null);
 
-    const handleImageUpload = (event) => {
-        if (event.target.files && event.target.files[0]) {
-            const img = event.target.files[0];
-            setSelectedImage(URL.createObjectURL(img));
+    const handleImageGeneration = async () => {
+        alert("지역 개선하는 중...");
+
+        try {
+            const response = await fetch('http://localhost:8000/generate-image/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                const error = await response.json();
+                console.error("Error starting prediction:", error);
+                alert("이미지 생성에 실패했습니다. 다시 시도해주세요.");
+                return;
+            }
+
+            const result = await response.json();
+            setGeneratedImage(result.image_url);
+        } catch (error) {
+            console.error("Error generating image:", error);
+            alert("이미지 생성에 실패했습니다. 다시 시도해주세요.");
         }
-    };
-
-    const handleImageGeneration = () => {
-        // 새로운 이미지를 생성하는 로직
-        alert("지역 개선하는 중..");
     };
 
     return (
@@ -23,26 +37,11 @@ const CptedAI = () => {
             </header>
             <h1>지역 개선하기</h1>
             <div className="AI-content">
-                <div className="upload-section">
-                    <label htmlFor="upload-button" className="upload-label">
-                        {selectedImage ? (
-                            <img src={selectedImage} alt="Selected" className="uploaded-image" />
-                        ) : (
-                            '사진 불러오기'
-                        )}
-                    </label>
-                    <input
-                        type="file"
-                        id="upload-button"
-                        className="upload-input"
-                        onChange={handleImageUpload}
-                    />
-                </div>
                 <button onClick={handleImageGeneration} className="arrow-button">
                     <img src="/arrow_icon.png" alt="Generate" className="arrow-icon" />
                 </button>
                 <div className="placeholder">
-                    {/* 생성된 이미지의 자리 */}
+                    {generatedImage && <img src={generatedImage} alt="Generated" className="generated-image" />}
                 </div>
             </div>
         </div>
