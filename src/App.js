@@ -11,6 +11,7 @@ function App() {
   const [isRightBarOpen, setIsRightBarOpen] = useState(true);
   const [showCptedSuggest, setShowCptedSuggest] = useState(false);
   const [layers, setLayers] = useState([]);
+  const [coordinates, setCoordinates] = useState(null);
 
   const handleMapClick = () => {
     setShowCptedSuggest(true);
@@ -25,14 +26,15 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <MapPage onMapClick={handleMapClick} layers={layers} />
         <Routes>
           <Route path="/" element={
             <>
+              <MapPage onMapClick={handleMapClick} layers={layers} />
               <SearchAddress 
                 isOpen={isRightBarOpen} 
                 toggleRightBar={toggleRightBar} 
                 showCptedSuggest={showCptedSuggest} 
+                setCoordinates={setCoordinates}
               />
               <MapBox setLayers={setLayers} />
             </>
@@ -43,6 +45,7 @@ function App() {
                 isOpen={isRightBarOpen} 
                 toggleRightBar={toggleRightBar} 
                 showCptedSuggest={showCptedSuggest} 
+                setCoordinates={setCoordinates}
               />
               <CptedAI />
             </>

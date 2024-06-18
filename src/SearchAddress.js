@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './SearchAddress.css';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -6,37 +6,66 @@ import ListItemText from '@mui/material/ListItemText';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CptedSuggest from './CptedSuggest';
 import CptedAI from './CptedAI';
+import { getSido, getSigungu, getEmdong, getCoordinates } from './AppService';
 
-const locations = {
-    "서울특별시": {
-        "강남구": ["개포동", "논현동", "대치동", "도곡동", "삼성동", "세곡동", "수서동", "신사동", "압구정동","역삼동", "율현동","일원동", "자곡동","청담동"],
-        "강동구": ["강일동", "고덕동", "길동", "둔촌동","명일동","상일동","성내동", "암사동", "천호동"]
-    },
-    "부산광역시": {
-        "해운대구": ["반송동","반여동","석대동","송정동","우동","재송동", "좌동","중동"],
-        "부산진구": ["가야동","개금동","당감동","범전동","범천동","부암동","부전동", "양정동","연지동","전포동","초읍동"]
-    }
-};
+const SearchAddress = ({ isOpen, toggleRightBar, showCptedSuggest, setCoordinates }) => {
+    const [sidoList, setSidoList] = useState([]);
+    const [sigunguList, setSigunguList] = useState([]);
+    const [emdongList, setEmdongList] = useState([]);
+    const [selectedSido, setSelectedSido] = useState(null);
+    const [selectedSigungu, setSelectedSigungu] = useState(null);
+    const [selectedEmdong, setSelectedEmdong] = useState(null);
 
-const SearchAddress = ({ isOpen, toggleRightBar, showCptedSuggest }) => {
-    const [selectedCity, setSelectedCity] = useState(null);
-    const [selectedDistrict, setSelectedDistrict] = useState(null);
-    const [selectedTown, setSelectedTown] = useState(null);
+    useEffect(() => {
+        getSido().then(data => {
+            setSidoList(data);
+        }).catch(error => {
+            console.error("Error fetching sido list:", error);
+        });
+    }, []);
 
-    const handleCityClick = (city) => {
-        setSelectedCity(city);
-        setSelectedDistrict(null);
-        setSelectedTown(null);
+    useEffect(() => {
+        if (selectedSido) {
+            getSigungu(selectedSido).then(data => {
+                setSigunguList(data);
+            }).catch(error => {
+                console.error("Error fetching sigungu list:", error);
+            });
+        }
+    }, [selectedSido]);
+
+    useEffect(() => {
+        if (selectedSigungu) {
+            getEmdong(selectedSigungu).then(data => {
+                setEmdongList(data);
+            }).catch(error => {
+                console.error("Error fetching emdong list:", error);
+            });
+        }
+    }, [selectedSigungu]);
+
+    const handleSidoChange = (city) => {
+        setSelectedSido(city);
+        setSelectedSigungu(null);
+        setSelectedEmdong(null);
+        setSigunguList([]);
+        setEmdongList([]);
     };
 
-    const handleDistrictClick = (district) => {
-        setSelectedDistrict(district);
-        setSelectedTown(null);
+    const handleSigunguChange = (district) => {
+        setSelectedSigungu(district);
+        setSelectedEmdong(null);
+        setEmdongList([]);
     };
 
-    const handleTownClick = (town) => {
-        setSelectedTown(town);
-        alert(`지도에서 ${town}로 이동합니다.`);
+    const handleEmdongChange = (town) => {
+        setSelectedEmdong(town);
+        // 선택된 주소의 좌표 가져오기
+        getCoordinates(town).then(data => {
+            setCoordinates(data);
+        }).catch(error => {
+            console.error("Error fetching coordinates:", error);
+        });
     };
 
     return (
@@ -51,11 +80,11 @@ const SearchAddress = ({ isOpen, toggleRightBar, showCptedSuggest }) => {
                 <div className="list-container" style={{ flex: 1 }}>
                     <p className="list-name">시/도</p>
                     <List component="nav" aria-label="city-list">
-                        {Object.keys(locations).map((city, index) => (
+                        {sidoList.map((city, index) => (
                             <ListItemButton
                                 key={index}
-                                selected={selectedCity === city}
-                                onClick={() => handleCityClick(city)}
+                                selected={selectedSido === city}
+                                onClick={() => handleSidoChange(city)}
                             >
                                 <ListItemText primary={city} />
                             </ListItemButton>
@@ -65,11 +94,11 @@ const SearchAddress = ({ isOpen, toggleRightBar, showCptedSuggest }) => {
                 <div className="list-container" style={{ flex: 1 }}>
                     <p className="list-name">시/군/구</p>
                     <List component="nav" aria-label="district-list">
-                        {selectedCity && Object.keys(locations[selectedCity]).map((district, index) => (
+                        {sigunguList.map((district, index) => (
                             <ListItemButton
                                 key={index}
-                                selected={selectedDistrict === district}
-                                onClick={() => handleDistrictClick(district)}
+                                selected={selectedSigungu === district}
+                                onClick={() => handleSigunguChange(district)}
                             >
                                 <ListItemText primary={district} />
                             </ListItemButton>
@@ -79,11 +108,11 @@ const SearchAddress = ({ isOpen, toggleRightBar, showCptedSuggest }) => {
                 <div className="list-container" style={{ flex: 1 }}>
                     <p className="list-name">읍/면/동</p>
                     <List component="nav" aria-label="town-list">
-                        {selectedDistrict && locations[selectedCity][selectedDistrict].map((town, index) => (
+                        {emdongList.map((town, index) => (
                             <ListItemButton
                                 key={index}
-                                selected={selectedTown === town}
-                                onClick={() => handleTownClick(town)}
+                                selected={selectedEmdong === town}
+                                onClick={() => handleEmdongChange(town)}
                             >
                                 <ListItemText primary={town} />
                             </ListItemButton>
