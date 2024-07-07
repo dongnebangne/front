@@ -32,6 +32,23 @@ const MapPage = ({ onMapClick, layers }) => {
 
     mapRef.current = map;
 
+    // 사용자의 현재 위치로 지도 중심 설정
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          const userLocation = fromLonLat([longitude, latitude]);
+          map.getView().setCenter(userLocation);
+          map.getView().setZoom(15); // 적절한 줌 레벨 설정
+        },
+        (error) => {
+          console.error('Error getting user location:', error);
+        }
+      );
+    } else {
+      console.error('Geolocation is not supported by this browser.');
+    }
+
     // 지도 클릭 이벤트 핸들러
     map.on('click', (event) => {
       const clickedCoordinate = toLonLat(event.coordinate);
