@@ -2,8 +2,8 @@ import { API_BASE_URL } from './api-config';
 
 export const getWMSLayer = async (category, subcategory) => {
   const url = subcategory
-    ? `${API_BASE_URL}/api/get-wms-layer/?category=${encodeURIComponent(category)}&subcategory=${encodeURIComponent(subcategory)}`
-    : `${API_BASE_URL}/api/get-wms-layer/?category=${encodeURIComponent(category)}`;
+    ? `${API_BASE_URL}/get-wms-layer/?category=${encodeURIComponent(category)}&subcategory=${encodeURIComponent(subcategory)}`
+    : `${API_BASE_URL}/get-wms-layer/?category=${encodeURIComponent(category)}`;
 
   const response = await fetch(url);
   if (!response.ok) {
@@ -16,50 +16,67 @@ export const getWMSLayer = async (category, subcategory) => {
   return data;
 };
 
+export const getLegend = async (layer, style) => {
+  try {
+      const response = await fetch(`/get-legend-url?layer=${layer}&style=${style}`);
+      const data = await response.json();
+
+      if (response.ok) {
+          return data.legend_url;
+      } else {
+          console.error('Error fetching legend URL:', data.error);
+      }
+  } catch (error) {
+      console.error('Error fetching legend URL:', error);
+  }
+};
+
 export const getSido = async () => {
-  const response = await fetch(`${API_BASE_URL}/api/sido/`);
+  const response = await fetch(`${API_BASE_URL}/sido/`);
   if (!response.ok) {
       throw new Error('Failed to fetch sido list');
   }
   const data = await response.json();
-  if (data.response && data.response.result && data.response.result.featureCollection) {
-    return data.response.result.featureCollection.features.map(feature => feature.properties.ctp_kor_nm);
-  } else {
-      throw new Error('Invalid data structure');
-  }
+  return data.map(item => item.sido);
 };
 
 export const getSigungu = async (sidoName) => {
-  const response = await fetch(`${API_BASE_URL}/api/sigungu/${sidoName}/`);
-  if (!response.ok) {
-      throw new Error('Failed to fetch sigungu list');
-  }
-  const data = await response.json();
-  if (data.response && data.response.result && data.response.result.featureCollection) {
-    return data.response.result.featureCollection.features.map(feature => feature.properties.sig_kor_nm);
-  } else {
-      throw new Error('Invalid data structure');
-  }
+  const response = await fetch(`${API_BASE_URL}/sigungu/${encodeURIComponent(sidoName)}/`);
+    if (!response.ok) {
+        throw new Error('Failed to fetch sigungu list');
+    }
+    const data = await response.json();
+    return data.map(item => item.sigungu);
 };
 
-export const getEmdong = async (sigunguName) => {
-  const response = await fetch(`${API_BASE_URL}/api/eupmyeondong/${sigunguName}/`);
+export const getEmdong = async (sidoName, sigunguName) => {
+  const response = await fetch(`${API_BASE_URL}/eupmyeondong/${encodeURIComponent(sidoName)}/${encodeURIComponent(sigunguName)}/`);
   if (!response.ok) {
+      const text = await response.text();
+      console.error('Error response:', text);
       throw new Error('Failed to fetch emdong list');
   }
   const data = await response.json();
-  if (data.response && data.response.result && data.response.result.featureCollection) {
-    return data.response.result.featureCollection.features.map(feature => feature.properties.emd_kor_nm);
-  } else {
-      throw new Error('Invalid data structure');
-  }
+  return data.map(item => item.eupmyeondong);
 };
 
 export const getCoordinates = async (address) => {
-  const response = await fetch(`${API_BASE_URL}/api/coordinates/?address=${address}`);
+  const response = await fetch(`${API_BASE_URL}/coordinates/?emdong=${encodeURIComponent(address)}`);
   if (!response.ok) {
       throw new Error('Failed to fetch coordinates');
   }
   const data = await response.json();
   return data;
+};
+
+export const getAddress = async (lat, lon) => {
+  const response = await fetch(`${API_BASE_URL}/address/?lat=${lat}&lon=${lon}`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch address');
+  }
+  const data = await response.json();
+  if (data.error) {
+    throw new Error(data.error);
+  }
+  return data.address;
 };

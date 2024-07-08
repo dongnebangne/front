@@ -5,7 +5,7 @@ import Divider from '@mui/material/Divider';
 import MapType from './MapType';
 import MapInfo from './MapInfo';
 import MapPage from './MapPage';
-import { getWMSLayer } from './AppService';
+import { getWMSLayer, getLegend } from './AppService';
 
 const descriptions = {
     범죄주의구간: `
@@ -42,6 +42,7 @@ const MapBox = ({ setLayers }) => {
     const [selectedOption, setSelectedOption] = useState('');
     const [infoTitle, setInfoTitle] = useState('');
     const [infoDescription, setInfoDescription] = useState('');
+    const [legendURL, setLegendURL] = useState('');
   
     const handleButtonClick = (title, options) => {
       setSelectedButton(title);
@@ -64,6 +65,9 @@ const MapBox = ({ setLayers }) => {
         const layers = await getWMSLayer(category, subcategory);
         console.log('Layers received:', layers); // 수신된 레이어 데이터 콘솔에 출력
         setLayers(layers);
+
+        const legendURL = await getLegend(layers[0].layername, layers[0].styles);
+        setLegendURL(legendURL);
       } catch (error) {
         console.error("API 요청 중 오류 발생:", error);
       }
@@ -90,6 +94,9 @@ const MapBox = ({ setLayers }) => {
         const layers = await getWMSLayer(title);
         console.log('Layers received:', layers); // 수신된 레이어 데이터 콘솔에 출력
         setLayers(layers);
+
+        const legendURL = await getLegend(layers[0].layername, layers[0].styles);
+            setLegendURL(legendURL);
       } catch (error) {
         console.error("API 요청 중 오류 발생:", error);
       }
@@ -153,6 +160,7 @@ const MapBox = ({ setLayers }) => {
               onClose={() => setModalVisible(false)}
               onOptionChange={handleOptionChange}
               selectedOption={selectedOption}
+              legend={legendURL}
             />
           </div>
         )}

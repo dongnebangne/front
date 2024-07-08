@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import "./CptedSuggest.css";
 
-const CptedSuggest = () => {
+const CptedSuggest = ({ clickedAddress }) => {
     const navigate = useNavigate();
 
     const handleButtonClick = () => {
@@ -11,7 +11,7 @@ const CptedSuggest = () => {
 
     return (
         <div className="cpted-suggest">
-            <h3>서울특별시 강남구 삼성동</h3>
+            <h3>{clickedAddress}</h3>
             <p>에서 많이 일어나는 범죄</p>
             <div>
                 <p>1위: 절도</p>

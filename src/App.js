@@ -16,7 +16,6 @@ function App() {
   const handleMapClick = () => {
     setShowCptedSuggest(true);
     setIsRightBarOpen(true);
-    localStorage.setItem('showCptedSuggest', 'true');
   };
 
   const toggleRightBar = () => {
@@ -29,11 +28,10 @@ function App() {
         <Routes>
           <Route path="/" element={
             <>
-              <MapPage onMapClick={handleMapClick} layers={layers} />
+              <MapPage onMapClick={handleMapClick} layers={layers} coordinates={coordinates} />
               <SearchAddress 
                 isOpen={isRightBarOpen} 
                 toggleRightBar={toggleRightBar} 
-                showCptedSuggest={showCptedSuggest} 
                 setCoordinates={setCoordinates}
               />
               <MapBox setLayers={setLayers} />

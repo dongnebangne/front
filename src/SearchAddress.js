@@ -36,7 +36,7 @@ const SearchAddress = ({ isOpen, toggleRightBar, showCptedSuggest, setCoordinate
 
     useEffect(() => {
         if (selectedSigungu) {
-            getEmdong(selectedSigungu).then(data => {
+            getEmdong(selectedSido, selectedSigungu).then(data => {
                 setEmdongList(data);
             }).catch(error => {
                 console.error("Error fetching emdong list:", error);
@@ -62,6 +62,7 @@ const SearchAddress = ({ isOpen, toggleRightBar, showCptedSuggest, setCoordinate
         setSelectedEmdong(town);
         // 선택된 주소의 좌표 가져오기
         getCoordinates(town).then(data => {
+            console.log("Coordinates fetched: ", data); // 디버깅 메시지 추가
             setCoordinates(data);
         }).catch(error => {
             console.error("Error fetching coordinates:", error);
