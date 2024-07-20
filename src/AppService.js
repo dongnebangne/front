@@ -16,20 +16,20 @@ export const getWMSLayer = async (category, subcategory) => {
   return data;
 };
 
-export const getLegend = async (layer, style) => {
-  try {
-      const response = await fetch(`/get-legend-url?layer=${layer}&style=${style}`);
-      const data = await response.json();
+export const getLegend = async (layername, styles) => {
+  const url = `${API_BASE_URL}/get-legend/?layer=${encodeURIComponent(layername)}&style=${encodeURIComponent(styles)}`;
 
-      if (response.ok) {
-          return data.legend_url;
-      } else {
-          console.error('Error fetching legend URL:', data.error);
-      }
-  } catch (error) {
-      console.error('Error fetching legend URL:', error);
+  const response = await fetch(url);
+  if (!response.ok) {
+    const text = await response.text();  // 오류 응답 텍스트를 읽음
+    console.error('Error response:', text);
+    throw new Error('Network response was not ok');
   }
+  const data = await response.json();
+  console.log('Legend API response data:', data); // 응답 데이터 구조 확인
+  return data;
 };
+
 
 export const getSido = async () => {
   const response = await fetch(`${API_BASE_URL}/sido/`);

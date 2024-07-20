@@ -34,7 +34,7 @@ function App() {
                 toggleRightBar={toggleRightBar} 
                 setCoordinates={setCoordinates}
               />
-              <MapBox setLayers={setLayers} />
+              <MapBox setLayers={setLayers}/>
             </>
           } />
           <Route path="/cpted-ai" element={

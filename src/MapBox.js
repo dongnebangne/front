@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './MapBox.css';
+import './MapLegend.css';
 import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider';
 import MapType from './MapType';
 import MapInfo from './MapInfo';
-import MapPage from './MapPage';
+import MapLegend from './MapLegend';
 import { getWMSLayer, getLegend } from './AppService';
 
 const descriptions = {
@@ -42,8 +43,12 @@ const MapBox = ({ setLayers }) => {
     const [selectedOption, setSelectedOption] = useState('');
     const [infoTitle, setInfoTitle] = useState('');
     const [infoDescription, setInfoDescription] = useState('');
-    const [legendURL, setLegendURL] = useState('');
+    const [legendData, setLegendData] = useState(null);
   
+    useEffect(() => {
+      console.log('Legend Data updated:', legendData);
+    }, [legendData]);
+
     const handleButtonClick = (title, options) => {
       setSelectedButton(title);
       if (options) {
@@ -66,13 +71,13 @@ const MapBox = ({ setLayers }) => {
         console.log('Layers received:', layers); // 수신된 레이어 데이터 콘솔에 출력
         setLayers(layers);
 
-        const legendURL = await getLegend(layers[0].layername, layers[0].styles);
-        setLegendURL(legendURL);
+        const legend = await getLegend(layers[0].layername, layers[0].styles);
+        console.log('Legend data received:', legend);
+        setLegendData(legend);
       } catch (error) {
         console.error("API 요청 중 오류 발생:", error);
       }
   
-      setModalVisible(false);
     };
   
     const handleCloseInfoModal = () => {
@@ -95,84 +100,88 @@ const MapBox = ({ setLayers }) => {
         console.log('Layers received:', layers); // 수신된 레이어 데이터 콘솔에 출력
         setLayers(layers);
 
-        const legendURL = await getLegend(layers[0].layername, layers[0].styles);
-            setLegendURL(legendURL);
+        const legend = await getLegend(layers[0].layername, layers[0].styles);
+        setLegendData(legend);
       } catch (error) {
         console.error("API 요청 중 오류 발생:", error);
       }
     };
   
     return (
-      <div className="mapBox">
-        <h2>Safe-Cid</h2>
-        <Divider />
-        <div className="button-container">
-          <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 2 }}>
-            <Grid item xs={6}>
-              <button
-                className={`map-button ${selectedButton === '범죄주의구간' ? 'selected' : ''}`}
-                onClick={() => handleButtonClick('범죄주의구간', ['전체', '강도', '성폭력', '절도', '폭력'])}>
-                범죄주의구간
-              </button>
+      <div className="mapBox-container">
+        <div className="mapBox">
+          <h2>Safe-Cid</h2>
+          <Divider />
+          <div className="button-container">
+            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 2 }}>
+              <Grid item xs={6}>
+                <button
+                  className={`map-button ${selectedButton === '범죄주의구간' ? 'selected' : ''}`}
+                  onClick={() => handleButtonClick('범죄주의구간', ['전체', '강도', '성폭력', '절도', '폭력'])}>
+                  범죄주의구간
+                </button>
+              </Grid>
+              <Grid item xs={6}>
+                <button
+                  className={`map-button ${selectedButton === '자취촌범죄주의구간' ? 'selected' : ''}`}
+                  onClick={() => handleSimpleButtonClick('자취촌범죄주의구간')}>
+                  자취촌 범죄주의구간
+                </button>
+              </Grid>
+              <Grid item xs={6}>
+                <button
+                  className={`map-button ${selectedButton === '노인대상범죄주의구간' ? 'selected' : ''}`}
+                  onClick={() => handleSimpleButtonClick('노인대상범죄주의구간')}>
+                  노인 대상 <br />범죄주의구간
+                </button>
+              </Grid>
+              <Grid item xs={6}>
+                <button
+                  className={`map-button ${selectedButton === '어린이대상범죄주의구간' ? 'selected' : ''}`}
+                  onClick={() => handleSimpleButtonClick('어린이대상범죄주의구간')}>
+                  어린이 대상<br /> 범죄주의구간
+                </button>
+              </Grid>
+              <Grid item xs={6}>
+                <button
+                  className={`map-button ${selectedButton === '치안사고통계' ? 'selected' : ''}`}
+                  onClick={() => handleButtonClick('치안사고통계', ['전체', '마약', '살인', '도박', '강도', '성폭력', '절도', '약취/유인', '폭력', '방화'])}>
+                  치안사고통계
+                </button>
+              </Grid>
+              <Grid item xs={6}>
+                <button
+                  className={`map-button ${selectedButton === '여성밤길치안안전' ? 'selected' : ''}`}
+                  onClick={() => handleButtonClick('여성밤길치안안전', ['전체', '성폭력', '폭력', '절도', '강도'])}>
+                  여성 밤길 <br />치안안전
+                </button>
+              </Grid>
             </Grid>
-            <Grid item xs={6}>
-              <button
-                className={`map-button ${selectedButton === '자취촌범죄주의구간' ? 'selected' : ''}`}
-                onClick={() => handleSimpleButtonClick('자취촌범죄주의구간')}>
-                자취촌 범죄주의구간
-              </button>
-            </Grid>
-            <Grid item xs={6}>
-              <button
-                className={`map-button ${selectedButton === '노인대상범죄주의구간' ? 'selected' : ''}`}
-                onClick={() => handleSimpleButtonClick('노인대상범죄주의구간')}>
-                노인 대상 <br />범죄주의구간
-              </button>
-            </Grid>
-            <Grid item xs={6}>
-              <button
-                className={`map-button ${selectedButton === '어린이대상범죄주의구간' ? 'selected' : ''}`}
-                onClick={() => handleSimpleButtonClick('어린이대상범죄주의구간')}>
-                어린이 대상<br /> 범죄주의구간
-              </button>
-            </Grid>
-            <Grid item xs={6}>
-              <button
-                className={`map-button ${selectedButton === '치안사고통계' ? 'selected' : ''}`}
-                onClick={() => handleButtonClick('치안사고통계', ['전체', '마약', '살인', '도박', '강도', '성폭력', '절도', '약취/유인', '폭력', '방화'])}>
-                치안사고통계
-              </button>
-            </Grid>
-            <Grid item xs={6}>
-              <button
-                className={`map-button ${selectedButton === '여성밤길치안안전' ? 'selected' : ''}`}
-                onClick={() => handleButtonClick('여성밤길치안안전', ['전체', '성폭력', '폭력', '절도', '강도'])}>
-                여성 밤길 <br />치안안전
-              </button>
-            </Grid>
-          </Grid>
-        </div>
-        {modalVisible && (
-          <div className="modal-container">
-            <MapType
-              title={modalTitle}
-              options={modalOptions}
-              onClose={() => setModalVisible(false)}
-              onOptionChange={handleOptionChange}
-              selectedOption={selectedOption}
-              legend={legendURL}
-            />
           </div>
-        )}
-        {infoModalVisible && (
-          <MapInfo
-            title={infoTitle}
-            description={infoDescription}
-            onClose={handleCloseInfoModal}
-          />
-        )}
+          {modalVisible && (
+            <div className="modal-container">
+              <MapType
+                title={modalTitle}
+                options={modalOptions}
+                onClose={() => setModalVisible(false)}
+                onOptionChange={handleOptionChange}
+                selectedOption={selectedOption}
+              />
+            </div>
+          )}
+          {infoModalVisible && (
+            <MapInfo
+              title={infoTitle}
+              description={infoDescription}
+              onClose={handleCloseInfoModal}
+            />
+          )}
+          {legendData && (
+          <MapLegend legendData={legendData} />
+          )}
+        </div>
       </div>
     );
-  };
+};
   
   export default MapBox;
