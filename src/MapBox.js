@@ -97,7 +97,7 @@ const MapBox = ({ setLayers }) => {
   
       try {
         const layers = await getWMSLayer(title);
-        console.log('Layers received:', layers); // 수신된 레이어 데이터 콘솔에 출력
+        console.log('Layers received:', layers); 
         setLayers(layers);
 
         const legend = await getLegend(layers[0].layername, layers[0].styles);

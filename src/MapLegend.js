@@ -4,7 +4,6 @@ import './MapLegend.css';
 const MapLegend = ({ legendData }) => {
   console.log('Legend Data:', legendData);
 
-  // 추가된 상세 로그
   if (legendData && legendData.data) {
     console.log('legend:', legendData.data.legend);
     if (legendData.data.legend) {

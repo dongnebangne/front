@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './MapType.css';
 
 const MapType = ({ title, options, onClose, onOptionChange, selectedOption }) => {

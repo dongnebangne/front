@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
 import MapPage from './MapPage';
 import SearchAddress from './SearchAddress';
 import MapBox from './MapBox';
-import CptedSuggest from './CptedSuggest';
 import CptedAI from './CptedAI';
 
 function App() {
