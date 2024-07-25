@@ -5,7 +5,6 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CptedSuggest from './CptedSuggest';
-import CptedAI from './CptedAI';
 import { getSido, getSigungu, getEmdong, getCoordinates } from './AppService';
 
 const SearchAddress = ({ isOpen, toggleRightBar, showCptedSuggest, setCoordinates }) => {
@@ -60,9 +59,8 @@ const SearchAddress = ({ isOpen, toggleRightBar, showCptedSuggest, setCoordinate
 
     const handleEmdongChange = (town) => {
         setSelectedEmdong(town);
-        // 선택된 주소의 좌표 가져오기
         getCoordinates(town).then(data => {
-            console.log("Coordinates fetched: ", data); // 디버깅 메시지 추가
+            console.log("Coordinates fetched: ", data);
             setCoordinates(data);
         }).catch(error => {
             console.error("Error fetching coordinates:", error);
