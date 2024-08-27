@@ -11,8 +11,8 @@ const SearchAddress = ({ isOpen, toggleRightBar, showCptedSuggest, setCoordinate
     const [sidoList, setSidoList] = useState([]);
     const [sigunguList, setSigunguList] = useState([]);
     const [emdongList, setEmdongList] = useState([]);
-    const [selectedSido, setSelectedSido] = useState(null);
-    const [selectedSigungu, setSelectedSigungu] = useState(null);
+    const [selectedSido, setSelectedSido] = useState('서울특별시'); // 기본 시/도
+    const [selectedSigungu, setSelectedSigungu] = useState('종로구'); // 기본 시/군/구
     const [selectedEmdong, setSelectedEmdong] = useState(null);
 
     useEffect(() => {
@@ -21,41 +21,39 @@ const SearchAddress = ({ isOpen, toggleRightBar, showCptedSuggest, setCoordinate
         }).catch(error => {
             console.error("Error fetching sido list:", error);
         });
+
+        getSigungu('서울특별시').then(data => {
+            setSigunguList(data);
+        }).catch(error => {
+            console.error("Error fetching sigungu list:", error);
+        });
+
+        getEmdong('서울특별시', '종로구').then(data => {
+            setEmdongList(data);
+        }).catch(error => {
+            console.error("Error fetching emdong list:", error);
+        });
     }, []);
-
-    useEffect(() => {
-        if (selectedSido) {
-            getSigungu(selectedSido).then(data => {
-                setSigunguList(data);
-            }).catch(error => {
-                console.error("Error fetching sigungu list:", error);
-            });
-        }
-    }, [selectedSido]);
-
-    useEffect(() => {
-        if (selectedSigungu) {
-            getEmdong(selectedSido, selectedSigungu).then(data => {
-                setEmdongList(data);
-            }).catch(error => {
-                console.error("Error fetching emdong list:", error);
-            });
-        }
-    }, [selectedSigungu]);
 
     const handleSidoChange = (city) => {
         setSelectedSido(city);
         setSelectedSigungu(null);
         setSelectedEmdong(null);
-        setSigunguList([]);
-        setEmdongList([]);
+        getSigungu(city).then(data => {
+            setSigunguList(data);
+        }).catch(error => {
+            console.error("Error fetching sigungu list:", error);
+        });
     };
 
     const handleSigunguChange = (district) => {
-        console.log("선택된 시/군/구:", district);
         setSelectedSigungu(district);
         setSelectedEmdong(null);
-        setEmdongList([]);
+        getEmdong(selectedSido, district).then(data => {
+            setEmdongList(data);
+        }).catch(error => {
+            console.error("Error fetching emdong list:", error);
+        });
     };
 
     const handleEmdongChange = (town) => {

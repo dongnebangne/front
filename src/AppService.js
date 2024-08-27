@@ -76,6 +76,7 @@ export const getAddress = async (lat, lon) => {
     throw new Error('Failed to fetch address');
   }
   const data = await response.json();
+  console.log('Address data:', data);
   if (data.error) {
     throw new Error(data.error);
   }
