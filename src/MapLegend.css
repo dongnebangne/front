@@ -1,0 +1,32 @@
+.legend-container {
+    position: fixed;
+    top: 0;
+    left: 300px; 
+    background: white;
+    padding: 5px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 125px; 
+    z-index: 3; 
+}
+
+.legend-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.legend-table th, .legend-table td {
+    border: 1px solid #ddd;
+    padding: 5px;
+}
+
+.color-block {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+}
+  
+.icon {
+    width: 20px;
+    height: 20px;
+}
