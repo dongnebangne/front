@@ -37,7 +37,7 @@ export const getSido = async () => {
       throw new Error('Failed to fetch sido list');
   }
   const data = await response.json();
-  return data.map(item => item.sido);
+  return data;
 };
 
 export const getSigungu = async (sidoName) => {
@@ -57,6 +57,7 @@ export const getEmdong = async (sidoName, sigunguName) => {
       throw new Error('Failed to fetch emdong list');
   }
   const data = await response.json();
+  console.log("읍/면/동 API 응답 데이터:", data);
   return data.map(item => item.eupmyeondong);
 };
 
