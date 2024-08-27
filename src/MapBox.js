@@ -13,6 +13,9 @@ const descriptions = {
         - 최근 1년 전체(5대 범죄) 범죄발생현황을 밀도분석 한 정보입니다.<br/>
         - 경찰청에서 제공받은 밀도분석 정보를 도로상에 등급(10등급)으로 표현하고 있습니다.
     `,
+    자취촌범죄주의구간: `
+        - 추후에 추가 예정입니다.
+    `,
     노인대상범죄주의구간: `
         - 노인(65세 이상)을 대상으로 한 범죄발생현황을 밀도분석 한 정보입니다.<br/>
         - 경찰청에서 제공받은 밀도분석 정보를 도로상에 등급(10등급)으로 표현하고 있습니다.
@@ -59,6 +62,12 @@ const MapBox = ({ setLayers }) => {
       setInfoTitle(title);
       setInfoDescription(descriptions[title]);
       setInfoModalVisible(true);
+
+      
+      // 자취촌범죄주의구간은 MapInfo만 표시하고 API 호출 안함
+      if (title === '자취촌범죄주의구간') {
+        return;
+      }
     };
   
     const handleOptionChange = async (event) => {
@@ -90,11 +99,6 @@ const MapBox = ({ setLayers }) => {
       setInfoDescription(descriptions[title]);
       setInfoModalVisible(true);
   
-      // 자취촌범죄주의구간은 MapInfo만 표시하고 API 호출 안함
-      if (title === '자취촌범죄주의구간') {
-        return;
-      }
-  
       try {
         const layers = await getWMSLayer(title);
         console.log('Layers received:', layers); 
@@ -124,7 +128,7 @@ const MapBox = ({ setLayers }) => {
               <Grid item xs={6}>
                 <button
                   className={`map-button ${selectedButton === '자취촌범죄주의구간' ? 'selected' : ''}`}
-                  onClick={() => handleSimpleButtonClick('자취촌범죄주의구간')}>
+                  onClick={() => handleButtonClick('자취촌범죄주의구간', ['전체', '폭력', '절도', '성폭력'])}>
                   자취촌 범죄주의구간
                 </button>
               </Grid>
