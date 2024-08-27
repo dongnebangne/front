@@ -52,6 +52,7 @@ const SearchAddress = ({ isOpen, toggleRightBar, showCptedSuggest, setCoordinate
     };
 
     const handleSigunguChange = (district) => {
+        console.log("선택된 시/군/구:", district);
         setSelectedSigungu(district);
         setSelectedEmdong(null);
         setEmdongList([]);
