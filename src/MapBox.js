@@ -6,6 +6,7 @@ import Divider from '@mui/material/Divider';
 import MapType from './MapType';
 import MapInfo from './MapInfo';
 import MapLegend from './MapLegend';
+import SearchAddress from './SearchAddress';
 import { getWMSLayer, getLegend } from './AppService';
 
 const descriptions = {
@@ -37,12 +38,11 @@ const descriptions = {
     `
 };
 
-const MapBox = ({ setLayers }) => {
+const MapBox = ({ setLayers, selectedButton, setSelectedButton }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [infoModalVisible, setInfoModalVisible] = useState(false);
     const [modalTitle, setModalTitle] = useState('');
     const [modalOptions, setModalOptions] = useState([]);
-    const [selectedButton, setSelectedButton] = useState('');
     const [selectedOption, setSelectedOption] = useState('');
     const [infoTitle, setInfoTitle] = useState('');
     const [infoDescription, setInfoDescription] = useState('');
