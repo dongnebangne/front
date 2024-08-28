@@ -57,7 +57,6 @@ export const getEmdong = async (sidoName, sigunguName) => {
       throw new Error('Failed to fetch emdong list');
   }
   const data = await response.json();
-  console.log("읍/면/동 API 응답 데이터:", data);
   return data.map(item => item.eupmyeondong);
 };
 
@@ -82,3 +81,29 @@ export const getAddress = async (lat, lon) => {
   }
   return data.address;
 };
+
+export const getLocations = async () => {
+  const response = await fetch(`${API_BASE_URL}/locations/`);
+  const data = await response.json();
+  console.log('Locations fetched:', data); 
+  return data;
+};
+
+export const getUniversities = async (location) => {
+  const response = await fetch(`${API_BASE_URL}/universities/${encodeURIComponent(location)}/`);
+  const data = await response.json();
+  console.log(`Universities fetched for ${location}:`, data);  // 로그 추가
+  return data;
+};
+
+
+export const getUniversityCoordinates = async (universityName) => {
+  const response = await fetch(`${API_BASE_URL}/university/coordinates/${encodeURIComponent(universityName)}/`);
+  if (!response.ok) {
+      throw new Error('Failed to fetch university coordinates');
+  }
+  const data = await response.json();
+  console.log(`Coordinates fetched for ${universityName}:`, data);  // 좌표 정보 로그 출력
+  return data;
+};
+
