@@ -1,20 +1,63 @@
 .cpted-suggest {
-    position: fixed;
-    bottom: 0; 
+    position: absolute;
+    bottom: 0;
     right: 0;
-    width: 300px;
-    height: 50%; 
+    width: 260px;
+    height: auto; 
     z-index: 2;
-    overflow-y: auto;
+    background: #FBFFFC;
+    padding: 20px;
+    box-shadow: 0px 4px 2px 0px rgba(255, 255, 255, 0.50), 0px -2px 2px 0px rgba(0, 0, 0, 0.40), 0px 4px 8px 0px rgba(0, 0, 0, 0.35);
+    border-radius: 20px;
+}
+
+.cpted-suggest h3{
+    color: #000;
+    text-align: center;
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: -1px;
+}
+
+.cpted-suggest p{
+    color: #303030;
+    text-align: center;
+    font-family: "Noto Sans KR";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.7px;
+}
+
+.cpted-rank {
+    color: #000;
+    font-family: "Noto Sans KR";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.8px;
+    padding-bottom: 10px;
 }
 
 .cpted-button {
-    width: 130px;
-    height: 45px; 
-    margin-bottom: 20px; 
-    background-color: #2DB400;
-    border-radius: 30px;
-    color: white; 
-    border: none;
+    display: inline-flex;
+    padding: 12px 24px;
+    align-items: center;
+    gap: 8px;
+    color: #FFF;
+    text-align: center;
+    font-family: "Noto Sans KR", sans-serif;
     font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+letter-spacing: -0.8px;
+    border-radius: 24px;
+    background: #0B4A3C;
+    box-shadow: 0px 1px 1px 0px rgba(242, 255, 227, 0.50), 0px -2px 2px 0px rgba(0, 0, 0, 0.25), 0px 2px 1px 0px rgba(0, 0, 0, 0.25);
 }
