@@ -20,6 +20,9 @@ const MapLegend = ({ legendData }) => {
     return (
       <div className="legend-container">
         <h6>범례</h6>
+        <svg xmlns="http://www.w3.org/2000/svg" width="123" height="2" viewBox="0 0 123 2" fill="none">
+          <path d="M-11 1H135" stroke="#297F50" stroke-width="2" stroke-linecap="round"/>
+        </svg>
         <table className="legend-table">
           <tbody>
             <tr>
@@ -34,6 +37,9 @@ const MapLegend = ({ legendData }) => {
   return (
     <div className="legend-container">
       <h6>범례</h6>
+      <svg xmlns="http://www.w3.org/2000/svg" width="123" height="2" viewBox="0 0 123 2" fill="none">
+        <path d="M-11 1H135" stroke="#297F50" stroke-width="2" stroke-linecap="round"/>
+      </svg>
       <table className="legend-table">
         <tbody>
           {legendData.data.legend.DETAIL.item.map((item, index) => (
