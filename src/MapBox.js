@@ -116,7 +116,7 @@ const MapBox = ({ setLayers, selectedButton, setSelectedButton }) => {
         <div className="mapBox">
           <div class="header-container">
             <h2>우리동네 안전지도</h2>
-            <img src="/safecid_logo.png" alt="SafeCid Logo"></img>
+            <img src="/safecid_logo.svg" alt="SafeCid Logo"></img>
           </div>
           <svg xmlns="http://www.w3.org/2000/svg" width="298" height="2" viewBox="0 0 298 2" fill="none">
             <path d="M1 1L297 1.00003" stroke="#297F50" stroke-width="2" stroke-linecap="round"/>
