@@ -11,6 +11,7 @@ function App() {
   const [showCptedSuggest, setShowCptedSuggest] = useState(false);
   const [layers, setLayers] = useState([]);
   const [coordinates, setCoordinates] = useState(null);
+  const [selectedButton, setSelectedButton] = useState('');
 
   const handleMapClick = () => {
     setShowCptedSuggest(true);
@@ -32,8 +33,12 @@ function App() {
                 isOpen={isRightBarOpen} 
                 toggleRightBar={toggleRightBar} 
                 setCoordinates={setCoordinates}
+                selectedButton={selectedButton}
               />
-              <MapBox setLayers={setLayers}/>
+              <MapBox 
+                setLayers={setLayers}
+                selectedButton={selectedButton}
+                setSelectedButton={setSelectedButton}/>
             </>
           } />
           <Route path="/cpted-ai" element={
@@ -43,6 +48,7 @@ function App() {
                 toggleRightBar={toggleRightBar} 
                 showCptedSuggest={showCptedSuggest} 
                 setCoordinates={setCoordinates}
+                selectedButton={selectedButton}
               />
               <CptedAI />
             </>
