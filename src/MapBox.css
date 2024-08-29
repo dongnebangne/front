@@ -41,10 +41,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 16px;
     position: absolute;
-    width: 100%; 
-    padding: 0 24px;
+    width: 90%; 
+    padding: 0 18px;
     margin-top: 24px;
 }
 
