@@ -7,7 +7,7 @@ const MapInfo = ({ title, description, onClose }) => {
             <div className="info-modal-content" onClick={(e) => e.stopPropagation()}>
                 <div className="info-modal-header">
                     <h3>{title}</h3>
-                    <img src="/close_icon.png" alt="Close" className="info-close-icon" onClick={onClose} />
+                    <img src="/close_icon.svg" alt="Close" className="info-close-icon" onClick={onClose} />
                 </div>
                 <hr className="info-modal-divider"/>
                 <p dangerouslySetInnerHTML={{ __html: description }}></p>

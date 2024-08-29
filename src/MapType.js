@@ -8,7 +8,7 @@ const MapType = ({ title, options, onClose, onOptionChange, selectedOption }) =>
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                 <div className="modal-header">
                     <h5>{title}</h5>
-                    <img src="/close_icon.png" alt="Close" className="close-icon" onClick={onClose} />
+                    <img src="/close_icon.svg" alt="Close" className="close-icon" onClick={onClose} />
                 </div>
                 <hr className="modal-divider"/>
                 <div className="checkbox-container">
