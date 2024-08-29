@@ -9,7 +9,9 @@ const MapInfo = ({ title, description, onClose }) => {
                     <h3>{title}</h3>
                     <img src="/close_icon.svg" alt="Close" className="info-close-icon" onClick={onClose} />
                 </div>
-                <hr className="info-modal-divider"/>
+                <svg xmlns="http://www.w3.org/2000/svg" width="400" height="2" viewBox="0 0 400 2" fill="none">
+                    <path d="M-16 1H416" stroke="#297F50" stroke-opacity="0.4" stroke-width="2" stroke-linecap="round"/>
+                </svg>
                 <p dangerouslySetInnerHTML={{ __html: description }}></p>
             </div>
         </div>

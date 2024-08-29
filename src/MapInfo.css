@@ -1,8 +1,8 @@
 .info-modal-overlay {
     display: flex;
     justify-content: center;
-    align-items: flex-start;
-    z-index: 1;
+    align-items: center;
+    z-index: 1000;
     position: fixed;
     top: 0;
     left: 0;
@@ -12,43 +12,71 @@
 }
 
 .info-modal-content {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    width: 500px;
-    margin-top: 100px; /* 모달을 화면 중간에 위치시키기 위한 여백 */
-    position: relative;
+    display: flex;
+    width: 400px;
+    padding: 5px 30px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    flex-shrink: 0;
+    border-radius: 20px;
+    background: #FBFFFC;
+    box-shadow: 0px 1px 1px 0px rgba(255, 255, 255, 0.50), 0px -2px 2px 0px rgba(0, 0, 0, 0.40), 0px 8px 16px 0px rgba(0, 0, 0, 0.35);
+    margin-top: 0; 
 }
 
 .info-modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
+    padding-top: 10px;
+    padding-right: 3px;
+    padding-bottom: 7px;
+    margin-bottom: 10px;
 }
 
 .info-modal-header h3 {
-    margin: 5px; 
-    padding: 5px; 
+    margin: 0; 
+    padding: 5px;
+    color: #0B4A3C;
+    text-align: center;
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: -0.8px;
+    flex-grow: 1;
 }
 
-.info-modal-divider {
-    margin: 10px 0;
-    border: 0;
-    border-top: 1px solid #ccc;
+.info-modal-header img {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    cursor: pointer;
 }
 
 .info-modal-content p {
-    white-space: pre-line;
+    color: #0F0F0F;
+    text-align: center;
+    font-family: "Noto Sans KR", sans-serif;
     font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.6px;
 }
 
 .info-modal-content small {
+    color: #0F0F0F;
+    text-align: center;
+    font-family: "Noto Sans KR", sans-serif;
     font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.6px;
 }
 
-.info-close-icon {
-    width: 15px;
-    height: 15px;
-    cursor: pointer;
-}
