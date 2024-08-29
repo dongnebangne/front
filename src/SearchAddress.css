@@ -3,12 +3,13 @@
     top: 0;
     right: 0;
     width: 300px;
-    height: 100%; /* 화면 높이의 60%를 차지 */
-    background-color: #ffffff;
+    height: 100%;
     transition: transform 0.3s ease;
     transform: translateX(0); /* 초기 상태를 열린 상태로 설정 */
     z-index: 1;
-    overflow-y: auto; /* 스크롤 가능하도록 설정 */
+    border-radius: 30px;
+    background: #FBFFFC;
+    box-shadow: 0px 4px 2px 0px rgba(255, 255, 255, 0.50), 0px -2px 2px 0px rgba(0, 0, 0, 0.40), 0px 4px 8px 0px rgba(0, 0, 0, 0.35);
 }
 
 .search-bar.open {
@@ -22,22 +23,38 @@
 .RightBarTitle {
     position: fixed;
     top: 0;
-    background-color: rgba(45, 180, 0, 1);
-    color: #ffffff;
     width: 100%;
-    height: fit-content;
-    text-align: left;
+    height: 47.5px;
 }
 
-.RightBarTitle p {
-    margin-left: 10%;
-    font-weight: 700;
+.RightBarTitle h3 {
+    color: var(--Exel-Green, #297F50);
+    text-align: center;
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: -0.8px;
+    padding-top: 10px;
+}
+
+.list-name {
+    color: #0B4A3C;
+    text-align: center;
+    font-family: "Noto Sans KR";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.7px;
+    margin-top: 10px;
 }
 
 .content {
     margin-top: 50px;
     font-weight: 700;
-    height: 40%;
+    height: 100%;
     overflow-y: auto; /* 스크롤 가능하도록 설정 */
 }
 
@@ -58,5 +75,6 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: rgba(45, 180, 0, 1);
+    color: var(--Exel-Green, #297F50);
+    background: #FBFFFC;
 }

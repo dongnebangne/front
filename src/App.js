@@ -8,13 +8,14 @@ import CptedAI from './CptedAI';
 
 function App() {
   const [isRightBarOpen, setIsRightBarOpen] = useState(true);
+  const [isMapClicked, setIsMapClicked] = useState(false);
   const [showCptedSuggest, setShowCptedSuggest] = useState(false);
   const [layers, setLayers] = useState([]);
   const [coordinates, setCoordinates] = useState(null);
   const [selectedButton, setSelectedButton] = useState('');
 
   const handleMapClick = () => {
-    setShowCptedSuggest(true);
+    setIsMapClicked(true);
     setIsRightBarOpen(true);
   };
 
@@ -34,6 +35,7 @@ function App() {
                 toggleRightBar={toggleRightBar} 
                 setCoordinates={setCoordinates}
                 selectedButton={selectedButton}
+                isMapClicked={isMapClicked}
               />
               <MapBox 
                 setLayers={setLayers}
@@ -46,7 +48,6 @@ function App() {
               <SearchAddress 
                 isOpen={isRightBarOpen} 
                 toggleRightBar={toggleRightBar} 
-                showCptedSuggest={showCptedSuggest} 
                 setCoordinates={setCoordinates}
                 selectedButton={selectedButton}
               />

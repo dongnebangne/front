@@ -7,7 +7,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CptedSuggest from './CptedSuggest';
 import { getSido, getSigungu, getEmdong, getCoordinates, getLocations, getUniversities, getUniversityCoordinates } from './AppService';
 
-const SearchAddress = ({ isOpen, toggleRightBar, showCptedSuggest, setCoordinates, selectedButton }) => {
+const SearchAddress = ({ isOpen, toggleRightBar, showCptedSuggest, setCoordinates, selectedButton, isMapClicked }) => {
     const [sidoList, setSidoList] = useState([]);
     const [sigunguList, setSigunguList] = useState([]);
     const [emdongList, setEmdongList] = useState([]);
@@ -18,6 +18,7 @@ const SearchAddress = ({ isOpen, toggleRightBar, showCptedSuggest, setCoordinate
     const [selectedEmdong, setSelectedEmdong] = useState(null);
     const [selectedLocation, setSelectedLocation] = useState(null); // 기본 시/도
     const [selectedUniversity, setSelectedUniversity] = useState(null);
+
 
     useEffect(() => {
         if (selectedButton === '자취촌범죄주의구간') {
@@ -113,86 +114,90 @@ const SearchAddress = ({ isOpen, toggleRightBar, showCptedSuggest, setCoordinate
                 <ArrowBackIosIcon className='handle'/>
             </div>
             <div className='RightBarTitle'>
-                <p>주소검색</p>
+                <h3>주소검색</h3>
+                <svg xmlns="http://www.w3.org/2000/svg" width="297" height="3" viewBox="0 0 297 3" fill="none">
+                    <path d="M-4.5 1.5H299.5" stroke="#297F50" stroke-width="2"/>
+                </svg>
             </div>
-            {selectedButton === '자취촌범죄주의구간' ? (
-                <div className="content" style={{ display: 'flex' }}>
-                    <div className="list-container" style={{ flex: 1 }}>
-                        <p className="list-name">시/도</p>
-                        <List component="nav" aria-label="location-list">
-                            {locationList.map((location, index) => (
-                                <ListItemButton
-                                    key={index}
-                                    selected={selectedLocation === location}
-                                    onClick={() => handleLocationChange(location)}
-                                >
-                                    <ListItemText primary={location} />
-                                </ListItemButton>
-                            ))}
-                        </List>
+            <div className="content" style={{ display: 'flex', flexDirection: 'column', height: isMapClicked ? '60%' : '100%' }}>
+                {selectedButton === '자취촌범죄주의구간' ? (
+                    <div className="content" style={{ display: 'flex' }}>
+                        <div className="list-container" style={{ flex: 1 }}>
+                            <p className="list-name">시/도</p>
+                            <List component="nav" aria-label="location-list">
+                                {locationList.map((location, index) => (
+                                    <ListItemButton
+                                        key={index}
+                                        selected={selectedLocation === location}
+                                        onClick={() => handleLocationChange(location)}
+                                    >
+                                        <ListItemText primary={location} />
+                                    </ListItemButton>
+                                ))}
+                            </List>
+                        </div>
+                        <div className="list-container" style={{ flex: 1 }}>
+                            <p className="list-name">대학명</p>
+                            <List component="nav" aria-label="university-list">
+                                {universityList.map((university, index) => (
+                                    <ListItemButton
+                                        key={index}
+                                        selected={selectedUniversity === university.univ_name}
+                                        onClick={() => handleUniversityChange(university.univ_name)}
+                                    >
+                                        <ListItemText primary={university.univ_name} />
+                                    </ListItemButton>
+                                ))}
+                            </List>
+                        </div>
                     </div>
-                    <div className="list-container" style={{ flex: 1 }}>
-                        <p className="list-name">대학명</p>
-                        <List component="nav" aria-label="university-list">
-                            {universityList.map((university, index) => (
-                                <ListItemButton
-                                    key={index}
-                                    selected={selectedUniversity === university.univ_name}
-                                    onClick={() => handleUniversityChange(university.univ_name)}
-                                >
-                                    <ListItemText primary={university.univ_name} />
-                                </ListItemButton>
-                            ))}
-                        </List>
+                ) : (
+                    <div className="content" style={{ display: 'flex' }}>
+                        <div className="list-container" style={{ flex: 1 }}>
+                            <p className="list-name">시/도</p>
+                            <List component="nav" aria-label="city-list">
+                                {sidoList.map((city, index) => (
+                                    <ListItemButton
+                                        key={index}
+                                        selected={selectedSido === city}
+                                        onClick={() => handleSidoChange(city)}
+                                    >
+                                        <ListItemText primary={city} />
+                                    </ListItemButton>
+                                ))}
+                            </List>
+                        </div>
+                        <div className="list-container" style={{ flex: 1 }}>
+                            <p className="list-name">시/군/구</p>
+                            <List component="nav" aria-label="district-list">
+                                {sigunguList.map((district, index) => (
+                                    <ListItemButton
+                                        key={index}
+                                        selected={selectedSigungu === district}
+                                        onClick={() => handleSigunguChange(district)}
+                                    >
+                                        <ListItemText primary={district} />
+                                    </ListItemButton>
+                                ))}
+                            </List>
+                        </div>
+                        <div className="list-container" style={{ flex: 1 }}>
+                            <p className="list-name">읍/면/동</p>
+                            <List component="nav" aria-label="town-list">
+                                {emdongList.map((town, index) => (
+                                    <ListItemButton
+                                        key={index}
+                                        selected={selectedEmdong === town}
+                                        onClick={() => handleEmdongChange(town)}
+                                    >
+                                        <ListItemText primary={town} />
+                                    </ListItemButton>
+                                ))}
+                            </List>
+                        </div>
                     </div>
-                </div>
-            ) : (
-                <div className="content" style={{ display: 'flex' }}>
-                    <div className="list-container" style={{ flex: 1 }}>
-                        <p className="list-name">시/도</p>
-                        <List component="nav" aria-label="city-list">
-                            {sidoList.map((city, index) => (
-                                <ListItemButton
-                                    key={index}
-                                    selected={selectedSido === city}
-                                    onClick={() => handleSidoChange(city)}
-                                >
-                                    <ListItemText primary={city} />
-                                </ListItemButton>
-                            ))}
-                        </List>
-                    </div>
-                    <div className="list-container" style={{ flex: 1 }}>
-                        <p className="list-name">시/군/구</p>
-                        <List component="nav" aria-label="district-list">
-                            {sigunguList.map((district, index) => (
-                                <ListItemButton
-                                    key={index}
-                                    selected={selectedSigungu === district}
-                                    onClick={() => handleSigunguChange(district)}
-                                >
-                                    <ListItemText primary={district} />
-                                </ListItemButton>
-                            ))}
-                        </List>
-                    </div>
-                    <div className="list-container" style={{ flex: 1 }}>
-                        <p className="list-name">읍/면/동</p>
-                        <List component="nav" aria-label="town-list">
-                            {emdongList.map((town, index) => (
-                                <ListItemButton
-                                    key={index}
-                                    selected={selectedEmdong === town}
-                                    onClick={() => handleEmdongChange(town)}
-                                >
-                                    <ListItemText primary={town} />
-                                </ListItemButton>
-                            ))}
-                        </List>
-                    </div>
-                </div>
-            )}
-            {showCptedSuggest && <CptedSuggest />}
+                )}
+            </div>
         </div>
     );
 };
