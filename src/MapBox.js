@@ -114,8 +114,13 @@ const MapBox = ({ setLayers, selectedButton, setSelectedButton }) => {
     return (
       <div className="mapBox-container">
         <div className="mapBox">
-          <h2>Safe-Cid</h2>
-          <Divider />
+          <div class="header-container">
+            <h2>우리동네 안전지도</h2>
+            <img src="/safecid_logo.png" alt="SafeCid Logo"></img>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="298" height="2" viewBox="0 0 298 2" fill="none">
+            <path d="M1 1L297 1.00003" stroke="#297F50" stroke-width="2" stroke-linecap="round"/>
+          </svg>
           <div className="button-container">
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 2 }}>
               <Grid item xs={6}>
@@ -129,7 +134,7 @@ const MapBox = ({ setLayers, selectedButton, setSelectedButton }) => {
                 <button
                   className={`map-button ${selectedButton === '자취촌범죄주의구간' ? 'selected' : ''}`}
                   onClick={() => handleButtonClick('자취촌범죄주의구간', ['전체', '폭력', '절도', '성폭력'])}>
-                  자취촌 범죄주의구간
+                  자취촌 <br />범죄주의구간
                 </button>
               </Grid>
               <Grid item xs={6}>
