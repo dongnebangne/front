@@ -43,13 +43,7 @@ function App() {
           } />
           <Route path="/cpted-ai" element={
             <>
-              <SearchAddress 
-                isOpen={isRightBarOpen} 
-                toggleRightBar={toggleRightBar} 
-                showCptedSuggest={showCptedSuggest} 
-                setCoordinates={setCoordinates}
-                selectedButton={selectedButton}
-              />
+              
               <CptedAI />
             </>
           } />

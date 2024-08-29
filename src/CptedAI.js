@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import ImageUploader from './ImageUploader';
 import ResultDisplay from './ResultDisplay';
 import { API_BASE_URL } from './api-config';
-import MaskSelector from './MaskSelector';  // 새로 추가된 컴포넌트
+import MaskSelector from './MaskSelector';
+import InpaintLeftBar from './InpaintLeftBar';  // Import the sidebar
 
 const CptedAI = () => {
-  const [masks, setMasks] = useState([]);  // 마스크 정보를 저장할 상태
+  const [masks, setMasks] = useState([]);
   const [processedImageUrl, setProcessedImageUrl] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [prompt, setPrompt] = useState(''); // 프롬프트 상태 추가
 
   const handleGenerateMasks = async (image, point) => {
     setLoading(true);
@@ -27,7 +29,7 @@ const CptedAI = () => {
       }
 
       const data = await response.json();
-      setMasks(data.masks);  // 마스크 정보를 상태에 저장
+      setMasks(data.masks);
     } catch (error) {
       console.error('Error generating masks:', error);
       alert('An error occurred while generating masks. Please try again.');
@@ -63,13 +65,17 @@ const CptedAI = () => {
   };
 
   return (
-    <div className="cpted-ai">
-      <h2>Inpaint Image using CptedAI</h2>
-      {!masks.length && <ImageUploader onGenerateMasks={handleGenerateMasks} />}
-      {masks.length > 0 && (
-        <MaskSelector masks={masks} onInpaint={handleInpaint} />  // 마스크 선택 화면 추가
-      )}
-      {loading ? <p>Processing...</p> : <ResultDisplay imageUrl={processedImageUrl} isLoading={loading} />}
+    <div className="cpted-ai-container" style={{ display: 'flex' }}>
+      <InpaintLeftBar setPrompt={setPrompt} /> {/* setPrompt 전달 */}
+      <div className="cpted-ai-content" style={{ flex: 1, padding: '20px' }}>
+        <h2>지역 개선하기</h2>
+        <hr/>
+        {!masks.length && <ImageUploader onGenerateMasks={handleGenerateMasks} />}
+        {masks.length > 0 && (
+          <MaskSelector masks={masks} onInpaint={handleInpaint} prompt={prompt} setPrompt={setPrompt} />
+        )}
+        {loading ? <p>Processing...</p> : <ResultDisplay imageUrl={processedImageUrl} isLoading={loading} />}
+      </div>
     </div>
   );
 };

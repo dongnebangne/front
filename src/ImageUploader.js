@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './ImageUploader.css';  // 별도의 CSS 파일을 사용하여 스타일링
 
 const ImageUploader = ({ onGenerateMasks }) => {
   const [image, setImage] = useState(null);
@@ -34,9 +35,22 @@ const ImageUploader = ({ onGenerateMasks }) => {
   };
 
   return (
-    <div className="image-uploader">
-      <input type="file" accept="image/*" onChange={handleImageUpload} />
-      {image && (
+    <div className={`image-uploader ${image ? 'image-uploaded' : ''}`}>
+      {!image ? (
+        <div className="upload-placeholder">
+          <input 
+            type="file" 
+            accept="image/*" 
+            id="file-input" 
+            onChange={handleImageUpload} 
+            style={{ display: 'none' }} 
+          />
+          <label htmlFor="file-input" className="upload-label">
+            <div className="upload-icon">+</div>
+            <p>이미지를 업로드하고 마스크를 선택한 뒤 진행해주세요.</p>
+          </label>
+        </div>
+      ) : (
         <div className="image-container" style={{ position: 'relative', display: 'inline-block' }}>
           <img
             src={URL.createObjectURL(image)}
@@ -59,11 +73,24 @@ const ImageUploader = ({ onGenerateMasks }) => {
               }}
             ></div>
           )}
+          <button 
+            onClick={handleGenerateMasks} 
+            style={{ 
+              display: 'block', 
+              marginTop: '20px', 
+              backgroundColor: selectedPoint ? '#f0ad4e' : '#ccc', 
+              color: 'white', 
+              padding: '10px 20px',
+              borderRadius: '5px',
+              border: 'none',
+              cursor: selectedPoint ? 'pointer' : 'not-allowed',
+            }} 
+            disabled={!selectedPoint}
+          >
+            수정 범위 생성하기
+          </button>
         </div>
       )}
-      <button onClick={handleGenerateMasks} style={{ display: 'block', marginTop: '20px' }}>
-        영역 분할하기
-      </button>
     </div>
   );
 };
