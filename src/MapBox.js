@@ -54,6 +54,7 @@ const MapBox = ({ setLayers, selectedButton, setSelectedButton }) => {
 
     const handleButtonClick = (title, options) => {
       setSelectedButton(title);
+      setLegendData(null);
       if (options) {
         setModalTitle(title);
         setModalOptions(options);
@@ -95,6 +96,7 @@ const MapBox = ({ setLayers, selectedButton, setSelectedButton }) => {
   
     const handleSimpleButtonClick = async (title) => {
       setSelectedButton(title);
+      setLegendData(null);
       setInfoTitle(title);
       setInfoDescription(descriptions[title]);
       setInfoModalVisible(true);
