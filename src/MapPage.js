@@ -1,4 +1,5 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useContext } from 'react';
+import { AddressContext } from './AddressContext';
 import 'ol/ol.css';
 import { Map, View } from 'ol';
 import TileLayer from 'ol/layer/Tile';
@@ -7,12 +8,13 @@ import TileWMS from 'ol/source/TileWMS';
 import { fromLonLat, toLonLat } from 'ol/proj';
 import { getAddress } from './AppService';
 import CptedSuggest from './CptedSuggest';
+import InpaintLeftBar from './InpaintLeftBar';
 
 const MapPage = ({ onMapClick, layers, coordinates }) => {
   const mapRef = useRef(null);
   const mapElement = useRef();
   const apiKey = process.env.REACT_APP_WMTS_MAP_API_KEY;
-  const [clickedAddress, setClickedAddress] = useState('');
+  const { clickedAddress, setClickedAddress } = useContext(AddressContext);
   const [userCoordinates, setUserCoordinates] = useState(null);
 
   useEffect(() => {
@@ -112,6 +114,8 @@ const MapPage = ({ onMapClick, layers, coordinates }) => {
     <div>
       <div ref={mapElement} style={{ width: '100%', height: '100vh' }}></div>
       {clickedAddress && <CptedSuggest clickedAddress={clickedAddress} />}
+      {clickedAddress && <InpaintLeftBar clickedAddress={clickedAddress} /> }
+
     </div>
   );
 };
