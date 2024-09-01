@@ -49,7 +49,7 @@ const MapBox = ({ setLayers, setGeojsonVisible, selectedButton, setSelectedButto
     const [infoTitle, setInfoTitle] = useState('');
     const [infoDescription, setInfoDescription] = useState('');
     const [legendData, setLegendData] = useState(null);
-
+    
     const resetLayers = () => {
       setLayers([]); // 모든 WMS 레이어 제거
       setGeojsonVisible && setGeojsonVisible(false); // GeoJSON 레이어 비활성화 (prop이 제공된 경우에만)
@@ -63,18 +63,19 @@ const MapBox = ({ setLayers, setGeojsonVisible, selectedButton, setSelectedButto
         resetLayers(); // 기존 레이어 초기화
         setSelectedButton(title);
         setLegendData(null);
-      if (options) {
-        setModalTitle(title);
-        setModalOptions(options);
-        setModalVisible(true);
-      }else {
-        setModalVisible(false);
-      }
-      setInfoTitle(title);
-      setInfoDescription(descriptions[title]);
-      setInfoModalVisible(true);
 
-    };
+        if (options) {
+          setModalTitle(title);
+          setModalOptions(options);
+          setModalVisible(true);
+        }else {
+          setModalVisible(false);
+        }
+        setInfoTitle(title);
+        setInfoDescription(descriptions[title]);
+        setInfoModalVisible(true);
+
+      };
   
     const handleOptionChange = async (event) => {
       setSelectedOption(event.target.value);
@@ -140,42 +141,48 @@ const MapBox = ({ setLayers, setGeojsonVisible, selectedButton, setSelectedButto
               <Grid item xs={6}>
                 <button
                   className={`map-button ${selectedButton === '범죄주의구간' ? 'selected' : ''}`}
-                  onClick={() => handleButtonClick('범죄주의구간', ['전체', '강도', '성폭력', '절도', '폭력'])}>
+                  onClick={() => handleButtonClick('범죄주의구간', ['전체', '강도', '성폭력', '절도', '폭력'])}
+                >
                   범죄주의구간
                 </button>
               </Grid>
               <Grid item xs={6}>
                 <button
                   className={`map-button ${selectedButton === '자취촌범죄주의구간' ? 'selected' : ''}`}
-                  onClick={() => handleButtonClick('자취촌범죄주의구간', ['전체', '폭력', '절도', '성폭력'])}>
+                  onClick={() => handleButtonClick('자취촌범죄주의구간', ['전체', '폭력', '절도', '성폭력'])}
+                >
                   자취촌 <br />범죄주의구간
                 </button>
               </Grid>
               <Grid item xs={6}>
                 <button
                   className={`map-button ${selectedButton === '노인대상범죄주의구간' ? 'selected' : ''}`}
-                  onClick={() => handleSimpleButtonClick('노인대상범죄주의구간')}>
+                  onClick={() => handleSimpleButtonClick('노인대상범죄주의구간')}
+                >
                   노인 대상 <br />범죄주의구간
                 </button>
               </Grid>
               <Grid item xs={6}>
                 <button
                   className={`map-button ${selectedButton === '어린이대상범죄주의구간' ? 'selected' : ''}`}
-                  onClick={() => handleSimpleButtonClick('어린이대상범죄주의구간')}>
-                  어린이 대상<br /> 범죄주의구간
+                  onClick={() => handleSimpleButtonClick('어린이대상범죄주의구간')}
+                >
+                  어린이 대상<br />범죄주의구간
                 </button>
               </Grid>
               <Grid item xs={6}>
                 <button
                   className={`map-button ${selectedButton === '치안사고통계' ? 'selected' : ''}`}
-                  onClick={() => handleButtonClick('치안사고통계', ['전체', '마약', '살인', '도박', '강도', '성폭력', '절도', '약취/유인', '폭력', '방화'])}>
+                  onClick={() => handleButtonClick('치안사고통계', ['전체', '마약', '살인', '도박', '강도', '성폭력', '절도', '약취/유인', '폭력', '방화'])}
+                >
                   치안사고통계
                 </button>
               </Grid>
               <Grid item xs={6}>
                 <button
                   className={`map-button ${selectedButton === '여성밤길치안안전' ? 'selected' : ''}`}
-                  onClick={() => handleButtonClick('여성밤길치안안전', ['전체', '성폭력', '폭력', '절도', '강도'])}>
+                  onClick={() => handleButtonClick('여성밤길치안안전', ['전체', '성폭력', '폭력', '절도', '강도'])}
+                >
                   여성 밤길 <br />치안안전
                 </button>
               </Grid>
