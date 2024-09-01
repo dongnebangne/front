@@ -38,7 +38,7 @@ const descriptions = {
     `
 };
 
-const MapBox = ({ setLayers, selectedButton, setSelectedButton }) => {
+const MapBox = ({ setLayers, setGeojsonVisible, selectedButton, setSelectedButton }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [infoModalVisible, setInfoModalVisible] = useState(false);
     const [modalTitle, setModalTitle] = useState('');
@@ -47,14 +47,20 @@ const MapBox = ({ setLayers, selectedButton, setSelectedButton }) => {
     const [infoTitle, setInfoTitle] = useState('');
     const [infoDescription, setInfoDescription] = useState('');
     const [legendData, setLegendData] = useState(null);
+
+    const resetLayers = () => {
+      setLayers([]); // 모든 WMS 레이어 제거
+      setGeojsonVisible && setGeojsonVisible(false); // GeoJSON 레이어 비활성화 (prop이 제공된 경우에만)
+  };
   
     useEffect(() => {
       console.log('Legend Data updated:', legendData);
     }, [legendData]);
 
     const handleButtonClick = (title, options) => {
-      setSelectedButton(title);
-      setLegendData(null);
+        resetLayers(); // 기존 레이어 초기화
+        setSelectedButton(title);
+        setLegendData(null);
       if (options) {
         setModalTitle(title);
         setModalOptions(options);
@@ -66,11 +72,6 @@ const MapBox = ({ setLayers, selectedButton, setSelectedButton }) => {
       setInfoDescription(descriptions[title]);
       setInfoModalVisible(true);
 
-      
-      // 자취촌범죄주의구간은 MapInfo만 표시하고 API 호출 안함
-      if (title === '자취촌범죄주의구간') {
-        return;
-      }
     };
   
     const handleOptionChange = async (event) => {
@@ -78,18 +79,23 @@ const MapBox = ({ setLayers, selectedButton, setSelectedButton }) => {
       const category = modalTitle;
       const subcategory = event.target.value;
   
-      try {
-        const layers = await getWMSLayer(category, subcategory);
-        console.log('Layers received:', layers); // 수신된 레이어 데이터 콘솔에 출력
-        setLayers(layers);
+      if (category === '자취촌범죄주의구간') {
+        setGeojsonVisible(true);  
+        setLegendData(null);     
+        console.log(`GeoJSON 레이어 활성화 - 선택된 옵션: ${subcategory}`);
+      } else {
+          try {
+              const layers = await getWMSLayer(category, subcategory);
+              console.log('Layers received:', layers); 
+              setLayers(layers);
 
-        const legend = await getLegend(layers[0].layername, layers[0].styles);
-        console.log('Legend data received:', legend);
-        setLegendData(legend);
-      } catch (error) {
-        console.error("API 요청 중 오류 발생:", error);
-      }
-  
+              const legend = await getLegend(layers[0].layername, layers[0].styles);
+              console.log('Legend data received:', legend);
+              setLegendData(legend);
+          } catch (error) {
+            console.error("API 요청 중 오류 발생:", error);
+        }
+      } 
     };
   
     const handleCloseInfoModal = () => {
@@ -97,18 +103,19 @@ const MapBox = ({ setLayers, selectedButton, setSelectedButton }) => {
     };
   
     const handleSimpleButtonClick = async (title) => {
+      resetLayers(); // 기존 레이어 초기화
       setSelectedButton(title);
-      setLegendData(null);
       setModalVisible(false);
+
       setInfoTitle(title);
       setInfoDescription(descriptions[title]);
       setInfoModalVisible(true);
-  
+
       try {
         const layers = await getWMSLayer(title);
         console.log('Layers received:', layers); 
         setLayers(layers);
-
+  
         const legend = await getLegend(layers[0].layername, layers[0].styles);
         setLegendData(legend);
       } catch (error) {
@@ -119,12 +126,12 @@ const MapBox = ({ setLayers, selectedButton, setSelectedButton }) => {
     return (
       <div className="mapBox-container">
         <div className="mapBox">
-          <div class="header-container">
+          <div className="header-container">
             <h2>우리동네 안전지도</h2>
             <img src="/safecid_logo.svg" alt="SafeCid Logo"></img>
           </div>
           <svg xmlns="http://www.w3.org/2000/svg" width="298" height="2" viewBox="0 0 298 2" fill="none">
-            <path d="M1 1L297 1.00003" stroke="#297F50" stroke-width="2" stroke-linecap="round"/>
+            <path d="M1 1L297 1.00003" stroke="#297F50" strokeWidth="2" strokeLinecap="round"/>
           </svg>
           <div className="button-container">
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 2 }}>
@@ -191,11 +198,12 @@ const MapBox = ({ setLayers, selectedButton, setSelectedButton }) => {
             />
           )}
           {legendData && (
-          <MapLegend legendData={legendData} />
+            <MapLegend legendData={legendData} />
           )}
         </div>
       </div>
     );
 };
+
   
-  export default MapBox;
+export default MapBox;

@@ -1,5 +1,4 @@
 import React, { useRef, useEffect, useState, useContext } from 'react';
-import { AddressContext } from './AddressContext';
 import 'ol/ol.css';
 import { Map, View } from 'ol';
 import TileLayer from 'ol/layer/Tile';
@@ -11,16 +10,17 @@ import { fromLonLat, toLonLat } from 'ol/proj';
 import { Style, Fill } from 'ol/style';
 import { getAddress } from './AppService';
 import CptedSuggest from './CptedSuggest';
+import { AddressContext } from './AddressContext';
 import { GeoJSON } from 'ol/format';
-import InpaintLeftBar from './InpaintLeftBar';
 
-const MapPage = ({ onMapClick, layers, coordinates }) => {
+const MapPage = ({ onMapClick, layers, coordinates, geojsonVisible }) => {
   const mapRef = useRef(null);
   const mapElement = useRef();
   const apiKey = process.env.REACT_APP_WMTS_MAP_API_KEY;
-  const [selectedFeature, setSelectedFeature] = useState(null);
   const { clickedAddress, setClickedAddress } = useContext(AddressContext);
+  const [selectedFeature, setSelectedFeature] = useState(null);
   const [userCoordinates, setUserCoordinates] = useState(null);
+  const geojsonLayerRef = useRef(null);
 
   useEffect(() => {
     if (!coordinates) {
@@ -63,7 +63,6 @@ const MapPage = ({ onMapClick, layers, coordinates }) => {
 
       mapRef.current = map;
 
-      // 지도 클릭 이벤트 핸들러
       map.on('click', async (event) => {
         const clickedCoordinate = toLonLat(event.coordinate);
         const clickedFeature = mapRef.current.forEachFeatureAtPixel(event.pixel, (feature) => feature);
@@ -106,55 +105,54 @@ const MapPage = ({ onMapClick, layers, coordinates }) => {
         addWMSLayers(layers);
       }
 
-      // 범죄 레이어 추가 부분
       const geojsonLayer = new VectorLayer({
         source: new VectorSource({
-          url: '/TestGrid2.geojson', // GeoJSON 경로
+          url: '/TestGrid3.geojson',
           format: new GeoJSON({
             projection: 'EPSG:3857'
           }),
         }),
         style: function (feature) {
-          const crallValue = feature.get('CRALL'); // CRALL 컬럼 값 가져오기
+          const crallValue = feature.get('CRALL');
 
           let fillColor;
 
           switch (crallValue) {
             case 1:
-              fillColor = 'rgba(255, 255, 255, 0.0)'; // 흰색, 투명도 100%
+              fillColor = 'rgba(255, 255, 255, 0.0)';
               break;
             case 2:
-              fillColor = 'rgba(255, 255, 178, 0.4)'; // 투명도 40%
+              fillColor = 'rgba(255, 255, 178, 0.4)';
               break;
             case 3:
-              fillColor = 'rgba(254, 232, 139, 0.4)'; // 투명도 40%
+              fillColor = 'rgba(254, 232, 139, 0.4)';
               break;
             case 4:
-              fillColor = 'rgba(254, 209, 101, 0.4)'; // 투명도 40%
+              fillColor = 'rgba(254, 209, 101, 0.4)';
               break;
             case 5:
-              fillColor = 'rgba(253, 183, 81, 0.4)'; // 투명도 40%
+              fillColor = 'rgba(253, 183, 81, 0.4)';
               break;
             case 6:
-              fillColor = 'rgba(253, 155, 67, 0.4)'; // 투명도 40%
+              fillColor = 'rgba(253, 155, 67, 0.4)';
               break;
             case 7:
-              fillColor = 'rgba(250, 122, 53, 0.4)'; // 투명도 40%
+              fillColor = 'rgba(250, 122, 53, 0.4)';
               break;
             case 8:
-              fillColor = 'rgba(244, 86, 41, 0.4)'; // 투명도 40%
+              fillColor = 'rgba(244, 86, 41, 0.4)';
               break;
             case 9:
-              fillColor = 'rgba(234, 52, 32, 0.4)'; // 투명도 40%
+              fillColor = 'rgba(234, 52, 32, 0.4)';
               break;
             case 10:
-              fillColor = 'rgba(211, 26, 35, 0.4)'; // 투명도 40%
+              fillColor = 'rgba(211, 26, 35, 0.4)';
               break;
             case 11:
-              fillColor = 'rgba(189, 0, 38, 0.4)'; // 투명도 40%
+              fillColor = 'rgba(189, 0, 38, 0.4)';
               break;
             default:
-              fillColor = 'rgba(0, 0, 0, 0.0)'; // 기본값, 투명도 0%
+              fillColor = 'rgba(0, 0, 0, 0.0)';
           }
 
           return new Style({
@@ -162,23 +160,30 @@ const MapPage = ({ onMapClick, layers, coordinates }) => {
               color: fillColor,
             })
           });
-        }
+        },
+        visible: geojsonVisible
       });
 
+      geojsonLayerRef.current = geojsonLayer;
       map.addLayer(geojsonLayer);
 
       return () => map.setTarget(undefined);
     }
-  }, [onMapClick, layers, apiKey, coordinates, userCoordinates]);
+  }, [onMapClick, layers, apiKey, coordinates, userCoordinates, geojsonVisible]);
+
+  useEffect(() => {
+    if (geojsonLayerRef.current) {
+      geojsonLayerRef.current.setVisible(geojsonVisible);
+    }
+  }, [geojsonVisible]);
 
   return (
     <div>
       <div ref={mapElement} style={{ width: '100%', height: '100vh' }}></div>
-      {clickedAddress && <CptedSuggest clickedAddress={clickedAddress} />}
-      {clickedAddress && <InpaintLeftBar clickedAddress={clickedAddress} /> }
-
+      {clickedAddress && <CptedSuggest clickedAddress={clickedAddress} selectedFeature={selectedFeature} />}
     </div>
   );
 };
 
 export default MapPage;
+
