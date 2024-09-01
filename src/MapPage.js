@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useContext } from 'react';
 import 'ol/ol.css';
 import { Map, View } from 'ol';
 import TileLayer from 'ol/layer/Tile';
@@ -10,13 +10,14 @@ import { fromLonLat, toLonLat } from 'ol/proj';
 import { Style, Fill } from 'ol/style';
 import { getAddress } from './AppService';
 import CptedSuggest from './CptedSuggest';
+import { AddressContext } from './AddressContext';
 import { GeoJSON } from 'ol/format';
 
 const MapPage = ({ onMapClick, layers, coordinates, geojsonVisible }) => {
   const mapRef = useRef(null);
   const mapElement = useRef();
   const apiKey = process.env.REACT_APP_WMTS_MAP_API_KEY;
-  const [clickedAddress, setClickedAddress] = useState('');
+  const { clickedAddress, setClickedAddress } = useContext(AddressContext);
   const [selectedFeature, setSelectedFeature] = useState(null);
   const [userCoordinates, setUserCoordinates] = useState(null);
   const geojsonLayerRef = useRef(null);

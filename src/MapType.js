@@ -1,5 +1,3 @@
-// MapType.js
-
 import React, { useEffect, useState } from 'react';
 import './MapType.css';
 

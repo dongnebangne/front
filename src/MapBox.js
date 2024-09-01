@@ -1,5 +1,3 @@
-// Mapbox.js
-
 import React, { useState, useEffect } from 'react';
 import './MapBox.css';
 import './MapLegend.css';
@@ -40,177 +38,172 @@ const descriptions = {
     `
 };
 
-const MapBox = ({ setLayers, setGeojsonVisible }) => {
+const MapBox = ({ setLayers, setGeojsonVisible, selectedButton, setSelectedButton }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [infoModalVisible, setInfoModalVisible] = useState(false);
     const [modalTitle, setModalTitle] = useState('');
     const [modalOptions, setModalOptions] = useState([]);
-    const [selectedButton, setSelectedButton] = useState('');
     const [selectedOption, setSelectedOption] = useState('');
     const [infoTitle, setInfoTitle] = useState('');
     const [infoDescription, setInfoDescription] = useState('');
     const [legendData, setLegendData] = useState(null);
 
     const resetLayers = () => {
-        setLayers([]); // 모든 WMS 레이어 제거
-        setGeojsonVisible && setGeojsonVisible(false); // GeoJSON 레이어 비활성화 (prop이 제공된 경우에만)
-    };
-
+      setLayers([]); // 모든 WMS 레이어 제거
+      setGeojsonVisible && setGeojsonVisible(false); // GeoJSON 레이어 비활성화 (prop이 제공된 경우에만)
+  };
+  
     useEffect(() => {
-        console.log('Legend Data updated:', legendData);
+      console.log('Legend Data updated:', legendData);
     }, [legendData]);
 
     const handleButtonClick = (title, options) => {
         resetLayers(); // 기존 레이어 초기화
         setSelectedButton(title);
         setLegendData(null);
+      if (options) {
+        setModalTitle(title);
+        setModalOptions(options);
+        setModalVisible(true);
+      }else {
+        setModalVisible(false);
+      }
+      setInfoTitle(title);
+      setInfoDescription(descriptions[title]);
+      setInfoModalVisible(true);
 
-        if (options) {
-            setModalTitle(title);
-            setModalOptions(options);
-            setModalVisible(true);
-        } else {
-            setModalVisible(false);
-        }
-
-        setInfoTitle(title);
-        setInfoDescription(descriptions[title]);
-        setInfoModalVisible(true);
-
-        if (title === '자취촌범죄주의구간') {
-            setGeojsonVisible && setGeojsonVisible(true); // GeoJSON 레이어 활성화 (prop이 제공된 경우에만)
-            return;
-        }
     };
-
+  
     const handleOptionChange = async (event) => {
-        setSelectedOption(event.target.value);
-        const category = modalTitle;
-        const subcategory = event.target.value;
+      setSelectedOption(event.target.value);
+      const category = modalTitle;
+      const subcategory = event.target.value;
+  
+      if (category === '자취촌범죄주의구간') {
+        setGeojsonVisible(true);  
+        setLegendData(null);     
+        console.log(`GeoJSON 레이어 활성화 - 선택된 옵션: ${subcategory}`);
+      } else {
+          try {
+              const layers = await getWMSLayer(category, subcategory);
+              console.log('Layers received:', layers); 
+              setLayers(layers);
 
-        try {
-            const layers = await getWMSLayer(category, subcategory);
-            console.log('Layers received:', layers);
-            setLayers(layers);
-
-            const legend = await getLegend(layers[0].layername, layers[0].styles);
-            console.log('Legend data received:', legend);
-            setLegendData(legend);
-        } catch (error) {
+              const legend = await getLegend(layers[0].layername, layers[0].styles);
+              console.log('Legend data received:', legend);
+              setLegendData(legend);
+          } catch (error) {
             console.error("API 요청 중 오류 발생:", error);
         }
+      } 
     };
-
-    const handleSimpleButtonClick = async (title) => {
-        resetLayers(); // 기존 레이어 초기화
-        setSelectedButton(title);
-        setModalVisible(false);
-
-        setInfoTitle(title);
-        setInfoDescription(descriptions[title]);
-        setInfoModalVisible(true);
-
-        if (title === '자취촌범죄주의구간') {
-            setGeojsonVisible && setGeojsonVisible(true); // GeoJSON 레이어 활성화 (prop이 제공된 경우에만)
-        } else {
-            try {
-                const layers = await getWMSLayer(title);
-                console.log('Layers received:', layers);
-                setLayers(layers);
-
-                const legend = await getLegend(layers[0].layername, layers[0].styles);
-                setLegendData(legend);
-            } catch (error) {
-                console.error("API 요청 중 오류 발생:", error);
-            }
-        }
-    };
-
+  
     const handleCloseInfoModal = () => {
-        setInfoModalVisible(false);
+      setInfoModalVisible(false);
     };
+  
+    const handleSimpleButtonClick = async (title) => {
+      resetLayers(); // 기존 레이어 초기화
+      setSelectedButton(title);
+      setModalVisible(false);
 
+      setInfoTitle(title);
+      setInfoDescription(descriptions[title]);
+      setInfoModalVisible(true);
+
+      try {
+        const layers = await getWMSLayer(title);
+        console.log('Layers received:', layers); 
+        setLayers(layers);
+  
+        const legend = await getLegend(layers[0].layername, layers[0].styles);
+        setLegendData(legend);
+      } catch (error) {
+        console.error("API 요청 중 오류 발생:", error);
+      }
+    };
+  
     return (
-        <div className="mapBox-container">
-            <div className="mapBox">
-                <div className="header-container">
-                    <h2>우리동네 안전지도</h2>
-                    <img src="/safecid_logo.svg" alt="SafeCid Logo"></img>
-                </div>
-                <svg xmlns="http://www.w3.org/2000/svg" width="298" height="2" viewBox="0 0 298 2" fill="none">
-                    <path d="M1 1L297 1.00003" stroke="#297F50" strokeWidth="2" strokeLinecap="round" />
-                </svg>
-                <div className="button-container">
-                    <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 2 }}>
-                        <Grid item xs={6}>
-                            <button
-                                className={`map-button ${selectedButton === '범죄주의구간' ? 'selected' : ''}`}
-                                onClick={() => handleButtonClick('범죄주의구간', ['전체', '강도', '성폭력', '절도', '폭력'])}>
-                                범죄주의구간
-                            </button>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <button
-                                className={`map-button ${selectedButton === '자취촌범죄주의구간' ? 'selected' : ''}`}
-                                onClick={() => handleSimpleButtonClick('자취촌범죄주의구간')}>
-                                자취촌 <br />범죄주의구간
-                            </button>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <button
-                                className={`map-button ${selectedButton === '노인대상범죄주의구간' ? 'selected' : ''}`}
-                                onClick={() => handleSimpleButtonClick('노인대상범죄주의구간')}>
-                                노인 대상 <br />범죄주의구간
-                            </button>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <button
-                                className={`map-button ${selectedButton === '어린이대상범죄주의구간' ? 'selected' : ''}`}
-                                onClick={() => handleSimpleButtonClick('어린이대상범죄주의구간')}>
-                                어린이 대상<br /> 범죄주의구간
-                            </button>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <button
-                                className={`map-button ${selectedButton === '치안사고통계' ? 'selected' : ''}`}
-                                onClick={() => handleButtonClick('치안사고통계', ['전체', '마약', '살인', '도박', '강도', '성폭력', '절도', '약취/유인', '폭력', '방화'])}>
-                                치안사고통계
-                            </button>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <button
-                                className={`map-button ${selectedButton === '여성밤길치안안전' ? 'selected' : ''}`}
-                                onClick={() => handleButtonClick('여성밤길치안안전', ['전체', '성폭력', '폭력', '절도', '강도'])}>
-                                여성 밤길 <br />치안안전
-                            </button>
-                        </Grid>
-                    </Grid>
-                </div>
-                {modalVisible && (
-                    <div className="modal-container">
-                        <MapType
-                            title={modalTitle}
-                            options={modalOptions}
-                            onClose={() => setModalVisible(false)}
-                            onOptionChange={handleOptionChange}
-                            selectedOption={selectedOption}
-                        />
-                    </div>
-                )}
-                {infoModalVisible && (
-                    <MapInfo
-                        title={infoTitle}
-                        description={infoDescription}
-                        onClose={handleCloseInfoModal}
-                    />
-                )}
-                {legendData && (
-                    <MapLegend legendData={legendData} />
-                )}
+      <div className="mapBox-container">
+        <div className="mapBox">
+          <div className="header-container">
+            <h2>우리동네 안전지도</h2>
+            <img src="/safecid_logo.svg" alt="SafeCid Logo"></img>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="298" height="2" viewBox="0 0 298 2" fill="none">
+            <path d="M1 1L297 1.00003" stroke="#297F50" strokeWidth="2" strokeLinecap="round"/>
+          </svg>
+          <div className="button-container">
+            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 2 }}>
+              <Grid item xs={6}>
+                <button
+                  className={`map-button ${selectedButton === '범죄주의구간' ? 'selected' : ''}`}
+                  onClick={() => handleButtonClick('범죄주의구간', ['전체', '강도', '성폭력', '절도', '폭력'])}>
+                  범죄주의구간
+                </button>
+              </Grid>
+              <Grid item xs={6}>
+                <button
+                  className={`map-button ${selectedButton === '자취촌범죄주의구간' ? 'selected' : ''}`}
+                  onClick={() => handleButtonClick('자취촌범죄주의구간', ['전체', '폭력', '절도', '성폭력'])}>
+                  자취촌 <br />범죄주의구간
+                </button>
+              </Grid>
+              <Grid item xs={6}>
+                <button
+                  className={`map-button ${selectedButton === '노인대상범죄주의구간' ? 'selected' : ''}`}
+                  onClick={() => handleSimpleButtonClick('노인대상범죄주의구간')}>
+                  노인 대상 <br />범죄주의구간
+                </button>
+              </Grid>
+              <Grid item xs={6}>
+                <button
+                  className={`map-button ${selectedButton === '어린이대상범죄주의구간' ? 'selected' : ''}`}
+                  onClick={() => handleSimpleButtonClick('어린이대상범죄주의구간')}>
+                  어린이 대상<br /> 범죄주의구간
+                </button>
+              </Grid>
+              <Grid item xs={6}>
+                <button
+                  className={`map-button ${selectedButton === '치안사고통계' ? 'selected' : ''}`}
+                  onClick={() => handleButtonClick('치안사고통계', ['전체', '마약', '살인', '도박', '강도', '성폭력', '절도', '약취/유인', '폭력', '방화'])}>
+                  치안사고통계
+                </button>
+              </Grid>
+              <Grid item xs={6}>
+                <button
+                  className={`map-button ${selectedButton === '여성밤길치안안전' ? 'selected' : ''}`}
+                  onClick={() => handleButtonClick('여성밤길치안안전', ['전체', '성폭력', '폭력', '절도', '강도'])}>
+                  여성 밤길 <br />치안안전
+                </button>
+              </Grid>
+            </Grid>
+          </div>
+          {modalVisible && (
+            <div className="modal-container">
+              <MapType
+                title={modalTitle}
+                options={modalOptions}
+                onClose={() => setModalVisible(false)}
+                onOptionChange={handleOptionChange}
+                selectedOption={selectedOption}
+              />
             </div>
+          )}
+          {infoModalVisible && (
+            <MapInfo
+              title={infoTitle}
+              description={infoDescription}
+              onClose={handleCloseInfoModal}
+            />
+          )}
+          {legendData && (
+            <MapLegend legendData={legendData} />
+          )}
         </div>
+      </div>
     );
 };
 
+  
 export default MapBox;
-
