@@ -1,5 +1,4 @@
 import React, { useRef, useEffect, useState, useContext } from 'react';
-import { AddressContext } from './AddressContext';
 import 'ol/ol.css';
 import { Map, View } from 'ol';
 import TileLayer from 'ol/layer/Tile';
@@ -11,15 +10,15 @@ import { fromLonLat, toLonLat } from 'ol/proj';
 import { Style, Fill } from 'ol/style';
 import { getAddress } from './AppService';
 import CptedSuggest from './CptedSuggest';
+import { AddressContext } from './AddressContext';
 import { GeoJSON } from 'ol/format';
-import InpaintLeftBar from './InpaintLeftBar';
 
 const MapPage = ({ onMapClick, layers, coordinates, geojsonVisible }) => {
   const mapRef = useRef(null);
   const mapElement = useRef();
   const apiKey = process.env.REACT_APP_WMTS_MAP_API_KEY;
-  const [selectedFeature, setSelectedFeature] = useState(null);
   const { clickedAddress, setClickedAddress } = useContext(AddressContext);
+  const [selectedFeature, setSelectedFeature] = useState(null);
   const [userCoordinates, setUserCoordinates] = useState(null);
   const geojsonLayerRef = useRef(null);
 
@@ -181,9 +180,10 @@ const MapPage = ({ onMapClick, layers, coordinates, geojsonVisible }) => {
   return (
     <div>
       <div ref={mapElement} style={{ width: '100%', height: '100vh' }}></div>
-      {clickedAddress && <CptedSuggest clickedAddress={clickedAddress} />}
+      {clickedAddress && <CptedSuggest clickedAddress={clickedAddress} selectedFeature={selectedFeature} />}
     </div>
   );
 };
 
 export default MapPage;
+

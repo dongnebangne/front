@@ -83,3 +83,4 @@ const MapType = ({ title, options, onClose, onOptionChange, selectedOption, lege
 };
 
 export default MapType;
+
