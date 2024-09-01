@@ -15,7 +15,9 @@ const descriptions = {
         - 경찰청에서 제공받은 밀도분석 정보를 도로상에 등급(10등급)으로 표현하고 있습니다.
     `,
     자취촌범죄주의구간: `
-        - 추후에 추가 예정입니다.
+        - 최근 1년 자취촌을 중심으로 일어나는 범죄의 밀도분석 데이터와 주변 환경 데이터를 분석한 정보입니다.<br/>
+        - 지역 별 환경에 따라 일어날 수 있는 범죄를 <strong>예측</strong>하여 히트맵으로 표현하고 있습니다.<br/>
+        - 전체/폭력/절도/성폭력 범죄별 예측 정보를 제공하며 등급(10등급)으로 표현하고 있습니다.
     `,
     노인대상범죄주의구간: `
         - 노인(65세 이상)을 대상으로 한 범죄발생현황을 밀도분석 한 정보입니다.<br/>
@@ -47,7 +49,7 @@ const MapBox = ({ setLayers, setGeojsonVisible, selectedButton, setSelectedButto
     const [infoTitle, setInfoTitle] = useState('');
     const [infoDescription, setInfoDescription] = useState('');
     const [legendData, setLegendData] = useState(null);
-
+    
     const resetLayers = () => {
       setLayers([]); // 모든 WMS 레이어 제거
       setGeojsonVisible && setGeojsonVisible(false); // GeoJSON 레이어 비활성화 (prop이 제공된 경우에만)
@@ -61,18 +63,19 @@ const MapBox = ({ setLayers, setGeojsonVisible, selectedButton, setSelectedButto
         resetLayers(); // 기존 레이어 초기화
         setSelectedButton(title);
         setLegendData(null);
-      if (options) {
-        setModalTitle(title);
-        setModalOptions(options);
-        setModalVisible(true);
-      }else {
-        setModalVisible(false);
-      }
-      setInfoTitle(title);
-      setInfoDescription(descriptions[title]);
-      setInfoModalVisible(true);
 
-    };
+        if (options) {
+          setModalTitle(title);
+          setModalOptions(options);
+          setModalVisible(true);
+        }else {
+          setModalVisible(false);
+        }
+        setInfoTitle(title);
+        setInfoDescription(descriptions[title]);
+        setInfoModalVisible(true);
+
+      };
   
     const handleOptionChange = async (event) => {
       setSelectedOption(event.target.value);
@@ -138,42 +141,48 @@ const MapBox = ({ setLayers, setGeojsonVisible, selectedButton, setSelectedButto
               <Grid item xs={6}>
                 <button
                   className={`map-button ${selectedButton === '범죄주의구간' ? 'selected' : ''}`}
-                  onClick={() => handleButtonClick('범죄주의구간', ['전체', '강도', '성폭력', '절도', '폭력'])}>
+                  onClick={() => handleButtonClick('범죄주의구간', ['전체', '강도', '성폭력', '절도', '폭력'])}
+                >
                   범죄주의구간
                 </button>
               </Grid>
               <Grid item xs={6}>
                 <button
                   className={`map-button ${selectedButton === '자취촌범죄주의구간' ? 'selected' : ''}`}
-                  onClick={() => handleButtonClick('자취촌범죄주의구간', ['전체', '폭력', '절도', '성폭력'])}>
+                  onClick={() => handleButtonClick('자취촌범죄주의구간', ['전체', '폭력', '절도', '성폭력'])}
+                >
                   자취촌 <br />범죄주의구간
                 </button>
               </Grid>
               <Grid item xs={6}>
                 <button
                   className={`map-button ${selectedButton === '노인대상범죄주의구간' ? 'selected' : ''}`}
-                  onClick={() => handleSimpleButtonClick('노인대상범죄주의구간')}>
+                  onClick={() => handleSimpleButtonClick('노인대상범죄주의구간')}
+                >
                   노인 대상 <br />범죄주의구간
                 </button>
               </Grid>
               <Grid item xs={6}>
                 <button
                   className={`map-button ${selectedButton === '어린이대상범죄주의구간' ? 'selected' : ''}`}
-                  onClick={() => handleSimpleButtonClick('어린이대상범죄주의구간')}>
-                  어린이 대상<br /> 범죄주의구간
+                  onClick={() => handleSimpleButtonClick('어린이대상범죄주의구간')}
+                >
+                  어린이 대상<br />범죄주의구간
                 </button>
               </Grid>
               <Grid item xs={6}>
                 <button
                   className={`map-button ${selectedButton === '치안사고통계' ? 'selected' : ''}`}
-                  onClick={() => handleButtonClick('치안사고통계', ['전체', '마약', '살인', '도박', '강도', '성폭력', '절도', '약취/유인', '폭력', '방화'])}>
+                  onClick={() => handleButtonClick('치안사고통계', ['전체', '마약', '살인', '도박', '강도', '성폭력', '절도', '약취/유인', '폭력', '방화'])}
+                >
                   치안사고통계
                 </button>
               </Grid>
               <Grid item xs={6}>
                 <button
                   className={`map-button ${selectedButton === '여성밤길치안안전' ? 'selected' : ''}`}
-                  onClick={() => handleButtonClick('여성밤길치안안전', ['전체', '성폭력', '폭력', '절도', '강도'])}>
+                  onClick={() => handleButtonClick('여성밤길치안안전', ['전체', '성폭력', '폭력', '절도', '강도'])}
+                >
                   여성 밤길 <br />치안안전
                 </button>
               </Grid>

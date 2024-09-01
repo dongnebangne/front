@@ -1,7 +1,7 @@
 .cpted-suggest {
     position: absolute;
-    bottom: 0;
-    right: 0;
+    bottom: 15px;
+    right: 22px;
     width: 260px;
     height: auto; 
     z-index: 2;

@@ -27,11 +27,21 @@ const MapType = ({ title, options, onClose, onOptionChange, selectedOption, lege
         fetchLegend();
     }, [legend]);
 
+    const formatTitle = (title) => {
+        if (title === '자취촌범죄주의구간') {
+            return '자취촌 <br />범죄주의구간';
+        } else if (title === '여성밤길치안안전') {
+            return '여성 밤길 <br />치안안전';
+        } else {
+            return title;
+        }
+    };
+
     return (
         <div className="modal-overlay" onClick={onClose}>
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                 <div className="modal-header">
-                    <h5>{title}</h5>
+                <h5 dangerouslySetInnerHTML={{ __html: formatTitle(title) }} />
                     <img src="/close_icon.svg" alt="Close" className="close-icon" onClick={onClose} />
                 </div>
                 <svg xmlns="http://www.w3.org/2000/svg" width="146" height="2" viewBox="0 0 146 2" fill="none">
