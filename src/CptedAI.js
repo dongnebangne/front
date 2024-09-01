@@ -1,55 +1,85 @@
-import React, { useState } from 'react';
-import './CptedAI.css'; 
+import React, { useState, useContext } from 'react';
+import ImageUploader from './ImageUploader';
+import ResultDisplay from './ResultDisplay';
+import { API_BASE_URL } from './api-config';
+import MaskSelector from './MaskSelector';
+import InpaintLeftBar from './InpaintLeftBar';  // Import the sidebar
+import { AddressContext } from './AddressContext';
 
 const CptedAI = () => {
-    const [selectedImage, setSelectedImage] = useState(null);
+  const [masks, setMasks] = useState([]);
+  const [processedImageUrl, setProcessedImageUrl] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [prompt, setPrompt] = useState(''); // 프롬프트 상태 추가
+  const { clickedAddress } = useContext(AddressContext);
 
-    const handleImageUpload = (event) => {
-        if (event.target.files && event.target.files[0]) {
-            const img = event.target.files[0];
-            setSelectedImage(URL.createObjectURL(img));
-        }
-    };
+  const handleGenerateMasks = async (image, point) => {
+    setLoading(true);
+    const formData = new FormData();
+    formData.append('image', image);
+    formData.append('point_coords', `${point.x},${point.y}`);
+    formData.append('point_labels', '1');
 
-    const handleImageGeneration = () => {
-        // 새로운 이미지를 생성하는 로직
-        alert("지역 개선하는 중..");
-    };
+    try {
+      const response = await fetch(`${API_BASE_URL}/generate-masks/`, {
+        method: 'POST',
+        body: formData,
+      });
 
-    return (
-        <div className="cptedAI">
-            <header className="header">
-                <h2>Safe-CID</h2>
-            </header>
-            <h1>지역 개선하기</h1>
-            <div className="AI-content">
-                <div className="upload-section">
-                    <label htmlFor="upload-button" className="upload-label">
-                        {selectedImage ? (
-                            <img src={selectedImage} alt="Selected" className="uploaded-image" />
-                        ) : (
-                            '사진 불러오기'
-                        )}
-                    </label>
-                    <input
-                        type="file"
-                        id="upload-button"
-                        className="upload-input"
-                        onChange={handleImageUpload}
-                    />
-                    <div className="suggestion-box">
-                        <p>CPTED 제안을 선택해주세요.</p>
-                    </div>
-                </div>
-                <button onClick={handleImageGeneration} className="arrow-button">
-                    <img src="/arrow_icon.png" alt="Generate" className="arrow-icon" />
-                </button>
-                <div className="placeholder">
-                    {/* 생성된 이미지의 자리 */}
-                </div>
-            </div>
-        </div>
-    );
+      if (!response.ok) {
+        throw new Error('Server error');
+      }
+
+      const data = await response.json();
+      setMasks(data.masks);
+    } catch (error) {
+      console.error('Error generating masks:', error);
+      alert('An error occurred while generating masks. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleInpaint = async (selectedMaskIdx, prompt) => {
+    setLoading(true);
+    const formData = new FormData();
+    formData.append('selected_mask_idx', selectedMaskIdx);
+    formData.append('text_prompt', prompt);
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/inpaint-image/`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('Server error');
+      }
+
+      const data = await response.json();
+      setProcessedImageUrl(`${API_BASE_URL}${data.inpainted_image_url}`);
+    } catch (error) {
+      console.error('Error processing image:', error);
+      alert('An error occurred while processing the image. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="cpted-ai-container" style={{ display: 'flex' }}>
+      <InpaintLeftBar setPrompt={setPrompt} clickedAddress={clickedAddress}/> {/* setPrompt 전달 */}
+      <div className="cpted-ai-content" style={{ flex: 1, padding: '20px' }}>
+        <h2>지역 개선하기</h2>
+        <hr/>
+        {!masks.length && <ImageUploader onGenerateMasks={handleGenerateMasks} />}
+        {masks.length > 0 && (
+          <MaskSelector masks={masks} onInpaint={handleInpaint} prompt={prompt} setPrompt={setPrompt} />
+        )}
+        {loading ? <p>Processing...</p> : <ResultDisplay imageUrl={processedImageUrl} isLoading={loading} />}
+      </div>
+    </div>
+  );
 };
 
 export default CptedAI;
