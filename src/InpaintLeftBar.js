@@ -60,56 +60,61 @@ const InpaintLeftBar = ({ setPrompt, clickedAddress }) => {
     return (
         <div className="left-bar">
             <img src="/safecid_logo.svg" style={{ width: '100%', maxWidth: '150px', marginBottom: '20px' }} alt="Safe Sid Logo" />
-    <div className="address-box">
-        <p>{clickedAddress}</p>
-    </div>
-    <div className="crime-rank">
-    <h3>많이 일어나는 범죄는 다음과 같습니다:</h3>
-    <ul>
-        <li>
-            <button 
-                className={`crime-button ${selectedCrime === '절도' ? 'active' : ''}`}
-                onClick={() => handleCrimeClick('절도')}
-            >
-                <span>1위:</span> 절도
-                <input
-                    type="radio"
-                    name="crime"
-                    checked={selectedCrime === '절도'}
-                    onChange={() => handleCrimeClick('절도')}
-                />
-            </button>
-        </li>
-        <li>
-            <button 
-                className={`crime-button ${selectedCrime === '성폭력' ? 'active' : ''}`}
-                onClick={() => handleCrimeClick('성폭력')}
-            >
-                <span>2위:</span> 성폭력
-                <input
-                    type="radio"
-                    name="crime"
-                    checked={selectedCrime === '성폭력'}
-                    onChange={() => handleCrimeClick('성폭력')}
-                />
-            </button>
-        </li>
-        <li>
-            <button 
-                className={`crime-button ${selectedCrime === '폭력' ? 'active' : ''}`}
-                onClick={() => handleCrimeClick('폭력')}
-            >
-                <span>3위:</span> 폭력
-                <input
-                    type="radio"
-                    name="crime"
-                    checked={selectedCrime === '폭력'}
-                    onChange={() => handleCrimeClick('폭력')}
-                />
-            </button>
-        </li>
-    </ul>
-</div>
+            <div className="address-box">
+                <p>{clickedAddress}</p>
+            </div>
+            <div className="crime-rank">
+                <p>많이 일어나는 범죄는 다음과 같습니다:</p>
+                <ul>
+                    <li>
+                        <button 
+                            className={`crime-button ${selectedCrime === '절도' ? 'active' : ''}`}
+                            onClick={() => handleCrimeClick('절도')}
+                        >
+                            <span>1위:</span> 절도
+                            <input
+                                type="radio"
+                                name="crime"
+                                checked={selectedCrime === '절도'}
+                                onChange={() => handleCrimeClick('절도')}
+                            />
+                        </button>
+                    </li>
+                    <li>
+                        <button 
+                            className={`crime-button ${selectedCrime === '성폭력' ? 'active' : ''}`}
+                            onClick={() => handleCrimeClick('성폭력')}
+                        >
+                            <span>2위:</span> 성폭력
+                            <input
+                                type="radio"
+                                name="crime"
+                                checked={selectedCrime === '성폭력'}
+                                onChange={() => handleCrimeClick('성폭력')}
+                            />
+                        </button>
+                    </li>
+                    <li>
+                        <button 
+                            className={`crime-button ${selectedCrime === '폭력' ? 'active' : ''}`}
+                            onClick={() => handleCrimeClick('폭력')}
+                        >
+                            <span>3위:</span> 폭력
+                            <input
+                                type="radio"
+                                name="crime"
+                                checked={selectedCrime === '폭력'}
+                                onChange={() => handleCrimeClick('폭력')}
+                            />
+                        </button>
+                    </li>
+                </ul>
+                <p className="instruction-text">
+                개선을 원하는 범죄를 선택하면 <br/>
+                해당 범죄를 예방하기 위한 CPTED 디자인을 <br/>
+                제안해 드립니다.
+                </p>
+            </div>
             <div className="recommendation">
                 <h4>CPTED 제안</h4>
                 <ul>
