@@ -48,27 +48,43 @@ const MapBox = ({ setLayers }) => {
     const [infoDescription, setInfoDescription] = useState('');
     const [legendData, setLegendData] = useState(null);
   
+    const resetLayers = () => {
+        setLayers([]); // 모든 WMS 레이어 제거
+        setGeojsonVisible(false); // GeoJSON 레이어 비활성화
+    };
+
     useEffect(() => {
       console.log('Legend Data updated:', legendData);
     }, [legendData]);
 
+    const handleOptionSelect = async (option) => {
+        setSelectedOption(option);  // 선택된 옵션을 상태로 저장
+  
+        try {
+            const layers = await getWMSLayer(modalTitle, option); // 선택된 옵션에 따른 레이어 가져오기
+            setLayers(layers); // 새로운 WMS 레이어 설정
+  
+            const legendURL = await getLegend(layers[0].layername, layers[0].styles);
+            setLegendURL(legendURL); // 범례 URL 설정
+        } catch (error) {
+            console.error("API 요청 중 오류 발생:", error);
+        }
+    };
+
     const handleButtonClick = (title, options) => {
-      setSelectedButton(title);
-      if (options) {
+        resetLayers(); // 기존 레이어 초기화
+  
+        setSelectedButton(title);
         setModalTitle(title);
         setModalOptions(options);
-        setModalVisible(true);
-      }
-      setInfoTitle(title);
-      setInfoDescription(descriptions[title]);
-      setInfoModalVisible(true);
-
-      
-      // 자취촌범죄주의구간은 MapInfo만 표시하고 API 호출 안함
-      if (title === '자취촌범죄주의구간') {
-        return;
-      }
+        setModalVisible(true); // 모달 열기
+  
+        setInfoTitle(title);
+        setInfoDescription(descriptions[title]);
+        setInfoModalVisible(true); // 정보 모달 열기
     };
+  
+    
   
     const handleOptionChange = async (event) => {
       setSelectedOption(event.target.value);
@@ -84,7 +100,7 @@ const MapBox = ({ setLayers }) => {
         console.log('Legend data received:', legend);
         setLegendData(legend);
       } catch (error) {
-        console.error("API 요청 중 오류 발생:", error);
+          console.error("API 요청 중 오류 발생:", error);
       }
   
     };
@@ -94,21 +110,28 @@ const MapBox = ({ setLayers }) => {
     };
   
     const handleSimpleButtonClick = async (title) => {
+
+       resetLayers(); // 기존 레이어 초기화
+
       setSelectedButton(title);
+
       setInfoTitle(title);
       setInfoDescription(descriptions[title]);
       setInfoModalVisible(true);
-  
-      try {
-        const layers = await getWMSLayer(title);
-        console.log('Layers received:', layers); 
-        setLayers(layers);
 
-        const legend = await getLegend(layers[0].layername, layers[0].styles);
-        setLegendData(legend);
-      } catch (error) {
-        console.error("API 요청 중 오류 발생:", error);
-      }
+      if (title === '자취촌범죄주의구간') {
+        setGeojsonVisible(true); // GeoJSON 레이어 활성화
+    } else {
+        try {
+            const layers = await getWMSLayer(title);
+            setLayers(layers); // 새로운 WMS 레이어 설정
+
+            const legendURL = await getLegend(layers[0].layername, layers[0].styles);
+            setLegendURL(legendURL); // 범례 URL 설정
+        } catch (error) {
+            console.error("API 요청 중 오류 발생:", error);
+        }
+    }
     };
   
     return (

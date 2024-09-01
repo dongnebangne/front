@@ -11,6 +11,7 @@ function App() {
   const [showCptedSuggest, setShowCptedSuggest] = useState(false);
   const [layers, setLayers] = useState([]);
   const [coordinates, setCoordinates] = useState(null);
+  const [geojsonVisible, setGeojsonVisible] = useState(false);
 
   const handleMapClick = () => {
     setShowCptedSuggest(true);
@@ -27,13 +28,21 @@ function App() {
         <Routes>
           <Route path="/" element={
             <>
-              <MapPage onMapClick={handleMapClick} layers={layers} coordinates={coordinates} />
+              <MapPage 
+                onMapClick={handleMapClick} 
+                layers={layers} 
+                coordinates={coordinates} 
+                geojsonVisible={geojsonVisible}
+              />
               <SearchAddress 
                 isOpen={isRightBarOpen} 
                 toggleRightBar={toggleRightBar} 
                 setCoordinates={setCoordinates}
               />
-              <MapBox setLayers={setLayers}/>
+              <MapBox 
+                setLayers={setLayers}
+                setGeojsonVisible={setGeojsonVisible} 
+              />
             </>
           } />
           <Route path="/cpted-ai" element={
