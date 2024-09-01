@@ -25,7 +25,7 @@ const MaskSelector = ({ masks, onInpaint, prompt, setPrompt }) => {
   };
 
   return (
-    <div className="mask-selector">
+    <div className="mask-selector" style={{marginTop: '80px'}}>
       <div className="mask-images" style={{ textAlign: 'center' }}>
         {selectedMaskIdx === null ? (
           <p style={{ fontSize: '18px', color: '#555' }}>다음 중 원하는 마스크 이미지를 선택하세요.</p>
@@ -58,11 +58,16 @@ const MaskSelector = ({ masks, onInpaint, prompt, setPrompt }) => {
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
             style={{
+              backgroundColor: '#E6E6E6',
+            boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.25) inset',
               marginTop: '20px',
+              marginLeft: '30px',
+              marginRight: '30px',
               width: '100%',
               padding: '10px',
+              paddingLeft: '20px',
               fontSize: '16px',
-              borderRadius: '5px',
+              borderRadius: '20px',
               border: '1px solid #ccc',
               boxSizing: 'border-box',
             }}
@@ -72,16 +77,19 @@ const MaskSelector = ({ masks, onInpaint, prompt, setPrompt }) => {
             style={{
               display: 'block',
               marginTop: '20px',
-              backgroundColor: 'orange',
-              color: 'white',
+              marginLeft: 'auto',
+              marginRight: 'auto',
+              backgroundColor: '#F7CF6B',
+              color: 'black',
               padding: '10px 20px',
-              borderRadius: '5px',
+              borderRadius: '20px',
               border: 'none',
               cursor: 'pointer',
               fontSize: '16px',
+              boxShadow: '0px 1px 1px rgba(0, 0, 0, 0.25)'
             }}
           >
-            이미지 처리하기
+             &gt; 이미지 처리하기
           </button>
         </>
       )}

@@ -15,6 +15,7 @@ const CptedSuggest = ({ clickedAddress, selectedFeature }) => {
             // 범죄 유형과 값을 쌍으로 배열로 만듦
             const crimes = [
                 { type: '폭력', value: crviol },
+                
                 { type: '절도', value: crtheft },
                 { type: '성폭력', value: crsex }
             ];
@@ -33,11 +34,12 @@ const CptedSuggest = ({ clickedAddress, selectedFeature }) => {
     return (
         <div className="cpted-suggest">
             <h3>{clickedAddress}</h3>
-            <p>에서 많이 일어나는 범죄</p>
+            <p>많이 일어나는 범죄는 <br/> 다음과 같습니다</p>
+            
             <div>
-                {crimeRanks.map((crime, index) => (
-                    <p key={index}>{index + 1}위: {crime.type}</p>
-                ))}
+                <p>1위 : 절도</p>
+                <p>2위 : 성폭력</p>
+                <p>3위 : 폭력</p>
             </div>
             <button className="cpted-button" onClick={handleButtonClick}>지역 개선하기</button>
         </div>

@@ -16,7 +16,7 @@ const ResultDisplay = ({ imageUrl, isLoading, error }) => {
           <img src={imageUrl} alt="Processed Result" style={{ maxWidth: '100%', height: 'auto', marginTop: '20px' }} />
         </div>
       ) : (
-        <p>No result yet. Upload an image, select a mask, and click to process.</p>
+        <p></p>
       )}
     </div>
   );

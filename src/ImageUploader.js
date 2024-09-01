@@ -35,7 +35,7 @@ const ImageUploader = ({ onGenerateMasks }) => {
   };
 
   return (
-    <div className={`image-uploader ${image ? 'image-uploaded' : ''}`}>
+    <div className={`image-uploader ${image ? 'image-uploaded' : ''}`} style={{marginLeft: '30px', marginRight: '30px', marginTop:'80px'}}>
       {!image ? (
         <div className="upload-placeholder">
           <input 
