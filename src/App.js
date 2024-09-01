@@ -15,6 +15,7 @@ function App() {
   const [coordinates, setCoordinates] = useState(null);
   const [selectedButton, setSelectedButton] = useState('');
   const [clickedAddress, setClickedAddress] = useState('');
+  const [geojsonVisible, setGeojsonVisible] = useState(false);
 
   const handleMapClick = (address) => {
     setIsMapClicked(true);
@@ -33,7 +34,10 @@ function App() {
           <Routes>
             <Route path="/" element={
               <>
-                <MapPage onMapClick={handleMapClick} layers={layers} coordinates={coordinates} />
+                <MapPage onMapClick={handleMapClick} 
+                layers={layers} coordinates={coordinates} 
+                geojsonVisible={geojsonVisible}
+                />
                 <SearchAddress 
                   isOpen={isRightBarOpen} 
                   toggleRightBar={toggleRightBar} 
@@ -44,12 +48,12 @@ function App() {
                 <MapBox 
                   setLayers={setLayers}
                   selectedButton={selectedButton}
+                  setGeojsonVisible={setGeojsonVisible}
                   setSelectedButton={setSelectedButton}/>
               </>
             } />
             <Route path="/cpted-ai" element={
               <>
-                
                 <CptedAI />
               </>
             } />
