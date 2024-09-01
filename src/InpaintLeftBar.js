@@ -44,7 +44,7 @@ const InpaintLeftBar = ({ setPrompt, clickedAddress }) => {
             },
             { 
                 korean: '반사경을 설치한다.',
-                english: 'Install a reflective mirror.'
+                english: 'Install a road convex mirror.'
             }
         ]
     };
