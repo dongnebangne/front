@@ -5,17 +5,21 @@ import MapPage from './MapPage';
 import SearchAddress from './SearchAddress';
 import MapBox from './MapBox';
 import CptedAI from './CptedAI';
+import { AddressProvider } from './AddressContext';
 
 function App() {
   const [isRightBarOpen, setIsRightBarOpen] = useState(true);
+  const [isMapClicked, setIsMapClicked] = useState(false);
   const [showCptedSuggest, setShowCptedSuggest] = useState(false);
   const [layers, setLayers] = useState([]);
   const [coordinates, setCoordinates] = useState(null);
-  const [geojsonVisible, setGeojsonVisible] = useState(false);
+  const [selectedButton, setSelectedButton] = useState('');
+  const [clickedAddress, setClickedAddress] = useState('');
 
-  const handleMapClick = () => {
-    setShowCptedSuggest(true);
+  const handleMapClick = (address) => {
+    setIsMapClicked(true);
     setIsRightBarOpen(true);
+    setClickedAddress(address);
   };
 
   const toggleRightBar = () => {
@@ -23,42 +27,36 @@ function App() {
   };
 
   return (
-    <Router>
-      <div className="App">
-        <Routes>
-          <Route path="/" element={
-            <>
-              <MapPage 
-                onMapClick={handleMapClick} 
-                layers={layers} 
-                coordinates={coordinates} 
-                geojsonVisible={geojsonVisible}
-              />
-              <SearchAddress 
-                isOpen={isRightBarOpen} 
-                toggleRightBar={toggleRightBar} 
-                setCoordinates={setCoordinates}
-              />
-              <MapBox 
-                setLayers={setLayers}
-                setGeojsonVisible={setGeojsonVisible} 
-              />
-            </>
-          } />
-          <Route path="/cpted-ai" element={
-            <>
-              <SearchAddress 
-                isOpen={isRightBarOpen} 
-                toggleRightBar={toggleRightBar} 
-                showCptedSuggest={showCptedSuggest} 
-                setCoordinates={setCoordinates}
-              />
-              <CptedAI />
-            </>
-          } />
-        </Routes>
-      </div>
-    </Router>
+    <AddressProvider>
+      <Router>
+        <div className="App">
+          <Routes>
+            <Route path="/" element={
+              <>
+                <MapPage onMapClick={handleMapClick} layers={layers} coordinates={coordinates} />
+                <SearchAddress 
+                  isOpen={isRightBarOpen} 
+                  toggleRightBar={toggleRightBar} 
+                  setCoordinates={setCoordinates}
+                  selectedButton={selectedButton}
+                  isMapClicked={isMapClicked}
+                />
+                <MapBox 
+                  setLayers={setLayers}
+                  selectedButton={selectedButton}
+                  setSelectedButton={setSelectedButton}/>
+              </>
+            } />
+            <Route path="/cpted-ai" element={
+              <>
+                
+                <CptedAI />
+              </>
+            } />
+          </Routes>
+        </div>
+      </Router>
+    </AddressProvider>
   );
 }
 

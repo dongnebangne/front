@@ -182,8 +182,6 @@ const MapPage = ({ onMapClick, layers, coordinates, geojsonVisible }) => {
     <div>
       <div ref={mapElement} style={{ width: '100%', height: '100vh' }}></div>
       {clickedAddress && <CptedSuggest clickedAddress={clickedAddress} />}
-      {clickedAddress && <InpaintLeftBar clickedAddress={clickedAddress} /> }
-
     </div>
   );
 };

@@ -116,7 +116,7 @@ const SearchAddress = ({ isOpen, toggleRightBar, showCptedSuggest, setCoordinate
             <div className='RightBarTitle'>
                 <h3>주소검색</h3>
                 <svg xmlns="http://www.w3.org/2000/svg" width="297" height="3" viewBox="0 0 297 3" fill="none">
-                    <path d="M-4.5 1.5H299.5" stroke="#297F50" stroke-width="2"/>
+                    <path d="M-4.5 1.5H299.5" stroke="#297F50" strokeWidth="2"/>
                 </svg>
             </div>
             <div className="content" style={{ display: 'flex', flexDirection: 'column', height: isMapClicked ? '60%' : '100%' }}>
