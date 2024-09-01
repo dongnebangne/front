@@ -33,14 +33,12 @@ const CptedSuggest = ({ clickedAddress, selectedFeature }) => {
     return (
         <div className="cpted-suggest">
             <h3>{clickedAddress}</h3>
-            <p>에서 많이 일어나는 범죄</p>
+            <p>많이 일어나는 범죄는 <br/> 다음과 같습니다</p>
             <div>
                 {crimeRanks.map((crime, index) => (
                     <p key={index}>{index + 1}위: {crime.type}</p>
                 ))}
             </div>
-            <h4>[CPTED 제안]</h4>
-            <p>범죄를 줄이기 위해 가로등 설치를 제안합니다.</p>
             <button className="cpted-button" onClick={handleButtonClick}>지역 개선하기</button>
         </div>
     );

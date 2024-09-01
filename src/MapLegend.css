@@ -1,0 +1,60 @@
+.legend-container {
+    position: absolute;
+    top: 10px;
+    left: 377px; 
+    flex-shrink: 0;
+    width: 123px;
+    border-radius: 30px;
+    background: linear-gradient(0deg, #FBFFFC 0%, #FBFFFC 100%), #FFFFF9;
+    box-shadow: 0px 1px 1px 0px rgba(255, 255, 255, 0.50), 0px -2px 2px 0px rgba(0, 0, 0, 0.40), 0px 4px 8px 0px rgba(0, 0, 0, 0.35);
+    padding-top: 0px; 
+    padding-bottom: 0px;
+}
+
+.legend-table {
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 12px;
+    margin-bottom: 19px;
+    border-collapse: collapse;
+}
+
+.legend-container h6 {
+    color: #0B4A3C;
+    text-align: center;
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: -0.7px;
+    margin-top: 15px; 
+    margin-bottom: 3px;
+}
+
+.legend-table th, .legend-table td {
+    border: 1px solid #ddd;
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: 12px; 
+    font-style: normal;
+    font-weight: 400;
+    color: #0B4A3C;
+    line-height: normal;
+    letter-spacing: -0.6px;
+}
+
+.color-block {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+}
+  
+.icon {
+    width: 5px;
+    height: 5px;
+    max-width: 100%; 
+    max-height: 100%;
+    object-fit: contain;
+    display: block; 
+    margin: 0 auto;
+}

@@ -16,20 +16,20 @@ export const getWMSLayer = async (category, subcategory) => {
   return data;
 };
 
-export const getLegend = async (layer, style) => {
-  try {
-      const response = await fetch(`/get-legend-url?layer=${layer}&style=${style}`);
-      const data = await response.json();
+export const getLegend = async (layername, styles) => {
+  const url = `${API_BASE_URL}/get-legend/?layer=${encodeURIComponent(layername)}&style=${encodeURIComponent(styles)}`;
 
-      if (response.ok) {
-          return data.legend_url;
-      } else {
-          console.error('Error fetching legend URL:', data.error);
-      }
-  } catch (error) {
-      console.error('Error fetching legend URL:', error);
+  const response = await fetch(url);
+  if (!response.ok) {
+    const text = await response.text();  // 오류 응답 텍스트를 읽음
+    console.error('Error response:', text);
+    throw new Error('Network response was not ok');
   }
+  const data = await response.json();
+  console.log('Legend API response data:', data); // 응답 데이터 구조 확인
+  return data;
 };
+
 
 export const getSido = async () => {
   const response = await fetch(`${API_BASE_URL}/sido/`);
@@ -37,7 +37,7 @@ export const getSido = async () => {
       throw new Error('Failed to fetch sido list');
   }
   const data = await response.json();
-  return data.map(item => item.sido);
+  return data;
 };
 
 export const getSigungu = async (sidoName) => {
@@ -75,8 +75,35 @@ export const getAddress = async (lat, lon) => {
     throw new Error('Failed to fetch address');
   }
   const data = await response.json();
+  console.log('Address data:', data);
   if (data.error) {
     throw new Error(data.error);
   }
   return data.address;
 };
+
+export const getLocations = async () => {
+  const response = await fetch(`${API_BASE_URL}/locations/`);
+  const data = await response.json();
+  console.log('Locations fetched:', data); 
+  return data;
+};
+
+export const getUniversities = async (location) => {
+  const response = await fetch(`${API_BASE_URL}/universities/${encodeURIComponent(location)}/`);
+  const data = await response.json();
+  console.log(`Universities fetched for ${location}:`, data);  // 로그 추가
+  return data;
+};
+
+
+export const getUniversityCoordinates = async (universityName) => {
+  const response = await fetch(`${API_BASE_URL}/university/coordinates/${encodeURIComponent(universityName)}/`);
+  if (!response.ok) {
+      throw new Error('Failed to fetch university coordinates');
+  }
+  const data = await response.json();
+  console.log(`Coordinates fetched for ${universityName}:`, data);  // 좌표 정보 로그 출력
+  return data;
+};
+

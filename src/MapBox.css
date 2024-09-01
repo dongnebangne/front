@@ -1,43 +1,85 @@
 .mapBox {
-    position: fixed;
-    top: 0;
-    background-color: #fff;
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    z-index: 2;
-    width: 270px;
-    height: 300px;
+    position: absolute;
+    top: 15px;
+    left: 22px;
+    width: 332px;
+    height: 348px;
+    flex-shrink: 0;
+    border-radius: 30px;
+    background: #FBFFFC;
+    box-shadow: 0px -2px 1px 0px rgba(0, 0, 0, 0.40), 0px 4px 8px 0px rgba(0, 0, 0, 0.35);
+    z-index: 1000;
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    gap: 22px;
 }
 
 .mapBox h2 {
-    margin-bottom: 10px;
+    color: #297F50;
+    text-align: right;
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 17px; 
+    letter-spacing: -0.6px;
+    margin-left: 27px;
+    margin-top: 62px;
+}
+
+.mapBox img {
+    width: 173px;
+    height: 43px;
+    flex-shrink: 0;
+    margin-top: 32px;
 }
 
 .button-container {
     display: flex;
-    flex-direction: column;
-    margin-top: 10%;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 90%; 
+    padding: 0 18px;
+    margin-top: 24px;
 }
 
 .map-button {
-    margin-bottom: 10px;
-    padding: 10px 20px;
-    background-color: rgba(45, 180, 0, 0.24);
-    color: #000000;
-    border: none;
-    border-radius: 30px;
+    display: flex;
+    height: 60px;
+    padding: 20px 24.5px 23px 24.5px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 60px;
+    background: #FFFAE0;
+    box-shadow: 0px 1px 1px 0px rgba(242, 255, 227, 0.50), 0px -1px 1px 0px rgba(0, 0, 0, 0.25), 0px 1px 1px 0px rgba(0, 0, 0, 0.25);
+    color: #0B4A3C;
+    text-align: center;
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.6px;
+
+    border-radius: 60px;
+    
+    
+    text-align: center;
+    word-wrap: break-word;
+    width: 140px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    width: 100%; /* 버튼의 너비를 100%로 설정하여 부모 컨테이너에 맞춤 */
-    height: 50px;
 }
 
 .map-button:hover {
-    background-color: #2DB400;
+    background-color: #F8EDB2;
 }
 
 .map-button.selected {
-    background-color: #2DB400;
-    color: #ffffff;
+    background-color: #F8EDB2;
 }
+

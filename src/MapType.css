@@ -1,25 +1,49 @@
 .modal-container {
+    /*
     display: flex;
     justify-content: center;
     align-items: flex-start; 
-    z-index: 1;
-    position: fixed;
-    top: 320px;
-    margin-right: 20px;
+    */
+    z-index: 500;
+    position: absolute;
+    top: 374px;
+    left: 22px;
+    width: 146px;
+    flex-shrink: 0;
+    border-radius: 30px;
+    background: linear-gradient(0deg, #FBFFFC 0%, #FBFFFC 100%), #FFFFF9;
+    box-shadow: 0px 1px 1px 0px rgba(255, 255, 255, 0.50), 0px -2px 2px 0px rgba(0, 0, 0, 0.40), 0px 4px 8px 0px rgba(0, 0, 0, 0.35);
 }
 
 .modal-header {
     display: flex;
-    justify-content: center;
+    justify-content: space-between; 
     align-items: center;
-    margin-bottom: 5px;
+    gap: 12px;
+    padding-right: 9px;
 }
 
 .modal-header h5 {
-    margin: 5px; 
-    padding: 5px; 
+    color: #0B4A3C;
+    text-align: center;
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: -0.7px; 
+    margin-left: 25px;
+    margin-bottom: 3px;
 }
 
+.modal-header img {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    margin-bottom: 5px;
+}
+
+/*
 .modal-content {
     background: white;
     padding: 10px;
@@ -27,45 +51,56 @@
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     width: 140px;
 }
-
-.modal-divider {
-    margin: 8px 0;
-    border: 0;
-    border-top: 1px solid #ccc;
-}
+    */
 
 .checkbox-container {
     display: flex;
     flex-direction: column;
+    gap: 12px;
+    padding-top: 15px;
+    padding-bottom: 28px;
 }
 
+/*
 .checkbox-item {
     margin-bottom: 10px;
-}
+}*/
 
 .checkbox-item label {
-    font-size: 12px; 
+    font-size: 12px;
+    color: #0B4A3C;
+    font-family: "Noto Sans KR", sans-serif;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.6px;
+    width: 57px; /* Figma에서 제공한 너비를 적용 */
+    display: inline-block; /* 너비를 적용하기 위해 inline-block 사용 */
 }
 
-.close-icon {
-    width: 12px;
-    height: 12px;
+.checkbox-item input[type="radio"] {
+    appearance: none; /* 기본 체크박스 스타일 제거 */
+    width: 16px;
+    height: 16px;
+    border: 2px solid #297F50; /* 테두리 색상 설정 */
+    border-radius: 50%;
+    outline: none;
     cursor: pointer;
+    position: relative;
+}
+
+.checkbox-item input[type="radio"]:checked {
+    background-color: #FFFFFF; /* 선택된 상태일 때 색상 설정 */
+}
+
+.checkbox-item input[type="radio"]:checked::after {
+    content: '';
+    display: block;
+    width: 8px;
+    height: 8px;
+    background-color: #297F50; /* 내부 점의 색상 설정 */
+    border-radius: 50%;
     position: absolute;
-    top: 15px; 
-    right: 10px; 
-}
-
-.legend-container {
-    margin-top: 20px;
-}
-
-.legend-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.legend-table td {
-    padding: 5px;
-    border: 1px solid #ddd;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
