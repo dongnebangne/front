@@ -110,9 +110,6 @@ const SearchAddress = ({ isOpen, toggleRightBar, showCptedSuggest, setCoordinate
 
     return (
         <div className={`search-bar ${isOpen ? 'open' : 'closed'}`}>
-            <div className="toggle-button" onClick={toggleRightBar}>
-                <ArrowBackIosIcon className='handle'/>
-            </div>
             <div className='RightBarTitle'>
                 <h3>주소검색</h3>
                 <svg xmlns="http://www.w3.org/2000/svg" width="297" height="3" viewBox="0 0 297 3" fill="none">
@@ -122,7 +119,7 @@ const SearchAddress = ({ isOpen, toggleRightBar, showCptedSuggest, setCoordinate
             <div className="content" style={{ display: 'flex', flexDirection: 'column', height: isMapClicked ? '60%' : '100%' }}>
                 {selectedButton === '자취촌범죄주의구간' ? (
                     <div className="content" style={{ display: 'flex' }}>
-                        <div className="list-container" style={{ flex: 1 }}>
+                        <div className="list-container left-list"> {/* 왼쪽 리스트에 선 추가 */}
                             <p className="list-name">시/도</p>
                             <List component="nav" aria-label="location-list">
                                 {locationList.map((location, index) => (
@@ -131,12 +128,12 @@ const SearchAddress = ({ isOpen, toggleRightBar, showCptedSuggest, setCoordinate
                                         selected={selectedLocation === location}
                                         onClick={() => handleLocationChange(location)}
                                     >
-                                        <ListItemText primary={location} />
+                                        <ListItemText primary={location} className="custom-text"/>
                                     </ListItemButton>
                                 ))}
                             </List>
                         </div>
-                        <div className="list-container" style={{ flex: 1 }}>
+                        <div className="list-container">
                             <p className="list-name">대학명</p>
                             <List component="nav" aria-label="university-list">
                                 {universityList.map((university, index) => (
@@ -145,7 +142,7 @@ const SearchAddress = ({ isOpen, toggleRightBar, showCptedSuggest, setCoordinate
                                         selected={selectedUniversity === university.univ_name}
                                         onClick={() => handleUniversityChange(university.univ_name)}
                                     >
-                                        <ListItemText primary={university.univ_name} />
+                                        <ListItemText primary={university.univ_name} className="custom-text"/>
                                     </ListItemButton>
                                 ))}
                             </List>
@@ -153,7 +150,7 @@ const SearchAddress = ({ isOpen, toggleRightBar, showCptedSuggest, setCoordinate
                     </div>
                 ) : (
                     <div className="content" style={{ display: 'flex' }}>
-                        <div className="list-container" style={{ flex: 1 }}>
+                        <div className="list-container left-list"> {/* 왼쪽 리스트에 선 추가 */}
                             <p className="list-name">시/도</p>
                             <List component="nav" aria-label="city-list">
                                 {sidoList.map((city, index) => (
@@ -162,12 +159,12 @@ const SearchAddress = ({ isOpen, toggleRightBar, showCptedSuggest, setCoordinate
                                         selected={selectedSido === city}
                                         onClick={() => handleSidoChange(city)}
                                     >
-                                        <ListItemText primary={city} />
+                                        <ListItemText primary={city} className="custom-text"/>
                                     </ListItemButton>
                                 ))}
                             </List>
                         </div>
-                        <div className="list-container" style={{ flex: 1 }}>
+                        <div className="list-container">
                             <p className="list-name">시/군/구</p>
                             <List component="nav" aria-label="district-list">
                                 {sigunguList.map((district, index) => (
@@ -176,12 +173,12 @@ const SearchAddress = ({ isOpen, toggleRightBar, showCptedSuggest, setCoordinate
                                         selected={selectedSigungu === district}
                                         onClick={() => handleSigunguChange(district)}
                                     >
-                                        <ListItemText primary={district} />
+                                        <ListItemText primary={district} className="custom-text"/>
                                     </ListItemButton>
                                 ))}
                             </List>
                         </div>
-                        <div className="list-container" style={{ flex: 1 }}>
+                        <div className="list-container">
                             <p className="list-name">읍/면/동</p>
                             <List component="nav" aria-label="town-list">
                                 {emdongList.map((town, index) => (
@@ -190,7 +187,7 @@ const SearchAddress = ({ isOpen, toggleRightBar, showCptedSuggest, setCoordinate
                                         selected={selectedEmdong === town}
                                         onClick={() => handleEmdongChange(town)}
                                     >
-                                        <ListItemText primary={town} />
+                                        <ListItemText primary={town} className="custom-text"/>
                                     </ListItemButton>
                                 ))}
                             </List>

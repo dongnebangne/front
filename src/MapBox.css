@@ -55,7 +55,9 @@
     align-items: center;
     border-radius: 60px;
     background: #FFFAE0;
+    
     box-shadow: 0px 1px 1px 0px rgba(242, 255, 227, 0.50), 0px -1px 1px 0px rgba(0, 0, 0, 0.25), 0px 1px 1px 0px rgba(0, 0, 0, 0.25);
+    border: none;
     color: #0B4A3C;
     text-align: center;
     font-family: "Noto Sans KR", sans-serif;
@@ -65,15 +67,13 @@
     line-height: normal;
     letter-spacing: -0.6px;
 
-    border-radius: 60px;
-    
-    
     text-align: center;
     word-wrap: break-word;
     width: 140px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
+
 
 .map-button:hover {
     background-color: #F8EDB2;
