@@ -186,4 +186,3 @@ const MapPage = ({ onMapClick, layers, coordinates, geojsonVisible }) => {
 };
 
 export default MapPage;
-
