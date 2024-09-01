@@ -6,7 +6,7 @@
     padding: 20px;
     border: 2px dashed #007744; /* 초록색 점선 테두리 */
     border-radius: 10px;
-    background-color: #f9f9f9;
+    /*background-color: #f9f9f9;*/
     height: 300px;
 }
 
@@ -43,3 +43,9 @@
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+.image-container {
+    background: none; /* 배경 색상 제거 */
+    padding: 0; /* 불필요한 패딩 제거 */
+    margin: 0; /* 불필요한 마진 제거 */
+    border: none; /* 불필요한 테두리 제거 */
+  }

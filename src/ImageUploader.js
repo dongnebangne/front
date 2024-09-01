@@ -35,7 +35,7 @@ const ImageUploader = ({ onGenerateMasks }) => {
   };
 
   return (
-    <div className={`image-uploader ${image ? 'image-uploaded' : ''}`} style={{marginLeft: '30px', marginRight: '30px', marginTop:'80px'}}>
+    <div className={`image-uploader ${image ? 'image-uploaded' : ''}`} style={{ marginLeft: '30px', marginRight: '30px', marginTop: '80px' }}>
       {!image ? (
         <div className="upload-placeholder">
           <input 
@@ -51,7 +51,7 @@ const ImageUploader = ({ onGenerateMasks }) => {
           </label>
         </div>
       ) : (
-        <div className="image-container" style={{ position: 'relative', display: 'inline-block' }}>
+        <div className="image-container" style={{ position: 'relative', display: 'inline-block', background: 'none', textAlign: 'center' }}>
           <img
             src={URL.createObjectURL(image)}
             alt="Uploaded"
@@ -78,6 +78,8 @@ const ImageUploader = ({ onGenerateMasks }) => {
             style={{ 
               display: 'block', 
               marginTop: '20px', 
+              marginLeft: 'auto',
+              marginRight: 'auto',
               backgroundColor: selectedPoint ? '#f0ad4e' : '#ccc', 
               color: 'white', 
               padding: '10px 20px',

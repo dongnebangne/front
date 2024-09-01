@@ -59,7 +59,7 @@ const InpaintLeftBar = ({ setPrompt, clickedAddress }) => {
 
     return (
         <div className="left-bar">
-            <img src="/safecid_logo.svg" style={{ width: '100%', maxWidth: '150px', marginBottom: '20px' }} alt="Safe Sid Logo" />
+            <img src="/Layer_1.svg" style={{ width: '100%', maxWidth: '150px', marginBottom: '20px' }} alt="Safe Sid Logo" />
             <div className="address-box">
                 <p>{clickedAddress}</p>
             </div>
@@ -116,7 +116,13 @@ const InpaintLeftBar = ({ setPrompt, clickedAddress }) => {
                 </p>
             </div>
             <div className="recommendation">
-                <h4>CPTED 제안</h4>
+                <div className="recommendation-header">
+                    <h4>CPTED 제안</h4>
+                    <div className="suggestion-button">
+                        <img src="/PromptVector.svg" alt="Prompt Button" className="svg-button" />
+                        <span className="suggestion-text">추천 프롬프트</span>
+                    </div>
+                </div>
                 <ul>
                     {suggestions[selectedCrime].map((suggestion, index) => (
                         <li 

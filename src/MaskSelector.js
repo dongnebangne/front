@@ -25,11 +25,9 @@ const MaskSelector = ({ masks, onInpaint, prompt, setPrompt }) => {
   };
 
   return (
-    <div className="mask-selector" style={{marginTop: '80px'}}>
+    <div className="mask-selector" style={{ marginTop: '80px' }}>
       <div className="mask-images" style={{ textAlign: 'center' }}>
-        {selectedMaskIdx === null ? (
-          <p style={{ fontSize: '18px', color: '#555' }}>다음 중 원하는 마스크 이미지를 선택하세요.</p>
-        ) : null}
+        
         
         {masks.map((mask, idx) => (
           <img
@@ -39,17 +37,19 @@ const MaskSelector = ({ masks, onInpaint, prompt, setPrompt }) => {
             onClick={() => handleMaskSelect(idx)}
             style={{
               cursor: 'pointer',
-              border: selectedMaskIdx === idx ? '3px solid blue' : 'none',
               margin: '10px',
-              maxWidth: '30%',
+              maxWidth: selectedMaskIdx === idx ? '60%' : '30%', // 선택된 이미지는 더 크게, 선택되지 않은 이미지는 작게 표시
               boxShadow: selectedMaskIdx === idx ? '0px 0px 10px rgba(0, 0, 255, 0.5)' : 'none',
-              transition: 'transform 0.2s',
-              transform: selectedMaskIdx === idx ? 'scale(1.05)' : 'scale(1)',
+              transition: 'transform 0.2s, max-width 0.2s', // 크기 변경 시 부드러운 전환을 위해 transform과 max-width에 트랜지션 추가
+              transform: selectedMaskIdx === idx ? 'scale(1.1)' : 'scale(0.9)', // 선택된 이미지는 약간 확대, 선택되지 않은 이미지는 축소
             }}
           />
         ))}
+        {selectedMaskIdx === null ? (
+          <p style={{ fontSize: '18px', color: '#555' }}>다음 중 원하는 마스크 이미지를 선택하세요.</p>
+        ) : null}
       </div>
-      
+
       {selectedMaskIdx !== null && (
         <>
           <input
@@ -59,7 +59,7 @@ const MaskSelector = ({ masks, onInpaint, prompt, setPrompt }) => {
             onChange={(e) => setPrompt(e.target.value)}
             style={{
               backgroundColor: '#E6E6E6',
-            boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.25) inset',
+              boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.25) inset',
               marginTop: '20px',
               marginLeft: '30px',
               marginRight: '30px',
@@ -86,7 +86,8 @@ const MaskSelector = ({ masks, onInpaint, prompt, setPrompt }) => {
               border: 'none',
               cursor: 'pointer',
               fontSize: '16px',
-              boxShadow: '0px 1px 1px rgba(0, 0, 0, 0.25)'
+              boxShadow: '0px 1px 1px rgba(0, 0, 0, 0.25)',
+              color: '#3E3D3D',
             }}
           >
              &gt; 이미지 처리하기

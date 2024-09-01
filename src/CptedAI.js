@@ -5,6 +5,7 @@ import { API_BASE_URL } from './api-config';
 import MaskSelector from './MaskSelector';
 import InpaintLeftBar from './InpaintLeftBar';  // Import the sidebar
 import { AddressContext } from './AddressContext';
+import { PulseLoader } from 'react-spinners';
 
 const CptedAI = () => {
   const [masks, setMasks] = useState([]);
@@ -67,7 +68,7 @@ const CptedAI = () => {
   };
 
   return (
-    <div className="cpted-ai-container" style={{ display: 'flex', marginRight: '30px', marginBottom: '100px'}}>
+    <div className="cpted-ai-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '85vh', marginRight: '30px', marginBottom: '100px'}}>
       <InpaintLeftBar setPrompt={setPrompt} clickedAddress={clickedAddress}/> {/* setPrompt 전달 */}
       <div className="cpted-ai-content" style={{ flex: 1, padding: '20px' }}>
         <h2 style={{ textAlign: 'left', paddingLeft: '30px' }}>지역 개선하기</h2>
@@ -80,10 +81,16 @@ const CptedAI = () => {
         CTED 디자인을 적용하고 싶은 지역의 이미지를 업로드 후 원하는 CPTED 디자인을 작성해주세요!
         </p>
         {!masks.length && <ImageUploader onGenerateMasks={handleGenerateMasks} />}
-        {masks.length > 0 && (
+        {masks.length > 0 && !processedImageUrl && (
           <MaskSelector masks={masks} onInpaint={handleInpaint} prompt={prompt} setPrompt={setPrompt} />
         )}
-        {loading ? <p>Processing...</p> : <ResultDisplay imageUrl={processedImageUrl} isLoading={loading} />}
+        {loading ? (
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100px' }}>
+            <PulseLoader color={"#36D7B7"} loading={loading} size={15} />
+          </div>
+        ) : (
+          processedImageUrl && <ResultDisplay imageUrl={processedImageUrl} isLoading={loading} />
+        )}
       </div>
     </div>
   );

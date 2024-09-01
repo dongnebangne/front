@@ -8,7 +8,7 @@
     flex-direction: column;
     justify-content: flex-start; /* 수직 정렬을 위쪽으로 시작하게 설정 */
     align-items: center; /* 수평 정렬 */
-    padding-top: 150px; /* 위쪽에 더 많은 패딩을 추가해 조금 더 위로 올림 */
+    padding-top: 400px; /* 위쪽에 더 많은 패딩을 추가해 조금 더 위로 올림 */
 }
 
 .CPTEDlogo {
@@ -67,11 +67,41 @@
     width: 100%; /* recommendation의 가로 너비를 맞추기 위해 추가 */
 }
 
+.recommendation-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px; /* 기존 10px에서 5px으로 수정 */
+    padding: 0; /* 추가: 여백을 줄이기 위해 패딩 제거 */
+}
+
+.suggestion-button {
+    position: relative;
+    display: inline-block;
+    margin-left: 5px; /* 'CPTED 제안' 텍스트와 버튼 간격 조정 */
+    margin-right: 65px;
+}
+
+.svg-button {
+    width: 120px; /* SVG의 크기를 조정 */
+    height: auto;
+}
+
+.suggestion-text {
+    position: absolute;
+    top: 25%;
+    left: 23%;
+    font-size: 12px;
+    color: #000;
+
+}
+
 .recommendation h4 {
     margin-top: 20px;
     font-size: 18px;
-    color: #007744;
-    text-align: left;
+    color: black;
+    text-align: center;
+    margin-left: 10px;
 }
 
 .recommendation ul {
