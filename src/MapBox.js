@@ -1,3 +1,5 @@
+// Mapbox.js
+
 import React, { useState, useEffect } from 'react';
 import './MapBox.css';
 import './MapLegend.css';
@@ -38,15 +40,12 @@ const descriptions = {
     `
 };
 
-<<<<<<< HEAD
 const MapBox = ({ setLayers, setGeojsonVisible }) => {
-=======
-const MapBox = ({ setLayers, selectedButton, setSelectedButton }) => {
->>>>>>> 348d1f7dae29dad0199031499f4d53174e817a1a
     const [modalVisible, setModalVisible] = useState(false);
     const [infoModalVisible, setInfoModalVisible] = useState(false);
     const [modalTitle, setModalTitle] = useState('');
     const [modalOptions, setModalOptions] = useState([]);
+    const [selectedButton, setSelectedButton] = useState('');
     const [selectedOption, setSelectedOption] = useState('');
     const [infoTitle, setInfoTitle] = useState('');
     const [infoDescription, setInfoDescription] = useState('');
@@ -62,24 +61,9 @@ const MapBox = ({ setLayers, selectedButton, setSelectedButton }) => {
     }, [legendData]);
 
     const handleButtonClick = (title, options) => {
-<<<<<<< HEAD
         resetLayers(); // 기존 레이어 초기화
         setSelectedButton(title);
         setLegendData(null);
-=======
-      setSelectedButton(title);
-      setLegendData(null);
-      if (options) {
-        setModalTitle(title);
-        setModalOptions(options);
-        setModalVisible(true);
-      }else {
-        setModalVisible(false);
-      }
-      setInfoTitle(title);
-      setInfoDescription(descriptions[title]);
-      setInfoModalVisible(true);
->>>>>>> 348d1f7dae29dad0199031499f4d53174e817a1a
 
         if (options) {
             setModalTitle(title);
@@ -118,23 +102,9 @@ const MapBox = ({ setLayers, selectedButton, setSelectedButton }) => {
     };
 
     const handleSimpleButtonClick = async (title) => {
-<<<<<<< HEAD
         resetLayers(); // 기존 레이어 초기화
         setSelectedButton(title);
         setModalVisible(false);
-=======
-      setSelectedButton(title);
-      setLegendData(null);
-      setModalVisible(false);
-      setInfoTitle(title);
-      setInfoDescription(descriptions[title]);
-      setInfoModalVisible(true);
-  
-      try {
-        const layers = await getWMSLayer(title);
-        console.log('Layers received:', layers); 
-        setLayers(layers);
->>>>>>> 348d1f7dae29dad0199031499f4d53174e817a1a
 
         setInfoTitle(title);
         setInfoDescription(descriptions[title]);
@@ -161,7 +131,6 @@ const MapBox = ({ setLayers, selectedButton, setSelectedButton }) => {
     };
 
     return (
-<<<<<<< HEAD
         <div className="mapBox-container">
             <div className="mapBox">
                 <div className="header-container">
@@ -238,75 +207,10 @@ const MapBox = ({ setLayers, selectedButton, setSelectedButton }) => {
                 {legendData && (
                     <MapLegend legendData={legendData} />
                 )}
-=======
-      <div className="mapBox-container">
-        <div className="mapBox">
-          <div class="header-container">
-            <h2>우리동네 안전지도</h2>
-            <img src="/safecid_logo.svg" alt="SafeCid Logo"></img>
-          </div>
-          <svg xmlns="http://www.w3.org/2000/svg" width="298" height="2" viewBox="0 0 298 2" fill="none">
-            <path d="M1 1L297 1.00003" stroke="#297F50" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-          <div className="button-container">
-            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 2 }}>
-              <Grid item xs={6}>
-                <button
-                  className={`map-button ${selectedButton === '범죄주의구간' ? 'selected' : ''}`}
-                  onClick={() => handleButtonClick('범죄주의구간', ['전체', '강도', '성폭력', '절도', '폭력'])}>
-                  범죄주의구간
-                </button>
-              </Grid>
-              <Grid item xs={6}>
-                <button
-                  className={`map-button ${selectedButton === '자취촌범죄주의구간' ? 'selected' : ''}`}
-                  onClick={() => handleButtonClick('자취촌범죄주의구간', ['전체', '폭력', '절도', '성폭력'])}>
-                  자취촌 <br />범죄주의구간
-                </button>
-              </Grid>
-              <Grid item xs={6}>
-                <button
-                  className={`map-button ${selectedButton === '노인대상범죄주의구간' ? 'selected' : ''}`}
-                  onClick={() => handleSimpleButtonClick('노인대상범죄주의구간')}>
-                  노인 대상 <br />범죄주의구간
-                </button>
-              </Grid>
-              <Grid item xs={6}>
-                <button
-                  className={`map-button ${selectedButton === '어린이대상범죄주의구간' ? 'selected' : ''}`}
-                  onClick={() => handleSimpleButtonClick('어린이대상범죄주의구간')}>
-                  어린이 대상<br /> 범죄주의구간
-                </button>
-              </Grid>
-              <Grid item xs={6}>
-                <button
-                  className={`map-button ${selectedButton === '치안사고통계' ? 'selected' : ''}`}
-                  onClick={() => handleButtonClick('치안사고통계', ['전체', '마약', '살인', '도박', '강도', '성폭력', '절도', '약취/유인', '폭력', '방화'])}>
-                  치안사고통계
-                </button>
-              </Grid>
-              <Grid item xs={6}>
-                <button
-                  className={`map-button ${selectedButton === '여성밤길치안안전' ? 'selected' : ''}`}
-                  onClick={() => handleButtonClick('여성밤길치안안전', ['전체', '성폭력', '폭력', '절도', '강도'])}>
-                  여성 밤길 <br />치안안전
-                </button>
-              </Grid>
-            </Grid>
-          </div>
-          {modalVisible && (
-            <div className="modal-container">
-              <MapType
-                title={modalTitle}
-                options={modalOptions}
-                onClose={() => setModalVisible(false)}
-                onOptionChange={handleOptionChange}
-                selectedOption={selectedOption}
-              />
->>>>>>> 348d1f7dae29dad0199031499f4d53174e817a1a
             </div>
         </div>
     );
 };
 
 export default MapBox;
+
