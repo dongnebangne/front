@@ -11,7 +11,7 @@ const MapType = ({ title, options, onClose, onOptionChange, selectedOption }) =>
                     <img src="/close_icon.svg" alt="Close" className="close-icon" onClick={onClose} />
                 </div>
                 <svg xmlns="http://www.w3.org/2000/svg" width="146" height="2" viewBox="0 0 146 2" fill="none">
-                    <path d="M0 1H146" stroke="#297F50" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M0 1H146" stroke="#297F50" strokeWidth="2" strokeLinecap="round"/>
                 </svg>
                 <div className="checkbox-container">
                     {options.map((option, index) => (

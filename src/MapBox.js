@@ -119,12 +119,12 @@ const MapBox = ({ setLayers, selectedButton, setSelectedButton }) => {
     return (
       <div className="mapBox-container">
         <div className="mapBox">
-          <div class="header-container">
+          <div className="header-container">
             <h2>우리동네 안전지도</h2>
             <img src="/safecid_logo.svg" alt="SafeCid Logo"></img>
           </div>
           <svg xmlns="http://www.w3.org/2000/svg" width="298" height="2" viewBox="0 0 298 2" fill="none">
-            <path d="M1 1L297 1.00003" stroke="#297F50" stroke-width="2" stroke-linecap="round"/>
+            <path d="M1 1L297 1.00003" stroke="#297F50" strokeWidth="2" strokeLinecap="round"/>
           </svg>
           <div className="button-container">
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 2 }}>
