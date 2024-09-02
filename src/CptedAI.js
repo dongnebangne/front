@@ -78,7 +78,7 @@ const CptedAI = () => {
         <br/>
         CPTED는 Crime Prevention Through Environmental Design의 약자로 "범죄 예방 환경 설계"를 의미합니다.
         <br/>
-        CTED 디자인을 적용하고 싶은 지역의 이미지를 업로드 후 원하는 CPTED 디자인을 작성해주세요!
+        CPTED 디자인을 적용하고 싶은 지역의 이미지를 업로드 후 원하는 CPTED 디자인을 작성해주세요!
         </p>
         {!masks.length && <ImageUploader onGenerateMasks={handleGenerateMasks} />}
         {masks.length > 0 && !processedImageUrl && (

@@ -17,6 +17,7 @@
     margin-top: 12px;
     margin-bottom: 19px;
     border-collapse: collapse;
+    text-align: center; 
 }
 
 .legend-container h6 {
@@ -41,6 +42,8 @@
     color: #0B4A3C;
     line-height: normal;
     letter-spacing: -0.6px;
+    text-align: center;  
+    vertical-align: middle;
 }
 
 .color-block {
@@ -50,11 +53,11 @@
 }
   
 .icon {
-    width: 5px;
-    height: 5px;
-    max-width: 100%; 
-    max-height: 100%;
+    width: 25px !important; 
+    height: 25px !important; 
     object-fit: contain;
-    display: block; 
+    margin-bottom: 4px;
+    display: block;
     margin: 0 auto;
+    margin-bottom: 18px;
 }

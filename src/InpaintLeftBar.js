@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./InpaintLeftBar.css"; // Import a separate CSS file for styling
 
 const InpaintLeftBar = ({ setPrompt, clickedAddress }) => {
-    const [selectedCrime, setSelectedCrime] = useState('절도'); // 기본 선택은 절도
+    const [selectedCrime, setSelectedCrime] = useState('성폭력'); // 기본 선택은 절도
 
     const suggestions = {
         '절도': [
@@ -68,29 +68,29 @@ const InpaintLeftBar = ({ setPrompt, clickedAddress }) => {
                 <ul>
                     <li>
                         <button 
-                            className={`crime-button ${selectedCrime === '절도' ? 'active' : ''}`}
-                            onClick={() => handleCrimeClick('절도')}
-                        >
-                            <span>1위:</span> 절도
-                            <input
-                                type="radio"
-                                name="crime"
-                                checked={selectedCrime === '절도'}
-                                onChange={() => handleCrimeClick('절도')}
-                            />
-                        </button>
-                    </li>
-                    <li>
-                        <button 
                             className={`crime-button ${selectedCrime === '성폭력' ? 'active' : ''}`}
                             onClick={() => handleCrimeClick('성폭력')}
                         >
-                            <span>2위:</span> 성폭력
+                            <span>1위:</span> 성폭력
                             <input
                                 type="radio"
                                 name="crime"
                                 checked={selectedCrime === '성폭력'}
                                 onChange={() => handleCrimeClick('성폭력')}
+                            />
+                        </button>
+                    </li>
+                    <li>
+                        <button 
+                            className={`crime-button ${selectedCrime === '절도' ? 'active' : ''}`}
+                            onClick={() => handleCrimeClick('절도')}
+                        >
+                            <span>2위:</span> 절도
+                            <input
+                                type="radio"
+                                name="crime"
+                                checked={selectedCrime === '절도'}
+                                onChange={() => handleCrimeClick('절도')}
                             />
                         </button>
                     </li>
