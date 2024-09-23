@@ -3,7 +3,7 @@ import ImageUploader from './ImageUploader';
 import ResultDisplay from './ResultDisplay';
 import { API_BASE_URL } from './api-config';
 import MaskSelector from './MaskSelector';
-import InpaintLeftBar from './InpaintLeftBar';  // Import the sidebar
+import InpaintLeftBar from './InpaintLeftBar'; 
 import { AddressContext } from './AddressContext';
 import { PulseLoader } from 'react-spinners';
 
@@ -11,7 +11,7 @@ const CptedAI = () => {
   const [masks, setMasks] = useState([]);
   const [processedImageUrl, setProcessedImageUrl] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [prompt, setPrompt] = useState(''); // 프롬프트 상태 추가
+  const [prompt, setPrompt] = useState(''); 
   const { clickedAddress } = useContext(AddressContext);
 
   const handleGenerateMasks = async (image, point) => {
@@ -67,9 +67,34 @@ const CptedAI = () => {
     }
   };
 
+  const handleRemove = async (selectedMaskIdx) => {
+    setLoading(true);
+    const formData = new FormData();
+    formData.append('selected_mask_idx', selectedMaskIdx);
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/remove-object/`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('Server error');
+      }
+
+      const data = await response.json();
+      setProcessedImageUrl(`${API_BASE_URL}${data.removed_image_url}`);
+    } catch (error) {
+      console.error('Error removing object:', error);
+      alert('An error occurred while removing the object. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="cpted-ai-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '85vh', marginRight: '30px', marginBottom: '100px'}}>
-      <InpaintLeftBar setPrompt={setPrompt} clickedAddress={clickedAddress}/> {/* setPrompt 전달 */}
+      <InpaintLeftBar setPrompt={setPrompt} clickedAddress={clickedAddress}/> 
       <div className="cpted-ai-content" style={{ flex: 1, padding: '20px' }}>
         <h2 style={{ textAlign: 'left', paddingLeft: '30px' }}>지역 개선하기</h2>
         <hr style={{marginLeft: '30px', background: 'rgba(41, 127, 80, 0.40)', height: '1px'}}/>
@@ -82,7 +107,7 @@ const CptedAI = () => {
         </p>
         {!masks.length && <ImageUploader onGenerateMasks={handleGenerateMasks} />}
         {masks.length > 0 && !processedImageUrl && (
-          <MaskSelector masks={masks} onInpaint={handleInpaint} prompt={prompt} setPrompt={setPrompt} />
+          <MaskSelector masks={masks} onInpaint={handleInpaint} onRemove={handleRemove} prompt={prompt} setPrompt={setPrompt} />
         )}
         {loading ? (
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100px' }}>

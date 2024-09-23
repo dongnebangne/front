@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { API_BASE_URL } from './api-config';
 
-const MaskSelector = ({ masks, onInpaint, prompt, setPrompt }) => {
+const MaskSelector = ({ masks, onInpaint, onRemove, prompt, setPrompt }) => {
   const [selectedMaskIdx, setSelectedMaskIdx] = useState(null);
 
   useEffect(() => {
@@ -16,9 +16,17 @@ const MaskSelector = ({ masks, onInpaint, prompt, setPrompt }) => {
   };
 
   const handleInpaint = () => {
-    if (selectedMaskIdx !== null) {
+    if (selectedMaskIdx !== null && prompt) {
       onInpaint(selectedMaskIdx, prompt);
       setPrompt(''); // 작업 후 프롬프트 초기화
+    } else {
+      alert('프롬프트를 입력해 주세요.');
+    }
+  };
+
+  const handleRemove = () => {
+    if (selectedMaskIdx !== null) {
+      onRemove(selectedMaskIdx); // remove action 수행
     } else {
       alert('마스크를 선택해 주세요.');
     }
@@ -27,21 +35,19 @@ const MaskSelector = ({ masks, onInpaint, prompt, setPrompt }) => {
   return (
     <div className="mask-selector" style={{ marginTop: '80px' }}>
       <div className="mask-images" style={{ textAlign: 'center' }}>
-        
-        
         {masks.map((mask, idx) => (
           <img
             key={idx}
-            src={`${API_BASE_URL}${mask.masked_image_url}`} // 올바른 경로로 수정
+            src={`${API_BASE_URL}${mask.masked_image_url}`}
             alt={`Masked Image ${idx}`}
             onClick={() => handleMaskSelect(idx)}
             style={{
               cursor: 'pointer',
               margin: '10px',
-              maxWidth: selectedMaskIdx === idx ? '60%' : '30%', // 선택된 이미지는 더 크게, 선택되지 않은 이미지는 작게 표시
+              maxWidth: selectedMaskIdx === idx ? '60%' : '30%',
               boxShadow: selectedMaskIdx === idx ? '0px 0px 10px rgba(0, 0, 255, 0.5)' : 'none',
-              transition: 'transform 0.2s, max-width 0.2s', // 크기 변경 시 부드러운 전환을 위해 transform과 max-width에 트랜지션 추가
-              transform: selectedMaskIdx === idx ? 'scale(1.1)' : 'scale(0.9)', // 선택된 이미지는 약간 확대, 선택되지 않은 이미지는 축소
+              transition: 'transform 0.2s, max-width 0.2s',
+              transform: selectedMaskIdx === idx ? 'scale(1.1)' : 'scale(0.9)',
             }}
           />
         ))}
@@ -54,7 +60,7 @@ const MaskSelector = ({ masks, onInpaint, prompt, setPrompt }) => {
         <>
           <input
             type="text"
-            placeholder="프롬프트를 입력하세요."
+            placeholder="추천 프롬프트를 클릭하세요."
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
             style={{
@@ -72,26 +78,44 @@ const MaskSelector = ({ masks, onInpaint, prompt, setPrompt }) => {
               boxSizing: 'border-box',
             }}
           />
-          <button
-            onClick={handleInpaint}
-            style={{
-              display: 'block',
-              marginTop: '20px',
-              marginLeft: 'auto',
-              marginRight: 'auto',
-              backgroundColor: '#F7CF6B',
-              color: 'black',
-              padding: '10px 20px',
-              borderRadius: '20px',
-              border: 'none',
-              cursor: 'pointer',
-              fontSize: '16px',
-              boxShadow: '0px 1px 1px rgba(0, 0, 0, 0.25)',
-              color: '#3E3D3D',
-            }}
-          >
-             &gt; 이미지 처리하기
-          </button>
+
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+            <button
+              onClick={handleInpaint}
+              style={{
+                backgroundColor: prompt ? '#F7CF6B' : '#ccc',
+                color: 'black',
+                padding: '10px 20px',
+                borderRadius: '20px',
+                border: 'none',
+                cursor: prompt ? 'pointer' : 'not-allowed',
+                fontSize: '16px',
+                boxShadow: '0px 1px 1px rgba(0, 0, 0, 0.25)',
+                color: '#3E3D3D',
+                marginRight: '10px', // 버튼 사이에 공간 추가
+              }}
+              disabled={!prompt}
+            >
+              &gt; 이미지 처리하기
+            </button>
+
+            <button
+              onClick={handleRemove}
+              style={{
+                backgroundColor: '#F76B6B',
+                color: 'black',
+                padding: '10px 20px',
+                borderRadius: '20px',
+                border: 'none',
+                cursor: 'pointer',
+                fontSize: '16px',
+                boxShadow: '0px 1px 1px rgba(0, 0, 0, 0.25)',
+                color: '#3E3D3D',
+              }}
+            >
+              &gt; 개체 지우기
+            </button>
+          </div>
         </>
       )}
     </div>
