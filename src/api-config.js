@@ -3,7 +3,8 @@ let backendHost;
 const hostname = window && window.location && window.location.hostname;
 
 if( hostname === "localhost") {
-    backendHost = "http://localhost:8000"; 
+    //backendHost = "http://localhost:8000"; 
+    backendHost = "http://52.79.103.59"; 
 } else {
     backendHost = "http://52.79.103.59"; 
 }
