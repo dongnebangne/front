@@ -4,10 +4,16 @@
     width: 300px; /* Adjust width as necessary */
     height: 100vh; /* Full height */
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* 수직 정렬을 위쪽으로 시작하게 설정 */
+    align-items: center; /* 수평 정렬 */
+    padding-top: 400px; /* 위쪽에 더 많은 패딩을 추가해 조금 더 위로 올림 */
 }
 
 .CPTEDlogo {
-    margin-bottom: 40px;
+    margin-bottom: 30px; /* 여백 조정 */
+    text-align: center; /* 텍스트를 가운데 정렬 */
 }
 
 .CPTEDlogo h2 {
@@ -19,55 +25,129 @@
 .CPTEDlogo p {
     font-size: 20px;
     color: #000000;
+    margin: 0;
 }
 
 .crime-rank ul {
     list-style-type: none;
-    padding: 0;
+    padding: 15px;
+    margin: 0;
 }
 
-.crime-rank h3 {
-    font-size: 15px;
+.crime-rank p {
+    font-size: 13px;
+    margin-bottom: 10px;
+    color: #8b8b8b;
 }
 
 .crime-button {
     width: 100%;
-    background-color: #f0e68c;
-    border: none;
+    background-color: #f7f7f7; /* 기존의 배경색을 사용 */
+    border: none; /* 테두리 없애기 */
     padding: 10px;
-    margin: 5px 0;
-    text-align: center;
+    margin: 5px 0px;
+    text-align: center; /* 텍스트를 왼쪽 정렬 */
     font-size: 16px;
     cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center; /* 라디오 버튼과 텍스트 수평 정렬 */
 }
 
-.crime-button:hover {
-    background-color: #ffe083;
+.crime-button span {
+    color: red; /* 순위 텍스트를 빨간색으로 설정 */
+    margin-right: 30px; /* 순위 텍스트와 라디오 버튼 간의 간격 조정 */
 }
 
-.crime-button.active {
-    background-color: #ffcc00;
-    color: white;
+.crime-button input[type="radio"] {
+   margin-left: auto;  /* 라디오 버튼을 오른쪽 끝으로 배치 */
+   
+}
+
+.recommendation {
+    width: 100%; /* recommendation의 가로 너비를 맞추기 위해 추가 */
+}
+
+.recommendation-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px; /* 기존 10px에서 5px으로 수정 */
+    padding: 0; /* 추가: 여백을 줄이기 위해 패딩 제거 */
+}
+
+.suggestion-button {
+    position: relative;
+    display: inline-block;
+    margin-left: 5px; /* 'CPTED 제안' 텍스트와 버튼 간격 조정 */
+    margin-right: 65px;
+}
+
+.svg-button {
+    width: 120px; /* SVG의 크기를 조정 */
+    height: auto;
+}
+
+.suggestion-text {
+    position: absolute;
+    top: 25%;
+    left: 23%;
+    font-size: 12px;
+    color: #000;
+
 }
 
 .recommendation h4 {
     margin-top: 20px;
     font-size: 18px;
-    color: #007744;
-    text-align: left;
+    color: black;
+    text-align: center;
+    margin-left: 10px;
 }
 
 .recommendation ul {
     list-style-type: none;
     padding: 0;
+    margin: 0;
 }
 
 .suggestion-item {
     background-color: #d3d3d3;
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 20px;
     margin-top: 10px;
     font-size: 14px;
+}
+
+.address-box {
+    width: 229px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #DAE581;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25) inset;
+    border-radius: 40px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.address-box p {
+    color: #1B1B1B;
+    font-size: 20px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 700;
+    word-wrap: break-word;
+    margin: 0;
+    
+}
+
+.instruction-text {
+    font-size: 14px;
+    color: #8b8b8b;
+    margin-top: 10px;
+    text-align: center; /* 텍스트 중앙 정렬 */
 }

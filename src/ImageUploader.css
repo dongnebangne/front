@@ -1,0 +1,51 @@
+.image-uploader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border: 2px dashed #007744; /* 초록색 점선 테두리 */
+    border-radius: 10px;
+    /*background-color: #f9f9f9;*/
+    height: 300px;
+}
+
+/* 이미지가 업로드된 후 점선 테두리 제거 */
+.image-uploaded {
+    border: none; 
+}
+
+.upload-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.upload-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #007744;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.upload-icon {
+    font-size: 48px;
+    margin-bottom: 10px;
+    color: #007744;
+}
+
+.image-container img {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.image-container {
+    background: none; /* 배경 색상 제거 */
+    padding: 0; /* 불필요한 패딩 제거 */
+    margin: 0; /* 불필요한 마진 제거 */
+    border: none; /* 불필요한 테두리 제거 */
+  }

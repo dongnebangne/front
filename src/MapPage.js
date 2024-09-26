@@ -80,6 +80,7 @@ const MapPage = ({ onMapClick, layers, coordinates, geojsonVisible }) => {
         }
       });
 
+      // WMS 레이어 추가
       const addWMSLayers = (layers) => {
         layers.forEach(layer => {
           const wmsLayer = new TileLayer({
@@ -101,10 +102,10 @@ const MapPage = ({ onMapClick, layers, coordinates, geojsonVisible }) => {
       };
 
       if (layers && layers.length > 0) {
-        console.log('Adding layers to the map:', layers);
         addWMSLayers(layers);
       }
 
+      // GeoJSON 레이어 추가
       const geojsonLayer = new VectorLayer({
         source: new VectorSource({
           url: '/TestGrid3.geojson',
@@ -113,11 +114,11 @@ const MapPage = ({ onMapClick, layers, coordinates, geojsonVisible }) => {
           }),
         }),
         style: function (feature) {
-          const crallValue = feature.get('CRALL');
+          const value = feature.get(geojsonVisible);
 
           let fillColor;
 
-          switch (crallValue) {
+          switch (value) {
             case 1:
               fillColor = 'rgba(255, 255, 255, 0.0)';
               break;
@@ -161,7 +162,7 @@ const MapPage = ({ onMapClick, layers, coordinates, geojsonVisible }) => {
             })
           });
         },
-        visible: geojsonVisible
+        visible: geojsonVisible !== ''
       });
 
       geojsonLayerRef.current = geojsonLayer;
@@ -170,12 +171,6 @@ const MapPage = ({ onMapClick, layers, coordinates, geojsonVisible }) => {
       return () => map.setTarget(undefined);
     }
   }, [onMapClick, layers, apiKey, coordinates, userCoordinates, geojsonVisible]);
-
-  useEffect(() => {
-    if (geojsonLayerRef.current) {
-      geojsonLayerRef.current.setVisible(geojsonVisible);
-    }
-  }, [geojsonVisible]);
 
   return (
     <div>
@@ -186,4 +181,3 @@ const MapPage = ({ onMapClick, layers, coordinates, geojsonVisible }) => {
 };
 
 export default MapPage;
-
