@@ -1,17 +1,18 @@
 import React, { useState, useContext } from 'react';
 import ImageUploader from './ImageUploader';
+import ResultImageUploader from './ResultImageUploader';  // 새로운 이미지 업로더
 import ResultDisplay from './ResultDisplay';
 import { API_BASE_URL } from './api-config';
 import MaskSelector from './MaskSelector';
-import InpaintLeftBar from './InpaintLeftBar'; 
+import InpaintLeftBar from './InpaintLeftBar';
 import { AddressContext } from './AddressContext';
 import { PulseLoader } from 'react-spinners';
 
 const CptedAI = () => {
-  const [masks, setMasks] = useState([]);
+  const [masks, setMasks] = useState([]);  // setMasks가 상태로 선언되어야 합니다.
   const [processedImageUrl, setProcessedImageUrl] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [prompt, setPrompt] = useState(''); 
+  const [prompt, setPrompt] = useState('');
   const { clickedAddress } = useContext(AddressContext);
 
   const handleGenerateMasks = async (image, point) => {
@@ -32,7 +33,7 @@ const CptedAI = () => {
       }
 
       const data = await response.json();
-      setMasks(data.masks);
+      setMasks(data.masks);  // setMasks를 통해 마스크 설정
     } catch (error) {
       console.error('Error generating masks:', error);
       alert('An error occurred while generating masks. Please try again.');
@@ -94,7 +95,7 @@ const CptedAI = () => {
 
   return (
     <div className="cpted-ai-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '85vh', marginRight: '30px', marginBottom: '100px'}}>
-      <InpaintLeftBar setPrompt={setPrompt} clickedAddress={clickedAddress}/> 
+      <InpaintLeftBar setPrompt={setPrompt} clickedAddress={clickedAddress}/>
       <div className="cpted-ai-content" style={{ flex: 1, padding: '20px' }}>
         <h2 style={{ textAlign: 'left', paddingLeft: '30px' }}>지역 개선하기</h2>
         <hr style={{marginLeft: '30px', background: 'rgba(41, 127, 80, 0.40)', height: '1px'}}/>
@@ -105,16 +106,33 @@ const CptedAI = () => {
         <br/>
         CPTED 디자인을 적용하고 싶은 지역의 이미지를 업로드 후 원하는 CPTED 디자인을 작성해주세요!
         </p>
-        {!masks.length && <ImageUploader onGenerateMasks={handleGenerateMasks} />}
-        {masks.length > 0 && !processedImageUrl && (
-          <MaskSelector masks={masks} onInpaint={handleInpaint} onRemove={handleRemove} prompt={prompt} setPrompt={setPrompt} />
+        
+        {!masks.length && !processedImageUrl && (
+          <ImageUploader onGenerateMasks={handleGenerateMasks} />
         )}
-        {loading ? (
+
+        {masks.length > 0 && !processedImageUrl && (
+          <MaskSelector
+            masks={masks}
+            onInpaint={handleInpaint}
+            onRemove={handleRemove}
+            prompt={prompt}
+            setPrompt={setPrompt}
+          />
+        )}
+
+        {loading && (
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100px' }}>
             <PulseLoader color={"#36D7B7"} loading={loading} size={15} />
           </div>
-        ) : (
-          processedImageUrl && <ResultDisplay imageUrl={processedImageUrl} isLoading={loading} />
+        )}
+
+        {processedImageUrl && (
+          <ResultImageUploader
+            resultImage={processedImageUrl}
+            onGenerateMasks={handleGenerateMasks}
+            setMasks={setMasks}  // setMasks 전달
+          />
         )}
       </div>
     </div>
