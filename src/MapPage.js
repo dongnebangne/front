@@ -22,6 +22,7 @@ const MapPage = ({ onMapClick, layers, coordinates, geojsonVisible }) => {
   const [userCoordinates, setUserCoordinates] = useState(null);
   const geojsonLayerRef = useRef(null);
 
+  // 사용자 위치 가져오기
   useEffect(() => {
     if (!coordinates) {
       if (navigator.geolocation) {
@@ -32,7 +33,7 @@ const MapPage = ({ onMapClick, layers, coordinates, geojsonVisible }) => {
           },
           (error) => {
             console.error('Error getting user location:', error);
-            setUserCoordinates({ x: 126.9780, y: 37.5665 });
+            setUserCoordinates({ x: 126.9780, y: 37.5665 });  // 서울 기본 위치 설정
           }
         );
       } else {
@@ -41,6 +42,7 @@ const MapPage = ({ onMapClick, layers, coordinates, geojsonVisible }) => {
     }
   }, [coordinates]);
 
+  // 지도 초기화 및 GeoJSON 레이어 설정
   useEffect(() => {
     if (userCoordinates || coordinates) {
       const baseLayer = new TileLayer({
@@ -49,7 +51,7 @@ const MapPage = ({ onMapClick, layers, coordinates, geojsonVisible }) => {
           projection: 'EPSG:3857',
           tileSize: [256, 256],
           wrapX: true,
-        })
+        }),
       });
 
       const map = new Map({
@@ -57,32 +59,33 @@ const MapPage = ({ onMapClick, layers, coordinates, geojsonVisible }) => {
         layers: [baseLayer],
         view: new View({
           center: fromLonLat([coordinates ? coordinates.x : userCoordinates.x, coordinates ? coordinates.y : userCoordinates.y]),
-          zoom: 15
-        })
+          zoom: 15,
+        }),
       });
 
       mapRef.current = map;
 
+      // 지도 클릭 시 Feature 정보 가져오기
       map.on('click', async (event) => {
         const clickedCoordinate = toLonLat(event.coordinate);
         const clickedFeature = mapRef.current.forEachFeatureAtPixel(event.pixel, (feature) => feature);
-        
+
         if (clickedFeature) {
-            setSelectedFeature(clickedFeature);
-            try {
-                const [lon, lat] = clickedCoordinate;
-                const address = await getAddress(lat, lon);
-                setClickedAddress(address);
-            } catch (error) {
-                console.error('Error fetching address:', error);
-                setClickedAddress('주소를 가져오지 못했습니다.');
-            }
+          setSelectedFeature(clickedFeature);
+          try {
+            const [lon, lat] = clickedCoordinate;
+            const address = await getAddress(lat, lon);
+            setClickedAddress(address);
+          } catch (error) {
+            console.error('Error fetching address:', error);
+            setClickedAddress('주소를 가져오지 못했습니다.');
+          }
         }
       });
 
       // WMS 레이어 추가
       const addWMSLayers = (layers) => {
-        layers.forEach(layer => {
+        layers.forEach((layer) => {
           const wmsLayer = new TileLayer({
             source: new TileWMS({
               url: layer.serverUrl,
@@ -105,16 +108,16 @@ const MapPage = ({ onMapClick, layers, coordinates, geojsonVisible }) => {
         addWMSLayers(layers);
       }
 
-      // GeoJSON 레이어 추가
+      // GeoJSON 레이어 추가 (S3 URL 사용)
       const geojsonLayer = new VectorLayer({
         source: new VectorSource({
-          url: '/TestGrid3.geojson',
+          url: 'https://smallgeojson.s3.ap-northeast-2.amazonaws.com/TestGrid3.geojson',  // S3에 저장된 GeoJSON 파일 경로
           format: new GeoJSON({
-            projection: 'EPSG:3857'
+            projection: 'EPSG:3857',
           }),
         }),
         style: function (feature) {
-          const value = feature.get(geojsonVisible);
+          const value = feature.get('CRALL');  // 'geojsonVisible' 대신 'CRALL' 속성으로 스타일 지정
 
           let fillColor;
 
@@ -159,10 +162,10 @@ const MapPage = ({ onMapClick, layers, coordinates, geojsonVisible }) => {
           return new Style({
             fill: new Fill({
               color: fillColor,
-            })
+            }),
           });
         },
-        visible: geojsonVisible !== ''
+        visible: true,  // 강제로 표시
       });
 
       geojsonLayerRef.current = geojsonLayer;
