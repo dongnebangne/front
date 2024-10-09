@@ -22,6 +22,7 @@ const MapPage = ({ layers, coordinates, geojsonVisible, setGeojsonVisible }) => 
   const [geojsonData, setGeojsonData] = useState(null); // 처음 로드한 데이터를 저장
   const geojsonLayerRef = useRef(null);  // 자취촌 레이어 참조
   const wmsLayersRef = useRef([]);  // WMS 레이어들을 저장
+  const [selectedFeature, setSelectedFeature] = useState(null);  // 선택된 feature 상태 추가
 
   // 사용자 위치 가져오기
   useEffect(() => {
@@ -81,6 +82,7 @@ const MapPage = ({ layers, coordinates, geojsonVisible, setGeojsonVisible }) => 
           const lonLat = toLonLat(clickedCoordinate);  // toLonLat 함수 사용
           const address = await getAddress(lonLat[1], lonLat[0]);
           setClickedAddress(address);
+          setSelectedFeature(clickedFeature);  // 선택된 feature 저장
         }
       });
 
@@ -210,7 +212,9 @@ const MapPage = ({ layers, coordinates, geojsonVisible, setGeojsonVisible }) => 
   return (
     <div>
       <div ref={mapElement} style={{ width: '100%', height: '100vh' }}></div>
-      {clickedAddress && <CptedSuggest clickedAddress={clickedAddress} />}
+      {clickedAddress && selectedFeature && (
+        <CptedSuggest clickedAddress={clickedAddress} selectedFeature={selectedFeature} />
+      )}
     </div>
   );
 };
