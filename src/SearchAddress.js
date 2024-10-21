@@ -38,18 +38,21 @@ const SearchAddress = ({ isOpen, toggleRightBar, showCptedSuggest, setCoordinate
         } else {
             // 다른 버튼이 선택된 경우 시/도, 시/군/구, 읍/면/동 리스트를 가져옴
             getSido().then(data => {
+                console.log('Sido List:', data);
                 setSidoList(data);
             }).catch(error => {
                 console.error("Error fetching sido list:", error);
             });
 
             getSigungu('서울특별시').then(data => {
+                console.log('Sigungu List:', data);
                 setSigunguList(data);
             }).catch(error => {
                 console.error("Error fetching sigungu list:", error);
             });
 
             getEmdong('서울특별시', '종로구').then(data => {
+                console.log('Emdong List:', data);
                 setEmdongList(data);
             }).catch(error => {
                 console.error("Error fetching emdong list:", error);
@@ -108,6 +111,30 @@ const SearchAddress = ({ isOpen, toggleRightBar, showCptedSuggest, setCoordinate
         });
     };
 
+    const renderAddressItems = (items, selectedItem, onSelectItem) => {
+        return items.map((item, index) => (
+            <ListItemButton
+                key={index}
+                selected={selectedItem === item}
+                onClick={() => onSelectItem(item)}
+            >
+                <ListItemText primary={item ? String(item) : "Unknown"} className="custom-text" />
+            </ListItemButton>
+        ));
+    };
+    
+    const renderUniversityItems = (items, selectedItem, onSelectItem) => {
+        return items.map((item, index) => (
+            <ListItemButton
+                key={index}
+                selected={selectedItem === item.univ_name}
+                onClick={() => onSelectItem(item.univ_name)}
+            >
+                <ListItemText primary={item.univ_name ? String(item.univ_name) : "Unknown"} className="custom-text" />
+            </ListItemButton>
+        ));
+    };
+
     return (
         <div className={`search-bar ${isOpen ? 'open' : 'closed'}`}>
             <div className='RightBarTitle'>
@@ -122,29 +149,13 @@ const SearchAddress = ({ isOpen, toggleRightBar, showCptedSuggest, setCoordinate
                         <div className="list-container left-list"> {/* 왼쪽 리스트에 선 추가 */}
                             <p className="list-name">시/도</p>
                             <List component="nav" aria-label="location-list">
-                                {locationList.map((location, index) => (
-                                    <ListItemButton
-                                        key={index}
-                                        selected={selectedLocation === location}
-                                        onClick={() => handleLocationChange(location)}
-                                    >
-                                        <ListItemText primary={location} className="custom-text"/>
-                                    </ListItemButton>
-                                ))}
+                                {renderAddressItems(locationList, selectedLocation, handleLocationChange)}
                             </List>
                         </div>
                         <div className="list-container">
                             <p className="list-name">대학명</p>
                             <List component="nav" aria-label="university-list">
-                                {universityList.map((university, index) => (
-                                    <ListItemButton
-                                        key={index}
-                                        selected={selectedUniversity === university.univ_name}
-                                        onClick={() => handleUniversityChange(university.univ_name)}
-                                    >
-                                        <ListItemText primary={university.univ_name} className="custom-text"/>
-                                    </ListItemButton>
-                                ))}
+                                {renderUniversityItems(universityList, selectedUniversity, handleUniversityChange, 'univ_name')}
                             </List>
                         </div>
                     </div>
@@ -153,43 +164,19 @@ const SearchAddress = ({ isOpen, toggleRightBar, showCptedSuggest, setCoordinate
                         <div className="list-container left-list"> {/* 왼쪽 리스트에 선 추가 */}
                             <p className="list-name">시/도</p>
                             <List component="nav" aria-label="city-list">
-                                {sidoList.map((city, index) => (
-                                    <ListItemButton
-                                        key={index}
-                                        selected={selectedSido === city}
-                                        onClick={() => handleSidoChange(city)}
-                                    >
-                                        <ListItemText primary={city} className="custom-text"/>
-                                    </ListItemButton>
-                                ))}
+                                {renderAddressItems(sidoList, selectedSido, handleSidoChange, 'sido')} 
                             </List>
                         </div>
                         <div className="list-container">
                             <p className="list-name">시/군/구</p>
                             <List component="nav" aria-label="district-list">
-                                {sigunguList.map((district, index) => (
-                                    <ListItemButton
-                                        key={index}
-                                        selected={selectedSigungu === district}
-                                        onClick={() => handleSigunguChange(district)}
-                                    >
-                                        <ListItemText primary={district} className="custom-text"/>
-                                    </ListItemButton>
-                                ))}
+                                {renderAddressItems(sigunguList, selectedSigungu, handleSigunguChange)}
                             </List>
                         </div>
                         <div className="list-container">
                             <p className="list-name">읍/면/동</p>
                             <List component="nav" aria-label="town-list">
-                                {emdongList.map((town, index) => (
-                                    <ListItemButton
-                                        key={index}
-                                        selected={selectedEmdong === town}
-                                        onClick={() => handleEmdongChange(town)}
-                                    >
-                                        <ListItemText primary={town} className="custom-text"/>
-                                    </ListItemButton>
-                                ))}
+                                {renderAddressItems(emdongList, selectedEmdong, handleEmdongChange)}
                             </List>
                         </div>
                     </div>
