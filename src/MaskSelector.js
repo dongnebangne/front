@@ -4,12 +4,11 @@ import { API_BASE_URL } from './api-config';
 const MaskSelector = ({ masks, onInpaint, onRemove, prompt, setPrompt }) => {
   const [selectedMaskIdx, setSelectedMaskIdx] = useState(null);
 
+  // 마스크가 변경되면 선택된 마스크와 프롬프트 초기화
   useEffect(() => {
-    // 마스크 선택 시 프롬프트 입력 초기화
-    if (selectedMaskIdx === null) {
-      setPrompt('');
-    }
-  }, [selectedMaskIdx, setPrompt]);
+    setSelectedMaskIdx(null);
+    setPrompt('');
+  }, [masks, setPrompt]);
 
   const handleMaskSelect = (idx) => {
     setSelectedMaskIdx(idx);

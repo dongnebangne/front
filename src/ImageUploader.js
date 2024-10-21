@@ -1,15 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './ImageUploader.css';  // 별도의 CSS 파일을 사용하여 스타일링
 
-const ImageUploader = ({ onGenerateMasks }) => {
-  const [image, setImage] = useState(null);
+const ImageUploader = ({ image, setImage, onGenerateMasks }) => {
   const [selectedPoint, setSelectedPoint] = useState(null);
   const [scaleFactors, setScaleFactors] = useState({ scaleX: 1, scaleY: 1 });
+
+  // 이미지가 변경되면 선택된 포인트와 스케일 초기화
+  useEffect(() => {
+    setSelectedPoint(null);
+    setScaleFactors({ scaleX: 1, scaleY: 1 });
+  }, [image]);
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
     setImage(file);
-    setSelectedPoint(null); // 이미지 변경 시 이전에 선택된 좌표 초기화
   };
 
   const handleImageClick = (event) => {
