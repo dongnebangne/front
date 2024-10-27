@@ -15,8 +15,8 @@ const InpaintLeftBar = ({ setPrompt, clickedAddress }) => {
                 english: 'Install an emergency bell switch at a height of about 1.2m to 1.4m on the utility poles, and mark an SOS sign on the ground in yellow.'
             },
             { 
-                korean: '전신주와 보안등은 노란색으로 도색하고 고보조명을 이용하여 SOS 사인 또는 CCTV 사인을 바닥에 표시한다.',
-                english: 'Paint the utility poles and security lights yellow, and use gobo lighting to project SOS signs or CCTV signs on the ground.'
+                korean: '벽에 꽃무늬 벽화를 그린다.',
+                english: 'There is a mural painted on the wall with a flower theme.'
             }
         ],
         '성폭력': [

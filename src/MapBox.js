@@ -200,9 +200,9 @@ const MapBox = ({ setLayers, setGeojsonVisible, selectedButton, setSelectedButto
                         onClose={handleCloseInfoModal}
                     />
                 )}
-                {legendData && (
-                    <MapLegend legendData={legendData} />
-                )}
+
+                <MapLegend legendData={legendData} selectedLayer={selectedButton} />
+                
             </div>
         </div>
     );

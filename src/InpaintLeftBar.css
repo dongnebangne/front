@@ -8,7 +8,7 @@
     flex-direction: column;
     justify-content: flex-start; /* 수직 정렬을 위쪽으로 시작하게 설정 */
     align-items: center; /* 수평 정렬 */
-    padding-top: 400px; /* 위쪽에 더 많은 패딩을 추가해 조금 더 위로 올림 */
+    padding-top: 380px; /* 위쪽에 더 많은 패딩을 추가해 조금 더 위로 올림 */
 }
 
 .CPTEDlogo {
